@@ -1,0 +1,124 @@
+<%- include(`../partials/head`) %>
+<link rel="stylesheet" href="/css/admin.css">
+<link rel="stylesheet" href="/css/index.css">
+  <title>adminMobileList</title>
+</head>
+<body>
+  <%- include(`../partials/adminHeader`) %>
+
+  <h1 id="mlh1">Registered Mobile list</h1>
+
+
+  <div id="CardWrapperSH">
+    <h3 id="cardHeadingSHA">Second-Hand Mobiles</h3>
+    <div class="CardSectionSHA">
+      <% registeredSHmobile.forEach(function(SHmobile) { %>
+       <div class="MobileCardSHA">
+        <a class="detailsOverlay" href="/Second-Hand/Details/<%= SHmobile._id  %>">details</a>
+         <img class="cardLogoSHA" src="/images/cardLogo1.png" > 
+         <span class="statusBadgeSHA">Used</span>
+
+         <img class="mobileImage" src="/uploads/<%= SHmobile.SHimage %>" alt="mobile image" />
+
+         <h3 class="mobilenNameSHA"><%= SHmobile.SHname %></h3>
+         <p class="mobilecConditionSHA">Condition: <%= SHmobile.condition %></p>
+         <div class="mobileDiscountSHA"><%= SHmobile.SHdiscount %>% OFF</div>
+         <div class="MRPflex">
+           <div class="cardMRPSHA">MRP</div>
+           <div class="mobileMRPSHA"> ₹<%= SHmobile.SHmrp %></div>
+         </div>
+         <div class="pricBuyRow">
+           <div class="finalPriceWrap">
+             <div class="finalPriceSHA">₹<%= SHmobile.SHprice %>       </div>
+             <div class="cornerRibbonLeftSHA"></div>
+           </div>
+           <button class="buyButtonSHA"><i class="fas fa-shopping-bag"></i> Buy</button>
+         </div>
+         <div>
+           <form id="RemoveForm" action="/Admin/mobileList/delete/SH/<%= SHmobile._id  %>" method="POST" >
+             <button id="removeDB" type="submit" >Remove from Database</button>
+           </form>
+          </div> 
+        </div>
+       <% }) %> 
+     </div>
+   </div>
+     
+  
+   <div id="CardWrapperN">
+    <h3 id="cardHeadingN">Brand New Mobiles</h3>
+    <div class="CardSectionN">
+      <% registeredNmobile.forEach(function(Nmobile) { %>
+       <div class="MobileCardN">
+        <a class="detailsOverlay" href="/New/Details/<%= Nmobile._id  %>">details</a>
+
+         <img class="cardLogoN" src="/images/cardLogo2.png" > 
+         <span class="statusBadgeN">New</span>
+
+         <img class="mobileImage" src="/uploads/<%= Nmobile.Nimage %>" alt="mobile image" />
+
+         <h3 class="mobilenNameN"><%= Nmobile.Nname %></h3>
+         <div class="mobileDiscountN"><%= Nmobile.Ndiscount %>% OFF</div>
+         <div class="MRPflex">
+           <div class="cardMRPN">MRP</div>
+           <div class="mobileMRPN"> ₹<%= Nmobile.Nmrp %></div>
+         </div>
+         <div class="pricBuyRow">
+           <div class="finalPriceWrap">
+             <div class="finalPriceN">₹<%= Nmobile.Nprice %>       </div>
+             <div class="cornerRibbonLeftN"></div>
+           </div>
+           <button class="buyButtonN"><i class="fas fa-shopping-bag"></i> Buy</button>
+         </div>
+          <div>
+           <form action="/Admin/mobileList/delete/N/<%= Nmobile._id  %>" method="POST" >
+             <button id="removeDB" type="submit" >Remove from Database</button>
+            </form>
+          </div> 
+       </div>
+       <% }) %> 
+     </div>
+   </div>
+         
+  <div id="CardWrapperA">
+    <h3 id="cardHeadingA">Accessories</h3>
+    <div class="CardSectionSHA">
+     <% registeredAmobile.forEach(function(accessory) { %>
+      <div class="MobileCardSHA">
+        <a class="detailsOverlay" href="/Accessory/Details/<%= accessory._id  %>">details</a>
+        <img class="cardLogoSHA" src="/images/cardLogo1.png" > 
+        <span class="statusBadgeSHA">New</span>
+
+        <img class="mobileImage" src="/uploads/<%= accessory.Aimage %>" alt="mobile image" />
+
+        <h3 class="mobilenNameA"><%= accessory.Aname %></h3>
+        <div class="mobileDiscountA"><%=accessory.Adiscount %>% OFF</div>
+        <div class="MRPflex">
+          <div class="cardMRPSHA">MRP</div>
+          <div class="mobileMRPSHA"> ₹<%= accessory.Amrp %></div>
+        </div>
+        <div class="pricBuyRow">
+          <div class="finalPriceWrap">
+            <div class="finalPriceSHA">₹<%= accessory.Aprice %>       </div>
+            <div class="cornerRibbonLeftSHA"></div>
+          </div>
+          <button class="buyButtonSHA"><i class="fas fa-shopping-bag"></i> Buy</button>
+        </div>
+        <div>
+         <form  action="/Admin/mobileList/delete/A/<%= accessory._id  %>" method="POST" >
+           <button id="removeDB" type="submit" >Remove from Database</button>
+         </form>
+        </div> 
+      </div>
+      <% }) %> 
+    </div>
+  </div>
+        
+
+    
+
+  
+  
+
+</body>
+</html>

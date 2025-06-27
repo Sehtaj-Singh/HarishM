@@ -1,0 +1,153 @@
+<%- include(`../partials/head`) %>
+    <title>harishMobile</title> 
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/userHeader.css">
+  <script src="https://kit.fontawesome.com/3a523928fc.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <script src="javascript/store.js"></script>
+    <%- include(`../partials/storeHeader`) %>
+   
+    <section id="imageSlider">
+      <div class="carousel" id="carousel">
+        <div class="carousel-track">
+          <img id="slide1" src="/images/is1.png" alt="Image 1">
+          <img id="slide2" src="/images/is2.png" alt="Image 2">
+          <img id="slide3" src="/images/is3.png" alt="Image 3">
+          <img id="slide4" src="/images/is4.png" alt="Image 4">
+        </div>
+        <div class="carousel-dots" id="dots"></div>
+      </div>
+    </section>
+
+    
+        
+   <div id="CardWrapperSH">
+
+     <div class="sectionHeadingSHA">
+       <h3 id="cardHeadingSHA">Second-Hand Mobiles</h3>
+       <a class="viewAllLinkSHA" href="/store?tab=second">
+          <span>View All</span>
+          <i class="fas fa-chevron-right"></i>
+       </a>
+     </div>
+     <div class="CardSectionSHA">
+       <% registeredSHmobile.forEach(function(SHmobile) { %>
+        <div class="MobileCardSHA">
+          
+          <a class="detailsOverlay" href="/Second-Hand/Details/<%= SHmobile._id  %>?from=home"">details</a>
+
+          <img class="cardLogoSHA" src="/images/cardLogo1.png" > 
+          <span class="statusBadgeSHA">Used</span>
+
+          <img class="mobileImage" src="/uploads/<%= SHmobile.SHimage %>" alt="mobile image" />
+
+          <h3 class="mobilenNameSHA"><%= SHmobile.SHname %></h3>
+          <p class="mobilecConditionSHA">Condition: <%= SHmobile.condition %></p>
+          <div class="mobileDiscountSHA"><%= SHmobile.SHdiscount %>% OFF</div>
+          <div class="MRPflex">
+            <div class="cardMRPSHA">MRP</div>
+            <div class="mobileMRPSHA"> ₹<%= SHmobile.SHmrp %></div>
+          </div>
+          <div class="pricBuyRow">
+            <div class="finalPriceWrap">
+              <div class="finalPriceSHA">₹<%= SHmobile.SHprice %>       </div>
+              <div class="cornerRibbonLeftSHA"></div>
+            </div>
+            <button class="buyButtonSHA"><i class="fas fa-shopping-bag"></i> Buy</button>
+          </div>
+        </div>
+        <% }) %> 
+      </div>
+    </div>
+       <img id="test" src="/images/test5.png"  > 
+   
+    <div id="CardWrapperN">
+
+      <div class="sectionHeadingN">
+        <h3 id="cardHeadingN">Brand New Mobiles</h3>
+        <a class="viewAllLinkN" href="/store?tab=new">
+           <span>View All</span>
+           <i class="fas fa-chevron-right"></i>
+         </a>
+      </div>
+
+     <div class="CardSectionN">
+       <% registeredNmobile.forEach(function(Nmobile) { %>
+        <div class="MobileCardN">
+
+          <a class="detailsOverlay" href="/New/Details/<%= Nmobile._id  %>?from=home">details</a>
+
+          <img class="cardLogoN" src="/images/cardLogo2.png" > 
+          <span class="statusBadgeN">New</span>
+
+          <img class="mobileImage" src="/uploads/<%= Nmobile.Nimage %>" alt="mobile image" />
+
+          <h3 class="mobilenNameN"><%= Nmobile.Nname %></h3>
+          <div class="mobileDiscountN"><%= Nmobile.Ndiscount %>% OFF</div>
+          <div class="MRPflex">
+            <div class="cardMRPN">MRP</div>
+            <div class="mobileMRPN"> ₹<%= Nmobile.Nmrp %></div>
+          </div>
+          <div class="pricBuyRow">
+            <div class="finalPriceWrap">
+              <div class="finalPriceN">₹<%= Nmobile.Nprice %>       </div>
+              <div class="cornerRibbonLeftN"></div>
+            </div>
+            <button class="buyButtonN"><i class="fas fa-shopping-bag"></i> Buy</button>
+          </div>
+        </div>
+        <% }) %> 
+      </div>
+    </div>
+          
+   <div id="CardWrapperA">
+
+     <div class="sectionHeadingSHA">
+       <h3 id="cardHeadingSHA">Accessories</h3>
+       <a class="viewAllLinkSHA" href="/store?tab=accessories">
+         <span>View All</span>
+         <i class="fas fa-chevron-right"></i>
+       </a>
+     </div>
+
+     <div class="CardSectionSHA">
+      <% registeredAmobile.forEach(function(accessory) { %>
+       <div class="MobileCardSHA">
+
+        <a class="detailsOverlay" href="/Accessory/Details/<%= accessory._id  %>?from=home">details</a>
+        
+         <img class="cardLogoSHA" src="/images/cardLogo1.png" > 
+         <span class="statusBadgeSHA">New</span>
+
+         <img class="mobileImage" src="/uploads/<%= accessory.Aimage %>" alt="mobile image" />
+
+         <h3 class="mobilenNameA"><%= accessory.Aname %></h3>
+         <div class="mobileDiscountA"><%=accessory.Adiscount %>% OFF</div>
+         <div class="MRPflex">
+           <div class="cardMRPSHA">MRP</div>
+           <div class="mobileMRPSHA"> ₹<%= accessory.Amrp %></div>
+         </div>
+         <div class="pricBuyRow">
+           <div class="finalPriceWrap">
+             <div class="finalPriceSHA">₹<%= accessory.Aprice %>       </div>
+             <div class="cornerRibbonLeftSHA"></div>
+           </div>
+           <button class="buyButtonSHA"><i class="fas fa-shopping-bag"></i> Buy</button>
+         </div>
+       </div>
+       <% }) %> 
+     </div>
+   </div>
+         
+
+
+
+    <!-- </div>
+    <img id="bis" src="/images/test5.png" alt="test"> -->
+
+   
+   
+
+</body>
+</html>

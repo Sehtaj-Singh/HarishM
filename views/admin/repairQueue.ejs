@@ -1,0 +1,66 @@
+<%- include(`../partials/head`) %>
+  <title>Mobile-added</title>
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <%- include(`../partials/adminHeader`) %>
+  
+
+  <table class="repair-table">
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>Device</th>
+        <th>Status</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% repairList.forEach(function(r, index) { %>
+        <!-- Main Row -->
+        <tr>
+          <td><%= index + 1 %></td>
+          <td><%= r.deviceName %></td>
+          <td><%= r.status %></td>
+          <td>
+            <button onclick="toggleDetails('<%= r._id %>')" class="expand-btn">▼</button>
+          </td>
+        </tr>
+  
+        <!-- Hidden Row -->
+        <tr id="details-<%= r._id %>" class="details-row" style="display: none;">
+          <td colspan="4">
+            <strong>Customer:</strong> <%= r.customerName %><br>
+            <strong>Replacement:</strong> <%= r.replacement %><br>
+            <strong>Cost:</strong> ₹<%= r.replacementCost %><br>
+            <strong>Received On:</strong> <%= new Date(r.receivedDate).toLocaleDateString() %>
+            <div id="btmRow">
+             <div>
+               <form  action="/Admin/repair/delete/Queue/<%= r._id  %>" method="POST" >
+                 <button id="removeDB" type="submit" >Delete</button>
+               </form>
+             </div> 
+             <div>
+               <form  action="/Admin/repair/Edit/Queue/<%= r._id  %>"  >
+                 <button id="removeDB" type="submit" >Edit</button>
+               </form>
+              </div> 
+           </div>
+           
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  
+
+  
+ <script>
+  function toggleDetails(id) {
+    const row = document.getElementById('details-' + id);
+    row.style.display = row.style.display === 'none' ? 'table-row' : 'none';
+  }
+ </script>
+
+</body>
+</html>

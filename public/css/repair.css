@@ -1,0 +1,25 @@
+.repair-table{
+  margin-top: 8vh;
+}
+
+.repair-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.repair-table td, .repair-table th {
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.details-row {
+  background-color: #f9f9f9;
+  font-size: 0.9rem;
+}
+
+.expand-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}

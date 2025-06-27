@@ -1,0 +1,31 @@
+<%- include(`../../partials/head`) %>
+  <title>Second-Hand Mobile form</title>
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <%- include(`../../partials/adminHeader`) %>
+
+  
+  <form action="/Admin/repair/Add/Queue" method="POST">
+    
+    <input type="text" name="deviceName" placeholder="Device Name" required>
+    <input type="text" name="customerName" placeholder="Customer Name">
+    <input type="text" name="replacement" placeholder="Replacement" required>
+    <input type="text" name="replacementCost" placeholder="Replacement Cost" required>
+    <br>
+    <label>Status:</label><br>
+   <label>
+    <input type="radio" name="status" value="Pending" checked>
+    Pending
+   </label>
+   <label>
+    <input type="radio" name="status" value="Completed">
+   Completed
+   </label><br><br>
+
+  
+    
+   <input id="aminputS" type="submit" value="Add Repair Queue" />
+  </form>
+</body>
+</html>

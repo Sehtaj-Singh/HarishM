@@ -1,0 +1,21 @@
+<%- include(`../../partials/head`) %>
+  <title>Second-Hand Mobile form</title>
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <%- include(`../../partials/adminHeader`) %>
+
+  <h2 id="amh2">Second-hand Phones</h2>
+       <form id="amform" action="/Admin/addMobile/Second-Hand" method="POST"  enctype="multipart/form-data">
+        <input id="aminput" type="text" name="SHname" placeholder=" Second-Hand Mobile Name" required />
+        <input id="aminput" type="text" name="SHprice" placeholder="Price" required />
+        <p>Front page Image for card :-</p>
+        <input id="aminputF" type="file" name="SHimage" required />
+        <input id="aminput" type="text" name="condition" placeholder="Condition" required />
+        <input id="aminput" type="text" name="SHdiscount" placeholder="Discount (%)" />
+        <input id="aminput" type="text" name="SHmrp" placeholder="Fake MRP" required />
+        <input id="aminputS" type="submit" value="Add Second-hand Phone" />
+        </form>
+
+</body>
+</html>
