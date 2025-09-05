@@ -1,0 +1,209 @@
+/* ---------- GLOBAL: remove mobile tap highlight site-wide ---------- */
+*,
+*::before,
+*::after {
+  -webkit-tap-highlight-color: transparent; /* Android/Chrome */
+}
+
+/* optional extra safety for iOS */
+html, body {
+  -webkit-touch-callout: none;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* Upper header 8 to 44 */
+
+#upperHeader {
+  background-color: #323a40;
+  width: 99vw;
+  height: 7vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  clip-path: polygon(0% 0%, 100% 0%, 95% 50%, 5% 50%, 0% 85%);
+  display: flex;
+  z-index: 20;
+  border: 3px solid #0e192a;
+  transition: height 0.5s ease;
+  overflow: hidden;
+}
+#logo {
+  margin-right: auto;
+  color: #f5f7f8;
+  height: 2.5vh;
+  position: relative;
+  left: 0.5vh;
+  top: 0.5vh;
+}
+.headButton {
+  border: none;
+  margin-right: 5vw;
+  height: 3.5vh;
+  background-color: #323a40;
+  color: #f5f7f8;
+  font-size: 2vh;
+}
+#upwrap {
+  filter: drop-shadow(1px 4px 0 #09101f);
+  z-index: 5;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+/* Lower nav 48 to 97 */
+
+/* Bottom nav container */
+#lowerHeader {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 7vh;
+  background-color: #f5f7f8;
+  border-top: 2px solid #ccc;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 100;
+}
+
+/* Each tab is an anchor now */
+#lowerHeader .nav-item {
+  display: flex;
+  flex-direction: column;      /* icon above text */
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  color: #888;                 /* default grey */
+  font-size: 1.4vh;
+  cursor: pointer;
+  transition: color 0.3s ease; /* smooth color */
+  text-decoration: none;       /* reset link underline */
+  height: 100%;
+}
+
+/* Icon */
+#lowerHeader .nav-item i {
+  font-size: 2.2vh;
+  transition: transform 0.3s ease, color 0.3s ease; /* animate lift + color */
+  line-height: 1;                                     /* tighten spacing */
+}
+
+/* Label */
+#lowerHeader .nav-item span {
+  margin-top: 0.3vh;
+  font-size: 1.2vh;
+  transition: color 0.3s ease;                        /* smooth color */
+}
+
+/* Active state */
+#lowerHeader .nav-item.active {
+  color: #323a40;                                     /* primary */
+}
+
+#lowerHeader .nav-item.active i {
+  transform: translateY(-3px) scale(1.2);             /* grow + move up */
+  color: #323a40;                                     /* primary */
+}
+
+#lowerHeader .nav-item.active span {
+  color: #323a40;                                     /* primary */
+}
+
+
+
+/* search function  101 to*/
+
+#headerButtons {
+  gap: 1rem;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+#upperHeader.expanded {
+  height: 100vh;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+/* Hide close button by default */
+#closeSearch {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  font-size: 2.5vh;
+  background: none;
+  border: none;
+  color: #f5f7f8;
+  position: absolute;
+  top: 0.1rem;
+  right: 0.1rem;
+}
+
+/* Show only close button when expanded */
+#upperHeader.expanded #headerButtons {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#upperHeader.expanded #closeSearch {
+  display: block;
+  position: absolute;
+  top: 0.1rem;
+  right: 0.1rem;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#searchBarWrap {
+  display: none;
+  position: absolute;
+  top: 15vh;
+  left: 2vw;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2vh;
+  width: 90%;
+  gap: 1rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#searchBarInput {
+  border-radius: 14px;
+  background: #323a40;
+  box-shadow: 3px 3px 3px #252b2f, -3px -3px 3px #3f4951;
+  flex: 1;
+  padding: 0.8rem;
+  font-size: 1rem;
+  border: none;
+  outline: none;
+  color: #f5f7f8;
+}
+
+#searchBarInput::placeholder {
+  color: #f5f7f8;
+  opacity: 1;
+}
+
+#searchSubmitBtn {
+  border-radius: 14px;
+  background: #323a40;
+  box-shadow: 3px 3px 3px #252b2f, -3px -3px 3px #3f4951;
+  padding: 0.8rem;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #f5f7f8;
+}
+
+/* Only show in expanded state */
+#upperHeader.expanded #searchBarWrap {
+  display: flex;
+  opacity: 1;
+}

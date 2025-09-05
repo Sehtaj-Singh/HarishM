@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>HRrepair</title>
+  <link rel="stylesheet" href="css/repair.css">
+  <link rel="stylesheet" href="css/storeHeader.css">
+  <script src="https://kit.fontawesome.com/3a523928fc.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <script src="javascript/store.js"></script>
+  <%- include(`../../partials/storeHeader`) %>
+
+  
+
+  <table class="repair-table">
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>Device</th>
+        <th>Status</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% repairList.forEach(function(r, index) { %>
+        <!-- Main Row -->
+        <tr>
+          <td><%= index + 1 %></td>
+          <td><%= r.deviceName %></td>
+          <td><%= r.status %></td>
+          <td>
+            <button onclick="toggleDetails('<%= r._id %>')" class="expand-btn">▼</button>
+          </td>
+        </tr>
+  
+        <!-- Hidden Row -->
+        <tr id="details-<%= r._id %>" class="details-row" style="display: none;">
+          <td colspan="4">
+            <strong>Customer:</strong> <%= r.customerName %><br>
+            <strong>Replacement:</strong> <%= r.replacement %><br>
+            <strong> Replacement Cost:</strong> ₹<%= r.replacementCost %><br>
+            <strong>Received On:</strong> <%= new Date(r.receivedDate).toLocaleDateString() %>
+           
+          </td>
+         
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  
+
+  <script>
+    function toggleDetails(id) {
+      const row = document.getElementById('details-' + id);
+      row.style.display = row.style.display === 'none' ? 'table-row' : 'none';
+    }
+   </script> 
+
+  
+</body>
+</html>

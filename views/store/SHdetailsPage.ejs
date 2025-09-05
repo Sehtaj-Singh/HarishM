@@ -1,12 +1,44 @@
-<%- include(`../partials/head`) %>
-    <title>harishMobile</title> 
-    <link rel="stylesheet" href="/css/userHeader.css">
-  <script src="https://kit.fontawesome.com/3a523928fc.js" crossorigin="anonymous"></script>
-</head>
-<body>
-    <script src="/javascript/store.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title><%= product.SHname %> - harishMobile</title>
+    <style>
+      .product-details {
+        margin-top: 8vh;
+      }
+    </style>
+
+    <script
+      src="https://kit.fontawesome.com/3a523928fc.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="/css/userHeader.css" />
+  </head>
+  <body>
     <%- include(`../partials/storeHeader`) %>
-   
-    <h1>SH Details</h1>
-</body>
+
+    <script src="javascript/store.js"></script>
+
+    <div class="product-details">
+      <img
+        src="/uploads/<%= product.SHimage %>"
+        alt="<%= product.SHname %>"
+        width="300"
+      />
+      <h1><%= product.SHname %></h1>
+      <p>Condition: <%= product.condition %></p>
+      <p>MRP: ₹<%= product.SHmrp %></p>
+      <p>Discount: <%= product.SHdiscount %>%</p>
+      <p>Price: ₹<%= product.SHprice %></p>
+
+      <form action="/cart/add" method="POST">
+        <input type="hidden" name="productId" value="<%= product._id %>" />
+        <input type="hidden" name="qty" value="1" />
+        <button type="submit">Buy Now</button>
+      </form>
+    </div>
+  </body>
 </html>

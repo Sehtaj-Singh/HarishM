@@ -1,75 +1,283 @@
+/* Image slider 3 to 61*/
 
+@keyframes zoomOutOnly {
+  0% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 
-/* Image slider 108 to 163*/
+/* Slider box: responsive width but capped at your image native width */
+#imageSlider {
+  margin-top: 11vw;
+  width: 95vw; /* per your requirement */
+  max-width: 1680px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 12px;
+  overflow: hidden; /* ensure image bleed clipped */
+  clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 4vw, 4vw 0);
+}
 
-#imageSlider{
-  margin-top: 8vh;
+#upwrapIS {
+  filter: drop-shadow(4px 6px 4px rgba(0, 0, 0, 0.15))
+    drop-shadow(0 6px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* container */
+.carousel {
   width: 100%;
-  aspect-ratio: 16 / 9;  /* or whatever ratio your images are */
- 
+  height: 100%;
+  position: relative;
   overflow: hidden;
 }
-.carousel {
-  position:relative;
-   width: 100%;
-  
-   height: 100%;
-    
-  }
-  
+
+/* track & slides */
 .carousel-track {
-    display: flex;
-    transition: transform 0.3s ease-in-out;
-    width: 100%;
-    
- 
+  display: flex;
+  width: 100%;
+  height: 100%;
 }
-  
+
+/* slide items (your HTML currently has images directly; this targets each child) */
+.carousel-track > * {
+  flex: 0 0 100%;
+  height: 100%;
+  display: block;
+  overflow: hidden;
+}
+
+/* images: fill the exact slide box and cover (no gaps) */
 .carousel-track img {
-    width: 100%;
-    flex-shrink: 0;
-    
-    object-fit: cover;
-   
-    
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* full-bleed look; safe because JS sets integer box */
+  display: block;
+  will-change: transform;
+  transform-origin: center center;
 }
-  /* Dots inside the image */
+
+.carousel-track img.zoom-run {
+  animation: zoomOutOnly 1500ms ease-out;
+}
+
+/* Dots inside the image */
 .carousel-dots {
-    position: absolute;
-    bottom: 0.9rem;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 2vw;
-   
-  }
-  
+  position: absolute;
+  bottom: 0.9rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 2vw;
+}
+
 .dot {
-    width: 1vh;
-    height: 1vh;
-    background-color: rgb(21, 21, 21);
-    border-radius: 50%;
-    opacity: 0.3;
-    transition: all 0.3s ease-in-out;
+  width: 1vh;
+  height: 1vh;
+  background-color: #0e192a;
+  border-radius: 50%;
+  opacity: 0.3;
+  transition: all 0.3s ease-in-out;
 }
-  
-  /* Active dot (larger and more visible) */
+
+/* Active dot (larger and more visible) */
 .dot.active {
-    width: 1.5vh;
-    height: 1.5vh;
-    opacity: 1;
-    position:relative;
-    bottom: 0.25vh;
-    
+  width: 1.5vh;
+  height: 1.5vh;
+  opacity: 1;
+  position: relative;
+  bottom: 0.25vh;
 }
-  /* Dots with text characters */
+
+/* category 76 to  */
+
+.category {
+  margin-top: 2vh;
+}
+/* header row */
+.category-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  position: relative;
+
+  margin-bottom: 1vh; /* space above the divider */
+  font-family: "Alegreya SC", serif;
+}
+
+/* the divider line under the header */
+.category-head::before {
+  content: "";
+  position: absolute;
+  left: 3vw;
+  right: 3vw;
+  bottom: -6px; /* distance of line from text */
+  height: 1.5px;
+  background: #515151;
+  opacity: 0.6;
+}
+
+/* left label */
+.category-head .cat-title {
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  margin-left: 3vw;
+
+  padding-inline: 6px;
+
+  z-index: 1;
+}
+
+/* right link */
+.category-head .view-all {
+  text-decoration: none; /* remove underline on the link */
+  color: inherit;
+  margin-right: 3vw;
+  padding-inline: 6px;
+  z-index: 1;
+} 
+.cat2 {
+  display: flex;
+}
+.box-refurb,
+.box-new,
+.box-accessories {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  color: #fff;                 /* text readable */
+  z-index: 1;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+/* Refurb box */
+.box-refurb {
+  height: 15vh;
+  width: 42.5vw;
+  margin-right: 5vw;
+  margin-left: 5vw;
+  margin-top: 2vh;
+  background-image: url("/images/cat-refurb.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 2px solid #0e192a;
+}
+
+/* New box */
+.box-new {
+  height: 15vh;
+  width: 42.5vw;
+  margin-top: 2vh;
+  background-image: url("/images/cat-new.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 2px solid #0e192a;
+}
+
+/* Accessories box */
+.box-accessories {
+  height: 15vh;
+  width: 90vw;
+  margin-left: 5vw;
+  margin-top: 2vh;
+  background-image: url("/images/cat-accessories.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 2px solid #0e192a;
+}
+
+/* 🔹 Black overlay (separate for each box) */
+.box-refurb::after,
+.box-new::after,
+.box-accessories::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.27);  /* black overlay */
+  border-radius: 10px;
+  z-index: 1;
+}
+
+/* text stays above overlay */
+.box-refurb h3,
+.box-new h3,
+.box-accessories h3 {
+  position: relative;
+  z-index: 3;
+  color: #f5f7f8;
+  font-size: 3.5vw;
+  font-family: "Jeju Hallasan", cursive;
+  letter-spacing: 0.5px;
+  left: 3vw;
+  top:10vh
   
+}
+
+
+
+/* -------- Top Selling Section -------- */
+.top-selling {
+  margin-top: 3vh;
+  padding: 1rem 3vw;
+}
+
+.top-title {
+  font-family: "Alegreya SC", serif;
+  font-size: 6vw;
+  margin-bottom: 1rem;
+  color: #0e192a;
+}
+
+.top-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.top-item {
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 0.8rem;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+}
+
+.top-image img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.top-info {
+  margin-top: 0.6rem;
+  text-align: left;
+}
+
+.top-name {
+  font-size: 4vw;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  border-bottom: 1px solid #333;
+  display: inline-block;
+  padding-bottom: 0.1rem;
+}
+
+.top-price {
+  font-size: 3.8vw;
+  font-weight: 500;
+  color: #d32f2f;
+}
 
 /* Card for SH and A 180 to */
 
-#CardWrapperSH{
-background: #e5e5e9;
-
+#CardWrapperSH {
+  background: #ffffff;
 }
 
 .CardSectionSHA {
@@ -84,18 +292,16 @@ background: #e5e5e9;
   -webkit-overflow-scrolling: touch;
 }
 
-#cardHeadingSHA{
+#cardHeadingSHA {
   font-size: 7vw;
   margin-top: 1vh;
-  
+
   color: #0e192a;
 }
-
 
 .CardSectionSHA::-webkit-scrollbar {
   display: none;
 }
-
 
 /* test */
 .MobileCardSHA {
@@ -104,10 +310,9 @@ background: #e5e5e9;
   box-shadow: 3px 3px 5px #cccccf, -3px -3px 5px #ffffff;
 
   width: 44vw;
-  padding: 0.6rem;;
+  padding: 0.6rem;
   scroll-snap-align: start;
   position: relative;
-  
 }
 
 /* Logo at top-left */
@@ -116,8 +321,8 @@ background: #e5e5e9;
   position: absolute;
   left: 0.3rem;
   top: 0.2rem;
-  width:5rem;
-  height:0.8rem;
+  width: 5rem;
+  height: 0.8rem;
   font-size: 2.5vw;
   padding: 0.2rem 0.4rem;
   border-radius: 4px;
@@ -125,18 +330,14 @@ background: #e5e5e9;
 
 /* Main image */
 .mobileImage {
- 
- 
   width: 100%;
   height: auto;
   border-radius: 6px;
- 
 }
 
 /* Name + USED badge */
 
 .mobilenNameSHA {
-  
   font-size: 4.5vw;
   height: 10vw;
   color: #0e192a;
@@ -147,15 +348,13 @@ background: #e5e5e9;
   position: absolute;
   display: inline-block;
   background-color: #323a40;
-  color:#e0e0e0 ;
+  color: #e0e0e0;
   font-size: 2.5vw;
   padding: 0.1rem 0.2rem;
   border-radius: 5px;
   /* white-space: nowrap; */
-  top:0.3rem ;
+  top: 0.3rem;
   right: 0.5rem;
-  
-  
 }
 
 /* Condition */
@@ -183,10 +382,10 @@ background: #e5e5e9;
   margin-left: 0.4rem;
 }
 
-.MRPflex{
+.MRPflex {
   display: flex;
 }
-.cardMRPSHA{
+.cardMRPSHA {
   color: #09101f;
   font-size: 4vw;
   font-weight: 500;
@@ -194,14 +393,11 @@ background: #e5e5e9;
 }
 /* Final price and buy button row */
 .pricBuyRow {
-  
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 1vh;
 }
-
-
 
 .finalPriceWrap {
   position: relative;
@@ -217,7 +413,7 @@ background: #e5e5e9;
   border-bottom-right-radius: 8px;
   border-top-right-radius: 8px;
   border-top-left-radius: 8px;
-  
+
   font-size: 5vw;
   font-weight: bold;
   z-index: 1;
@@ -227,14 +423,13 @@ background: #e5e5e9;
   width: 0;
   height: 0;
   border-style: solid;
-  border-width: 0 0 10px 10px;  /* half corner */
+  border-width: 0 0 10px 10px; /* half corner */
   border-color: transparent transparent #213452 transparent;
   position: relative;
   bottom: 0;
   left: -1rem;
   z-index: 2;
   transform: rotate(-90deg);
- 
 }
 
 .buyButtonSHA {
@@ -248,52 +443,49 @@ background: #e5e5e9;
   align-items: start;
   gap: 0.3rem;
   cursor: pointer;
- margin-bottom: 5%;
- z-index: 3;
+  margin-bottom: 5%;
+  z-index: 3;
 }
 
 /* test N */
 
-#CardWrapperN{
+#CardWrapperN {
   background: #323a40;
   margin-bottom: 0;
-  }
-  
-  .CardSectionN {
-    background: #323a40;
-    height: auto;
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    gap: 1rem;
-    padding: 1rem;
-    scroll-padding: 1rem;
-    -webkit-overflow-scrolling: touch;
-  }
-  
-  #cardHeadingN{
-    font-size: 7vw;
-    margin-top: 1vh;
-    
-    color: #f0f0f3;
-  }
-  
-  
-  .CardSectionN::-webkit-scrollbar {
-    display: none;
-  }
-  
+}
+
+.CardSectionN {
+  background: #323a40;
+  height: auto;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 1rem;
+  padding: 1rem;
+  scroll-padding: 1rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+#cardHeadingN {
+  font-size: 7vw;
+  margin-top: 1vh;
+
+  color: #f0f0f3;
+}
+
+.CardSectionN::-webkit-scrollbar {
+  display: none;
+}
+
 .MobileCardN {
   border-radius: 14px;
   background: #323a40;
-  box-shadow:  5px 5px 5px #202529,
-               -5px -5px 5px #444f57;
+  box-shadow: 5px 5px 5px #202529, -5px -5px 5px #444f57;
 
   width: 44vw;
-  padding: 0.6rem;;
+  padding: 0.6rem;
   scroll-snap-align: start;
   position: relative;
-  
 }
 
 /* Logo at top-left */
@@ -302,8 +494,8 @@ background: #e5e5e9;
   position: absolute;
   left: 0.3rem;
   top: 0.2rem;
-  width:5rem;
-  height:0.8rem;
+  width: 5rem;
+  height: 0.8rem;
   font-size: 2.5vw;
   padding: 0.2rem 0.4rem;
   border-radius: 4px;
@@ -314,13 +506,11 @@ background: #e5e5e9;
   width: 100%;
   height: auto;
   border-radius: 6px;
- 
 }
 
 /* Name + USED badge */
 
 .mobilenNameN {
-  
   font-size: 5vw;
   height: 10vw;
   color: #f0f0f3;
@@ -331,21 +521,18 @@ background: #e5e5e9;
   position: absolute;
   display: inline-block;
   background-color: #f0f0f3;
-  color:#323a40 ;
+  color: #323a40;
   font-size: 2.5vw;
   padding: 0.1rem 0.2rem;
   border-radius: 5px;
   /* white-space: nowrap; */
-  top:0.3rem ;
+  top: 0.3rem;
   right: 0.5rem;
-  font-weight:bolder;
-  
-  
+  font-weight: bolder;
 }
 
-
 /* Discount center big */
-.mobileDiscountN{
+.mobileDiscountN {
   text-align: center;
   font-size: 6vw;
   color: #ff5c5c;
@@ -363,10 +550,10 @@ background: #e5e5e9;
   margin-left: 0.4rem;
 }
 
-.MRPflex{
+.MRPflex {
   display: flex;
 }
-.cardMRPN{
+.cardMRPN {
   color: #aaaaaa;
   font-size: 4vw;
   font-weight: 500;
@@ -374,14 +561,11 @@ background: #e5e5e9;
 }
 /* Final price and buy button row */
 .pricBuyRow {
-  
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 1vh;
 }
-
-
 
 .finalPriceWrap {
   position: relative;
@@ -397,7 +581,7 @@ background: #e5e5e9;
   border-bottom-right-radius: 8px;
   border-top-right-radius: 8px;
   border-top-left-radius: 8px;
-  
+
   font-size: 5vw;
   font-weight: bold;
   z-index: 1;
@@ -407,17 +591,16 @@ background: #e5e5e9;
   width: 0;
   height: 0;
   border-style: solid;
-  border-width: 0 0 10px 10px;  /* half corner */
+  border-width: 0 0 10px 10px; /* half corner */
   border-color: transparent transparent #f5f7f8 transparent;
   position: relative;
   bottom: 0;
   left: -1rem;
   z-index: 2;
   transform: rotate(-90deg);
- 
 }
 
-.buyButtonN{
+.buyButtonN {
   background-color: #f5f7f8;
   color: #09101f;
   border: none;
@@ -428,46 +611,30 @@ background: #e5e5e9;
   align-items: start;
   gap: 0.3rem;
   cursor: pointer;
- margin-bottom: 5%;
- z-index: 3;
+  margin-bottom: 5%;
+  z-index: 3;
 }
 
+/* Card for A  */
 
-
-
-
-
-
-  
-
-
-  /* Card for A  */
-
-#CardWrapperA{
-    background: #f0f0f3;
-    margin-top: 0;
-    
+#CardWrapperA {
+  background: #f0f0f3;
+  margin-top: 0;
 }
-#cardHeadingA{
+#cardHeadingA {
   font-size: 7vw;
   margin-top: 1vh;
   margin-left: 5vw;
   color: #323a40;
-  
-}    
-
+}
 
 .mobilenNameSHA {
-  
   font-size: 5vw;
   height: 10vw;
   color: #0e192a;
   flex: 1;
   word-break: break-word;
 }
-
-
-
 
 /* Discount center big */
 .mobileDiscountA {
@@ -478,22 +645,22 @@ background: #e5e5e9;
   margin-top: 0.3vh;
 }
 
-
 .CardSectionA::-webkit-scrollbar {
   display: none;
 }
 
-#test{
+#test {
   width: 100vw;
 }
 
 /* Reset wrapper div spacing */
-#CardWrapperSH, #CardWrapperN, #CardWrapperA {
+#CardWrapperSH,
+#CardWrapperN,
+#CardWrapperA {
   padding-top: 1vh;
   padding-bottom: 1vh;
   margin: 0;
 }
-
 
 /* Details tag */
 .detailsOverlay {
@@ -507,7 +674,6 @@ background: #e5e5e9;
   height: 100%;
   z-index: 2; /* Lower than buy button */
 }
-
 
 /* View all button */
 
@@ -547,8 +713,7 @@ background: #e5e5e9;
 
 .viewAllLinkN {
   display: flex;
-  box-shadow:  3px 3px 5px #202529,
-  -3px -3px 5px #444f57;
+  box-shadow: 3px 3px 5px #202529, -3px -3px 5px #444f57;
   align-items: center;
   font-size: 3.5vw;
   text-decoration: none;

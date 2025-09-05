@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+ <title>Verify OTP</title>
+</head>
+<body>
+ 
+
+
+
+ <% if (maskedPhone) { %>
+  <p>✅ OTP sent to WhatsApp number: <strong><%= maskedPhone %></strong></p>
+<% } %>
+
+  <h2>Enter OTP</h2>
+ 
+  
+
+ <form action="<%= otpAction %>" method="POST">
+  <input type="hidden" name="verifyType" value="<%= verifyType %>">
+  <input type="hidden" name="verifyID" value="<%= verifyID %>">
+  <input type="text" name="otp" placeholder="Enter OTP">
+  <% if (error) { %><p><%= error %></p><% } %>
+  <button type="submit">Verify OTP</button>
+</form>
+
+
+<form id="resendForm" method="POST" action="/resend-otp">
+ <input type="hidden" name="verifyType" value="<%= verifyType %>">
+  <input type="hidden" name="verifyID" value="<%= verifyID %>">
+  <p>
+    Didn’t receive OTP?
+    <button type="submit" id="resendBtn" style="background: none; border: none; color: blue; text-decoration: underline; cursor: pointer;">Resend</button>
+    <span id="resendMsg" style="color: green; margin-left: 10px;"></span>
+  </p>
+</form>
+
+<script>
+  const resendForm = document.getElementById("resendForm");
+  const resendBtn = document.getElementById("resendBtn");
+  const resendMsg = document.getElementById("resendMsg");
+  let resendCountdown; // To clear existing interval
+
+  resendForm.addEventListener("submit", function(e) {
+    e.preventDefault(); // Prevent full page post
+
+    if (resendBtn.disabled) return;
+    resendBtn.disabled = true;
+    resendBtn.textContent = "Sending...";
+
+    const formData = new FormData(resendForm);
+
+    fetch(resendForm.action, {
+      method: "POST",
+      body: new URLSearchParams(formData)
+    })
+    .then(response => {
+      if (!response.ok) throw new Error("Failed to resend OTP");
+      return response.text();
+    })
+    .then(() => {
+      resendMsg.textContent = "✅ OTP resent successfully.";
+      startCountdown(30); // 30 second timer
+    })
+    .catch(() => {
+      resendMsg.textContent = "❌ Error resending OTP.";
+      resendBtn.disabled = false;
+      resendBtn.textContent = "Resend";
+    });
+  });
+
+  function startCountdown(seconds) {
+    if (resendCountdown) clearInterval(resendCountdown);
+    let timeLeft = seconds;
+    resendBtn.textContent = `Resend in ${timeLeft}s`;
+    resendBtn.disabled = true;
+
+    resendCountdown = setInterval(() => {
+      timeLeft--;
+      resendBtn.textContent = `Resend in ${timeLeft}s`;
+      if (timeLeft <= 0) {
+        clearInterval(resendCountdown);
+        resendBtn.disabled = false;
+        resendBtn.textContent = "Resend";
+        resendMsg.textContent = "";
+      }
+    }, 1000);
+  }
+</script>
+
+
+
+</body>
+</html>

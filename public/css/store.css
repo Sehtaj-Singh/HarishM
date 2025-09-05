@@ -1,53 +1,191 @@
-.store-tabs-container {
-  margin-top: 8vh;
-  background-color: #eeeeee;
+/* ---------- GLOBAL: remove mobile tap highlight site-wide ---------- */
+*,
+*::before,
+*::after {
+  -webkit-tap-highlight-color: transparent; /* Android/Chrome */
 }
 
-/* --- Tabs Navigation --- */
-.store-tabs {
+/* optional extra safety for iOS */
+html, body {
+  -webkit-touch-callout: none;
+}
+
+
+/* AI Wrapper for whole slider */
+#store-wrapper {
+  overflow: hidden;
+  width: 100vw;
+  position: relative;
+  margin-top: 4vh;
+}
+
+/* Horizontal sliding container */
+#slider {
   display: flex;
-  justify-content: space-around;
-  gap: 0.3rem;
-  padding: 0.4rem;
-  background-color: #c4c8cb;
-  border-radius: 1rem;
-  height: 5vh;
+  transition: none;
+  width: 300vw;/* 3 sections * 100vw */
+   transform: translateX(-100vw);
+}
+
+/* Each section */
+.store-section {
+  flex: 0 0 100vw;
+  box-sizing: border-box;
+  text-align: center;
+   margin: 0;            /* remove gap */
+  padding: 0; 
+  
   
 }
-/* Base tab style */
-.store-tabs .tab-link {
-  flex: 1;
-  text-align: center;
-  font-family: 'Segoe UI', sans-serif;
-  font-size: 0.85rem;
-  font-weight: 600;
-  padding: 1vh 0.7rem;
-  border-radius: 0.4rem;
-  text-decoration: none;
-  color: #ffffff;
-  background-color: #0e192a;
-  border: 1px solid #0e192a;
-  transition: all 0.25s ease;
-  cursor: pointer;
-  box-shadow: none;
-  white-space: nowrap;
+
+/* Image container with nav arrows */
+.image-container {
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  background-color: #9d9d9d;
+  height: 30vh;
+  width: 100vw;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
  
 }
 
-/* Active tab effect */
-
-.store-tabs .tab-link.active {
-  background-color: #ffffff;
-  color: #0e192a;
-  transform: translate(-2px, -2px);
-  box-shadow: 1.5px 1.5px #0e192a;
+.image-container1 {
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  background-color: #d51d1d;
+  height: 30vh;
+  width: 100vw;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+ 
 }
+
+.image-container2 {
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  background-color: #18ffae;
+  height: 30vh;
+  width: 100vw;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+ 
+}
+
+.image-container img {
+  width: 100%;
+
+  object-fit: contain;
+  
+}
+
+/* Left/right nav buttons */
+
+
+ul {
+  margin-top: 15px;
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  margin: 5px 0;
+  font-size: 1.1rem;
+}
+
+.nav-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  color: white;
+  
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  z-index: 2;
+  user-select: none;
+}
+
+/* Hover & click animation */
+.nav-icon:hover {
+  background: rgba(0,0,0,0.8);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.nav-icon:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+/* Left and Right placement */
+.left-icon {
+  left: 15px;
+}
+
+.right-icon {
+  right: 15px;
+}
+
+
+.nav-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-block;      /* allow transforms/positioning */
+  font-size: 2.5rem;
+  color: #fff;
+  cursor: pointer;
+
+  /* remove any default/native visuals */
+  background: transparent !important;
+  border: 0;
+  outline: none;
+  box-shadow: none;
+  -webkit-appearance: none;
+  appearance: none;
+
+  /* prevent selection / dragging / highlight */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  touch-action: manipulation; /* avoids some default gestures */
+}
+
+/* explicitly forbid any hover/active style so there's no visual change */
+.nav-icon,
+.nav-icon:hover,
+.nav-icon:active,
+.nav-icon:focus {
+  transform: translateY(-50%);  /* keep always same position */
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* keep keyboard accessibility — visible only when focused by keyboard */
+.nav-icon:focus-visible {
+  outline: 2px solid rgba(255,255,255,0.6);
+  outline-offset: 4px;
+}
+
+/* left / right placement */
+.left-icon { left: 15px; }
+.right-icon { right: 15px; }
+
+
 
 /* --- Tab Content Sections --- */
 .mobile-sections {
   position: relative;
   background-color: #e0e0e0;
-  
 }
 
 .mobile-section {
@@ -65,13 +203,7 @@
   opacity: 1;
   pointer-events: auto;
   z-index: 2;
- 
 }
-
-
-/* CardSection */
-
-
 
 .CardSection {
   padding: 0.5rem;
@@ -81,29 +213,25 @@
   background: #e0e0e0;
 }
 
-/* Card */
 .MobileCard {
   width: 85vw;
- 
   border-radius: 14px;
   background: #e0e0e0;
   box-shadow: 3px 3px 5px #9d9d9d, -3px -3px 5px #fcfcfc;
   padding: 0.8rem;
   position: relative;
-  left:2.5vw;
+  left: 2.5vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-/* Logo and Badge */
 .cardLogo {
   position: absolute;
   top: 0.5rem;
   left: 0.8rem;
- 
-  width:5rem;
-  height:0.8rem; 
+  width: 5rem;
+  height: 0.8rem;
 }
 
 .statusBadge {
@@ -118,7 +246,6 @@
   border-radius: 4px;
 }
 
-/* Content Layout */
 .cardContent {
   display: flex;
   height: 100%;
@@ -131,8 +258,8 @@
   width: 28vw;
   height: auto;
   object-fit: contain;
- 
 }
+
 .cardImage {
   display: flex;
   justify-content: center;
@@ -143,10 +270,8 @@
   flex: 1;
   display: flex;
   flex-direction: column;
- 
   gap: 0.3rem;
 }
-
 
 .mobileName {
   font-size: 5vw;
@@ -164,20 +289,19 @@
   font-weight: bold;
   display: inline-block;
   align-self: flex-start;
- 
-  
-  font-weight: bold;
   background-color: #d23d3d;
   color: #ffffff;
   padding: 0.1rem 0.3rem;
   border-radius: 4px;
 }
-.priceRow{
+
+.priceRow {
   display: flex;
   gap: 4vw;
   margin-top: -0.2rem;
 }
-.mrp{
+
+.mrp {
   padding-top: 0.3rem;
 }
 
@@ -192,11 +316,10 @@
   color: #0e192a96;
 }
 
-
 .priceBuy {
   margin-top: 1vh;
   display: flex;
-  gap:9vw ;
+  gap: 9vw;
   align-items: center;
 }
 
@@ -205,7 +328,8 @@
   font-weight: bold;
   color: #0e192a;
 }
-.cartBtn{
+
+.cartBtn {
   background-color: #0e192a;
   color: #fff;
   padding: 0.4rem 0.8rem;
@@ -231,15 +355,29 @@
   z-index: 3;
 }
 
-/* Details tag */
 .detailsOverlay {
   position: absolute;
   background: transparent;
   border: none;
-  text-indent: -9999px; /* Hide any text inside */
+  text-indent: -9999px;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 2; /* Lower than buy button */
+  z-index: 2;
 }
+
+/* start here my */
+
+/* #new-mobile-section{
+width: 100vw;
+}
+#refurbished-section{
+  width: 100vw;
+}
+#accessory-section{
+  width: 100vw;
+} */
+
+
+

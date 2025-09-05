@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>My Cart</title>
+    <link rel="stylesheet" href="/css/userHeader.css" />
+    <style>
+      h1 {
+        margin-top: 8vh;
+      }
+    </style>
+  </head>
+  <body>
+    <%- include('../partials/storeHeader') %>
+
+    <h1>My Cart</h1>
+
+    <% if (!items || items.length === 0) { %>
+    <p>Your cart is empty</p>
+    <% } else { %>
+
+    <!-- Page wrapper exposes whether user has an address (read by cart.js) -->
+    <div
+      id="cart-page"
+      data-has-address="<%= (user && user.address) ? '1' : '0' %>"
+    >
+      <table border="1" cellpadding="8" cellspacing="0">
+        <tr>
+          <th>Image</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Qty</th>
+          <th>Subtotal</th>
+          <th>Action</th>
+        </tr>
+        <% items.forEach(item => { %>
+        <tr>
+          <td>
+            <img
+              src="/uploads/<%= item.image %>"
+              width="80"
+              alt="<%= item.name %>"
+            />
+          </td>
+          <td><%= item.name %></td>
+          <td>₹<%= item.price %></td>
+          <td><%= item.qty %></td>
+          <td>₹<%= Number(item.price) * Number(item.qty) %></td>
+          <td><a href="/cart/remove/<%= item.productId %>">Remove</a></td>
+        </tr>
+        <% }) %>
+      </table>
+
+      <h3>Total: ₹<%= total %></h3>
+
+      <% if (user && user.address) { %>
+      <div>
+        <h4>Delivery Address</h4>
+        <p>
+          <strong><%= user.address.fullName %></strong><br />
+          <%= user.address.flat %>, <%= user.address.area %><br />
+          <% if (user.address.landmark) { %> Landmark: <%= user.address.landmark
+          %><br />
+          <% } %> <%= user.address.city %>, <%= user.address.state %> - <%=
+          user.address.pincode %><br />
+          Phone: <%= user.address.mobile %>
+        </p>
+        <!-- 🔹 Edit button -->
+        <button id="edit-address-btn" type="button">Edit Address</button>
+      </div>
+
+      <!-- Hidden JSON for JS (prefill modal on edit) -->
+      <script id="user-address-data" type="application/json">
+        <%= JSON.stringify(user.address) %>
+      </script>
+
+      <button id="pay-now">Place Order</button>
+      <% } else { %>
+      <p style="color: red">⚠️ No delivery address found</p>
+      <button id="add-address-btn" type="button">Add Address</button>
+      <% } %>
+    </div>
+
+    <!-- Address Modal Partial -->
+    <%- include('../partials/addressModal') %>
+
+    <!-- Razorpay SDK -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <!-- Your page JS -->
+    <script src="/javascript/cart.js"></script>
+    <% } %>
+  </body>
+</html>

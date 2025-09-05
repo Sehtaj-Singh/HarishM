@@ -1,0 +1,19 @@
+<!-- Overlay (hidden by default) -->
+<div id="address-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000;">
+  <!-- Modal Box -->
+  <div id="address-modal" style="background:#fff; width:90%; max-width:400px; margin:10% auto; padding:20px; border-radius:8px; position:relative;">
+    <h3>Enter Delivery Address</h3>
+    <form id="address-form">
+      <input type="text" name="fullName" placeholder="Full Name" required><br>
+      <input type="text" name="mobile" placeholder="Mobile No" required><br>
+      <input type="text" name="flat" placeholder="Flat / House No / Building / Apartment" required><br>
+      <input type="text" name="area" placeholder="Area / Street / Village" required><br>
+      <input type="text" name="landmark" placeholder="Landmark"><br>
+      <input type="text" name="city" placeholder="Town / City" required><br>
+      <input type="text" name="state" placeholder="State" required><br>
+      <input type="text" name="pincode" placeholder="Pincode" required><br>
+      <button type="submit">Save Address</button>
+      <button type="button" onclick="hideOverlay('address-overlay')">Cancel</button>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+<title>Admin Registration</title>
+</head>
+<body>
+  <div class="register-container">
+    <h2>Admin Registration</h2>
+    <form action="/admin/register" method="POST">
+      <input type="text" name="name" placeholder="Full Name" required />
+      <input type="email" name="email" placeholder="Email Address" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <div style="display: flex;">
+        <span>+91</span>
+        <input
+          type="tel"
+          name="phone"
+          maxlength="10"
+          pattern="[0-9]{10}"
+          placeholder="10-digit mobile number"
+          required
+        />
+      </div>
+      <input type="submit" value="Register Admin" />
+    </form>
+  </div>
+</body>
+</html>
