@@ -137,91 +137,101 @@
   margin-right: 3vw;
   padding-inline: 6px;
   z-index: 1;
-} 
+}
 .cat2 {
   display: flex;
 }
+
 .box-refurb,
 .box-new,
 .box-accessories {
   position: relative;
   overflow: hidden;
   border-radius: 10px;
-  color: #fff;                 /* text readable */
-  z-index: 1;
-  align-items: center;
-  justify-content: center;
+  color: #fff;
   font-weight: bold;
   font-size: 1.2rem;
+  text-decoration: none; /* remove underline from <a> */
+  display: block; /* let anchor behave like div */
 }
 
-/* Refurb box */
+/* background images */
 .box-refurb {
   height: 15vh;
   width: 42.5vw;
   margin-right: 5vw;
   margin-left: 5vw;
   margin-top: 2vh;
-  background-image: url("/images/cat-refurb.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background: url("/images/cat-refurb.jpg") center/cover no-repeat;
   border: 2px solid #0e192a;
 }
-
-/* New box */
 .box-new {
   height: 15vh;
   width: 42.5vw;
   margin-top: 2vh;
-  background-image: url("/images/cat-new.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background: url("/images/cat-new.jpg") center/cover no-repeat;
   border: 2px solid #0e192a;
 }
-
-/* Accessories box */
 .box-accessories {
   height: 15vh;
   width: 90vw;
   margin-left: 5vw;
   margin-top: 2vh;
-  background-image: url("/images/cat-accessories.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background: url("/images/cat-accessory.png") center/cover no-repeat;
   border: 2px solid #0e192a;
 }
 
-/* 🔹 Black overlay (separate for each box) */
+/* black overlay */
 .box-refurb::after,
 .box-new::after,
 .box-accessories::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.27);  /* black overlay */
+  background: rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   z-index: 1;
 }
 
-/* text stays above overlay */
+/* text above overlay */
 .box-refurb h3,
-.box-new h3,
-.box-accessories h3 {
+.box-new h3 {
   position: relative;
-  z-index: 3;
+  z-index: 2;
   color: #f5f7f8;
   font-size: 3.5vw;
-  font-family: "Jeju Hallasan", cursive;
-  letter-spacing: 0.5px;
+  font-family: "Overlock SC", sans-serif;
+  letter-spacing: 1px;
   left: 3vw;
-  top:10vh
+  top: 10vh;
   
 }
 
-
+.box-accessories h3 {
+  position: relative;
+  display: inline-block;
+  z-index: 2;
+  color: #f5f7f8;
+  font-size: 5vw;
+  font-family: "Overlock SC", sans-serif;
+  letter-spacing: 1px;
+  left: 55vw;
+  top: 3vh;
+}
+#cat-shop{
+   position: relative;
+  
+  z-index: 2;
+  color: #f5f7f8;
+  font-size: 4vw;
+  font-weight: 300;
+  padding: 3px;
+  letter-spacing: 1px;
+  left: 30vw;
+  top: 8vh;
+  border: 2px solid #f5f7f8;
+  border-radius: 5px;
+}
 
 /* -------- Top Selling Section -------- */
 .top-selling {

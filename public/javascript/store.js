@@ -134,34 +134,38 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // ----------- Slider for store page --------------
 
- const slider = document.getElementById("slider");
+  const slider = document.getElementById("slider");
   const sections = document.querySelectorAll(".store-section");
   const navIcons = document.querySelectorAll(".nav-icon");
 
-  let currentIndex = 1; // 0 = New, 1 = Refurbished (default), 2 = Accessories
+  // --- read tab param ---
+  const params = new URLSearchParams(window.location.search);
+  const tab = params.get("tab");
+
+  let currentIndex = 1; // default Refurbished
+  if (tab === "new") currentIndex = 0;
+  if (tab === "second") currentIndex = 1;
+  if (tab === "accessories") currentIndex = 2;
+
   const sectionWidth = window.innerWidth;
   const TRANSITION = "transform 0.6s ease-in-out";
 
-  // --- Step 1: place slider instantly on Refurbished (no animation)
+  // set start position
   slider.style.transform = `translateX(-${currentIndex * sectionWidth}px)`;
   slider.style.transition = "none";
-
-  // --- Step 2: re-enable animation after first paint
   requestAnimationFrame(() => {
     slider.style.transition = TRANSITION;
   });
 
-  // --- Function to move slider
+  // --- rest of your slider code (buttons + swipe) ---
   function goToSlide(index) {
     if (index < 0) index = 0;
     if (index >= sections.length) index = sections.length - 1;
-
     currentIndex = index;
     slider.style.transform = `translateX(-${currentIndex * sectionWidth}px)`;
   }
 
-  // --- Left / Right icon click
-  navIcons.forEach(icon => {
+  navIcons.forEach((icon) => {
     icon.addEventListener("click", () => {
       const dir = icon.dataset.dir;
       if (dir === "left") goToSlide(currentIndex - 1);
@@ -173,12 +177,12 @@ window.addEventListener("DOMContentLoaded", () => {
   let startX = 0;
   let isDragging = false;
 
-  slider.addEventListener("touchstart", e => {
+  slider.addEventListener("touchstart", (e) => {
     startX = e.touches[0].clientX;
     isDragging = true;
   });
 
-  slider.addEventListener("touchend", e => {
+  slider.addEventListener("touchend", (e) => {
     if (!isDragging) return;
     const endX = e.changedTouches[0].clientX;
     const diff = startX - endX;
@@ -191,6 +195,4 @@ window.addEventListener("DOMContentLoaded", () => {
 
     isDragging = false;
   });
-
-  
 });
