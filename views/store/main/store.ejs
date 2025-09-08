@@ -17,186 +17,25 @@
     <script src="javascript/store.js"></script>
     <%- include(`../../partials/storeHeader`) %>
 
-    <!-- <div class="store-tabs-container">
     
-    <nav class="store-tabs">
-      <a href="#" class="tab-link" data-tab="new">New Mobiles</a>
-      <a href="#" class="tab-link active" data-tab="second">Second-Hand Mobiles</a>
-      <a href="#" class="tab-link" data-tab="accessories">Accessories</a>
-      
-    </nav>
-  
-   
-    <div class="mobile-sections">
-      <section class="mobile-section" data-tab="new">
-
-       <div class="CardSection">
-          <% registeredNmobile.forEach(function(Nmobile) { %>
-            <div class="MobileCard">
-
-              <a class="detailsOverlay" href="/New/Details/<%= Nmobile._id  %>?from=store">details</a>
-
-              
-              <img class="cardLogo" src="/images/cardLogo1.png" > 
-              <div class="statusBadge">New</div>
-          
-             
-              <div class="cardContent">
-    
-                <div class="cardImage">
-                 <img src="/uploads/<%= Nmobile.Nimage %>" alt="mobile image" />
-                </div>
-                     
-                <div class="cardDetails">
-                  <h3 class="mobileName"><%= Nmobile.Nname %></h3>
-                  
-                  <div class="priceRow">
-                       <p class="mrp">
-                         <span class="mrpLabel">MRP:</span>
-                         <span class="mrpValue"><s>₹<%= Nmobile.Nmrp %></s></span>
-                       </p>
-                       <span class="price">₹<%= Nmobile.Nprice %></span>
-                     </div>
-                      <span class="discount"><%= Nmobile.Ndiscount %>% OFF</span>
-                      <div class="priceBuy">
-                        <button class="cartBtn"> Add To Cart</button>
-                      
-                        <button class="buyBtn"><i class="fas fa-shopping-bag"></i> Buy</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              <% }) %>
-            </div>
-             
-          </section>
-        
-      
-
-      <section class="mobile-section active" data-tab="second">
-        
-       <div class="CardSection">
-          <% registeredSHmobile.forEach(function(SHmobile) { %>
-            <div class="MobileCard">
-
-              <a class="detailsOverlay" href="/Second-Hand/Details/<%= SHmobile._id  %>?from=store">details</a>
-
-              
-              <img class="cardLogo" src="/images/cardLogo1.png" > 
-              <div class="statusBadge">Used</div>
-      
-             
-              <div class="cardContent">
-
-                <div class="cardImage">
-                  <img src="/uploads/<%= SHmobile.SHimage %>" alt="mobile image" />
-                </div>
-                 
-                <div class="cardDetails">
-                  <h3 class="mobileName"><%= SHmobile.SHname %></h3>
-                  <p class="condition">Condition: <%= SHmobile.condition %></p>
-                 <div class="priceRow">
-                   <p class="mrp">
-                     <span class="mrpLabel">MRP:</span>
-                     <span class="mrpValue"><s>₹<%= SHmobile.SHmrp %></s></span>
-                   </p>
-                   <span class="price">₹<%= SHmobile.SHprice %></span>
-                 </div>
-                  <span class="discount"><%= SHmobile.SHdiscount %>% OFF</span>
-                  <div class="priceBuy">
-                    <button class="cartBtn"> Add To Cart</button>
-                  
-                    <button class="buyBtn"><i class="fas fa-shopping-bag"></i> Buy</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          <% }) %>
-        </div>
-         
-      </section>
-      
-      <section class="mobile-section" data-tab="accessories">
-        
-
-        
-        <div class="CardSection">
-          <% registeredAmobile.forEach(function(accessory) { %>
-            <div class="MobileCard">
-
-              <a class="detailsOverlay" href="/Accessory/Details/<%= accessory._id  %>?from=store">details</a>
-
-              
-              <img class="cardLogo" src="/images/cardLogo1.png" > 
-              <div class="statusBadge">New</div>
-      
-              
-              <div class="cardContent">
-
-                <div class="cardImage">
-                  <img src="/uploads/<%= accessory.Aimage %>" alt="mobile image" />
-                </div>
-                 
-                <div class="cardDetails">
-                  <h3 class="mobileName"><%= accessory.Aname %></h3>
-                 
-                 <div class="priceRow">
-                   <p class="mrp">
-                     <span class="mrpLabel">MRP:</span>
-                     <span class="mrpValue"><s>₹<%= accessory.Amrp %></s></span>
-                   </p>
-                   <span class="price">₹<%= accessory.Aprice %></span>
-                 </div>
-                  <span class="discount"><%= accessory.Adiscount %>% OFF</span>
-                  <div class="priceBuy">
-                    <button class="cartBtn"> Add To Cart</button>
-                  
-                    <button class="buyBtn"><i class="fas fa-shopping-bag"></i> Buy</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          <% }) %>
-        </div>
-              
-      </section>
-    </div>
-  </div> -->
-
-    <!-- Store my -->
-
-    <!-- <div id="section-container">
-      <section id="new-mobile-section">
-        <div id="new-nav"></div>
-        <h3>Refurbished Mobiles</h3>
-      </section>
-      <section id="refurbished-section">
-        <div id="refurbished-nav"></div>
-        <h3>New Mobiles</h3>
-      </section>
-      <section id="accessory-section">
-        <div id="accessory-nav"></div>
-        <h3>Accessories</h3>
-      </section>
-    </div> -->
 
     <div id="store-wrapper">
       <div id="slider">
         <!-- 🔹 New Mobiles Section -->
         <section class="store-section" id="new-mobile-section">
-          <div class="image-container1">
+          <div class="image-new">
             <i
               class="fa-solid fa-chevron-left nav-icon left-icon"
               data-dir="left"
             ></i>
-            <img src="/images/new-mobile.jpg" alt="New Mobiles" />
+            
             <i
               class="fa-solid fa-chevron-right nav-icon right-icon"
               data-dir="right"
             ></i>
           </div>
 
-          <h3>New Mobiles</h3>
+         
           <div class="CardSection">
             <% registeredNmobile.forEach(function(Nmobile) { %>
             <div class="MobileCard">
@@ -238,22 +77,28 @@
             <% }) %>
           </div>
         </section>
+        
+        <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
+
 
         <!-- 🔹 Refurbished Mobiles Section -->
         <section class="store-section" id="refurbished-section">
-          <div class="image-container">
+          
+          <!-- <p id="below-head">Refurbhished</p> -->
+          <div class="image-refurb">
             <i
               class="fa-solid fa-chevron-left nav-icon left-icon"
               data-dir="left"
             ></i>
-            <img src="/images/refurbished.jpg" alt="Refurbished Mobiles" />
+            
+           
             <i
               class="fa-solid fa-chevron-right nav-icon right-icon"
               data-dir="right"
             ></i>
           </div>
 
-          <h3>Refurbished Mobiles</h3>
+          
           <div class="CardSection">
             <% registeredSHmobile.forEach(function(SHmobile) { %>
             <div class="MobileCard">
@@ -301,19 +146,18 @@
 
         <!-- 🔹 Accessories Section -->
         <section class="store-section" id="accessory-section">
-          <div class="image-container2">
+          <div class="image-accessory">
             <i
               class="fa-solid fa-chevron-left nav-icon left-icon"
               data-dir="left"
             ></i>
-            <img src="/images/accessories.jpg" alt="Accessories" />
+           
             <i
               class="fa-solid fa-chevron-right nav-icon right-icon"
               data-dir="right"
             ></i>
           </div>
 
-          <h3>Accessories</h3>
           <div class="CardSection">
             <% registeredAmobile.forEach(function(accessory) { %>
             <div class="MobileCard">

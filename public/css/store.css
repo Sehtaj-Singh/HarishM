@@ -6,10 +6,15 @@
 }
 
 /* optional extra safety for iOS */
-html, body {
+html,
+body {
   -webkit-touch-callout: none;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+}
 
 /* AI Wrapper for whole slider */
 #store-wrapper {
@@ -19,74 +24,63 @@ html, body {
   margin-top: 4vh;
 }
 
+
+
 /* Horizontal sliding container */
 #slider {
   display: flex;
   transition: none;
-  width: 300vw;/* 3 sections * 100vw */
-   transform: translateX(-100vw);
+  width: 300vw; /* 3 sections * 100vw */
+  transform: translateX(-100vw);
 }
 
 /* Each section */
 .store-section {
   flex: 0 0 100vw;
   box-sizing: border-box;
-  text-align: center;
-   margin: 0;            /* remove gap */
-  padding: 0; 
-  
-  
+ 
+  margin: 0; /* remove gap */
+  padding: 0;
 }
 
 /* Image container with nav arrows */
-.image-container {
-  position: relative;
-  justify-content: center;
-  align-items: center;
-  background-color: #9d9d9d;
-  height: 30vh;
+.image-refurb {
+  position: relative;   /* new line */
+  aspect-ratio: 4240/2808;
   width: 100vw;
+  background: url("/images/store-refurb.jpeg") center/cover no-repeat;
   overflow: hidden;
-  margin: 0;
   padding: 0;
- 
+  
 }
 
-.image-container1 {
-  position: relative;
-  justify-content: center;
-  align-items: center;
-  background-color: #d51d1d;
-  height: 30vh;
+.image-new {
+  position: relative; 
+  aspect-ratio: 4240/2808;
   width: 100vw;
+  background: url("/images/store-new.jpg") center/cover no-repeat;
   overflow: hidden;
-  margin: 0;
   padding: 0;
- 
+  
 }
 
-.image-container2 {
-  position: relative;
-  justify-content: center;
-  align-items: center;
-  background-color: #18ffae;
-  height: 30vh;
+.image-accessory {
+  position: relative; 
+  aspect-ratio: 4240/2808;
   width: 100vw;
+  background: url("/images/store-accessory.jpg") center/cover no-repeat;
   overflow: hidden;
-  margin: 0;
   padding: 0;
- 
+  
 }
 
 .image-container img {
   width: 100%;
 
   object-fit: contain;
-  
 }
 
 /* Left/right nav buttons */
-
 
 ul {
   margin-top: 15px;
@@ -105,7 +99,6 @@ ul li {
   transform: translateY(-50%);
   font-size: 2rem;
   color: white;
-  
   padding: 10px;
   border-radius: 50%;
   cursor: pointer;
@@ -116,7 +109,7 @@ ul li {
 
 /* Hover & click animation */
 .nav-icon:hover {
-  background: rgba(0,0,0,0.8);
+  background: rgba(0, 0, 0, 0.8);
   transform: translateY(-50%) scale(1.1);
 }
 
@@ -125,21 +118,13 @@ ul li {
 }
 
 /* Left and Right placement */
-.left-icon {
-  left: 15px;
-}
-
-.right-icon {
-  right: 15px;
-}
-
 
 .nav-icon {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  display: inline-block;      /* allow transforms/positioning */
-  font-size: 2.5rem;
+  display: inline-block; /* allow transforms/positioning */
+  font-size: 6vw;
   color: #fff;
   cursor: pointer;
 
@@ -164,7 +149,7 @@ ul li {
 .nav-icon:hover,
 .nav-icon:active,
 .nav-icon:focus {
-  transform: translateY(-50%);  /* keep always same position */
+  transform: translateY(-50%); /* keep always same position */
   background: transparent !important;
   box-shadow: none !important;
   outline: none !important;
@@ -172,15 +157,17 @@ ul li {
 
 /* keep keyboard accessibility — visible only when focused by keyboard */
 .nav-icon:focus-visible {
-  outline: 2px solid rgba(255,255,255,0.6);
+  outline: 2px solid rgba(255, 255, 255, 0.6);
   outline-offset: 4px;
 }
 
 /* left / right placement */
-.left-icon { left: 15px; }
-.right-icon { right: 15px; }
-
-
+.left-icon {
+  left: 5px;
+}
+.right-icon {
+  right: 5px;
+}
 
 /* --- Tab Content Sections --- */
 .mobile-sections {
@@ -366,18 +353,3 @@ ul li {
   height: 100%;
   z-index: 2;
 }
-
-/* start here my */
-
-/* #new-mobile-section{
-width: 100vw;
-}
-#refurbished-section{
-  width: 100vw;
-}
-#accessory-section{
-  width: 100vw;
-} */
-
-
-
