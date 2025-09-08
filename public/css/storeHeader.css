@@ -78,7 +78,7 @@ html, body {
   display: flex;
   flex-direction: column;      /* icon above text */
   align-items: center;
-  justify-content: center;
+  justify-content: end;
   flex: 1;
   color: #888;                 /* default grey */
   font-size: 1.6vh;
@@ -99,6 +99,7 @@ html, body {
 #lowerHeader .nav-item span {
   margin-top: 0.5vh;
   font-size: 1.6vh;
+  margin-bottom: 0.7vh;
   transition: color 0.3s ease;                        /* smooth color */
 }
 
