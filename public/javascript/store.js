@@ -142,20 +142,31 @@ window.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
   const tab = params.get("tab");
 
-  let currentIndex = 1; // default Refurbished
-  if (tab === "new") currentIndex = 0;
-  if (tab === "second") currentIndex = 1;
-  if (tab === "accessories") currentIndex = 2;
-
+  let currentIndex = 1; // always start with Refurbished
   const sectionWidth = window.innerWidth;
-  const TRANSITION = "transform 0.6s ease-in-out";
+  const TRANSITION = "transform 0.8s ease-in-out";
 
-  // set start position
-  slider.style.transform = `translateX(-${currentIndex * sectionWidth}px)`;
+  // start on refurbished instantly
   slider.style.transition = "none";
+  slider.style.transform = `translateX(-${currentIndex * sectionWidth}px)`;
+
+  // enable transitions after first paint
   requestAnimationFrame(() => {
     slider.style.transition = TRANSITION;
   });
+
+  // if coming from another tab, slide after a short delay
+  let targetIndex = null;
+  if (tab === "new") targetIndex = 0;
+  if (tab === "second") targetIndex = 1;
+  if (tab === "accessories") targetIndex = 2;
+
+  if (targetIndex !== null && targetIndex !== currentIndex) {
+    setTimeout(() => {
+      currentIndex = targetIndex;
+      slider.style.transform = `translateX(-${currentIndex * sectionWidth}px)`;
+    }, 100); // delay so refurbished is visible briefly, then transition runs
+  }
 
   // --- rest of your slider code (buttons + swipe) ---
   function goToSlide(index) {
