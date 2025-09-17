@@ -147,14 +147,14 @@
   margin-left: 5vw;
   margin-top: 1.5vh;
   background: url("/images/cat-refurb.jpg") center/cover no-repeat;
-  border: 2px solid #0e192a8d;
+  border: 2px solid #0e192aaa;
 }
 .box-new {
   height: 15vh;
   width: 42.5vw;
   margin-top: 1.5vh;
   background: url("/images/cat-new.jpg") center/cover no-repeat;
-  border: 2px solid #0e192a61;
+  border: 2px solid #0e192aaa;
 }
 .box-accessories {
   height: 16vh;
@@ -163,7 +163,7 @@
   margin-left: 5vw;
   margin-top: 2.5vh;
   background: url("/images/cat-accessory.png") center/cover no-repeat;
-  border: 2px solid #0e192a61;
+  border: 2px solid #0e192aaa;
 }
 
 /* black overlay */
@@ -272,6 +272,7 @@
   align-items: center;   /* vertical center */
   justify-content: center; /* horizontal center */
   overflow: hidden;
+  border-radius: 10px;
 }
 .product-thumb img {
   max-width: 90%;
@@ -284,7 +285,7 @@
 .product-tag {
   position: absolute;
   top:4px;
-  left: 4px;
+  left: 6px;
   
   color: #09101f;
  
