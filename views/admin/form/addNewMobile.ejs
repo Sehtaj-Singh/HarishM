@@ -10,8 +10,35 @@
 <body>
   <%- include(`../../partials/adminHeader`) %>
 
+  
+    <%
+      // Safe defaults for both add and edit
+      const isEditMode = (typeof isEdit !== 'undefined' && isEdit) ? true : false;
+      const mob = (typeof mobile !== 'undefined' && mobile) ? mobile : null;
+      const specs = (typeof specsMap !== 'undefined' && specsMap) ? specsMap : {};
+
+      // Helpers (work with flattened keys like "specs.general.model")
+      const V = (name) => (specs[name] === undefined || specs[name] === null) ? '' : specs[name];
+      const R = (name, expect) => (String(specs[name]) === String(expect)) ? 'checked' : '';
+      const RBool = (name, truthy) => {
+        const val = specs[name];
+        if (val === undefined || val === null) return '';
+        if (val === true || val === false) return val === truthy ? 'checked' : '';
+        return (String(val) === (truthy ? 'Yes' : 'No')) ? 'checked' : '';
+      };
+      const D = (name) => {
+        const out = specs[name];
+        if (!out) return '';
+        try {
+          const d = new Date(out);
+          if (!isNaN(d)) return d.toISOString().split('T')[0];
+          return String(out).split('T')[0];
+        } catch(e) { return ''; }
+      };
+    %>
+
     
-  <h2 id="amh2">New Phones</h2>
+  <!-- <h2 id="amh2">New Phones</h2>
   <form id="amform" action="/Admin/addMobile/New" method="POST"  enctype="multipart/form-data">
     <input id="aminput" type="text" name="Nname" placeholder="Mobile Name" required />
     <input id="aminput" type="text" name="Nprice" placeholder="Price" required />
@@ -20,7 +47,188 @@
     <input id="aminput" type="text" name="Ndiscount" placeholder="Discount (%)" />
     <input id="aminput" type="text" name="Nmrp" placeholder="Fake MRP" required />
     <input id="aminputS" type="submit" value="Add New Phone" />
-  </form>
+  </form> -->
+
+   <h2 id="amh2"><%= isEditMode ? 'Edit New Mobile' : 'New Phones' %></h2>
+
+    <form
+      id="amform"
+      action="/Admin/<%= isEditMode && mob ? ('edit/new/' + mob._id) : 'addMobile/new' %>"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+      <!-- Basic Information -->
+      <input
+        id="aminput"
+        type="text"
+        name="Nname"
+        placeholder="New Mobile Name"
+        value="<%= mob ? (mob.Nname || '') : '' %>"
+        required
+      />
+      <input
+        id="aminput"
+        type="text"
+        name="Nprice"
+        placeholder="Price"
+        value="<%= mob ? (mob.Nprice || '') : '' %>"
+        required
+      />
+
+      <p>Front page Image for card :-</p>
+      <% if (isEditMode && mob && mob.Nimage) { %>
+        <div style="margin-bottom:8px">
+          <img src="/uploads/<%= mob.Nimage %>" alt="Current image" style="max-height:80px" />
+        </div>
+      <% } %>
+      <input id="aminputF" type="file" name="Nimage" <%= isEditMode ? '' : 'required' %> />
+
+      
+      <input
+        id="aminput"
+        type="text"
+        name="Ndiscount"
+        placeholder="Discount (%)"
+        value="<%= mob ? (mob.Ndiscount || '') : '' %>"
+      />
+      <input
+        id="aminput"
+        type="text"
+        name="Nmrp"
+        placeholder="Fake MRP"
+        value="<%= mob ? (mob.Nmrp || '') : '' %>"
+        required
+      />
+
+      <h2>Mobile Specs</h2>
+
+      <!-- 1. General -->
+      <fieldset>
+        <legend>1. General</legend>
+        <input type="text" name="specs.general.countryOfOrigin" placeholder="Country of Origin" value="<%= V('specs.general.countryOfOrigin') %>" />
+        <input type="text" name="specs.general.model" placeholder="Model" value="<%= V('specs.general.model') %>" />
+
+        <div class="form-group">
+          <label class="full-label">Dual SIM:</label>
+          <div class="radio-group">
+            <label><input type="radio" name="specs.general.dualSim" value="Yes" <%= R('specs.general.dualSim','Yes') %> /> Yes</label>
+            <label><input type="radio" name="specs.general.dualSim" value="No" <%= R('specs.general.dualSim','No') %> /> No</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="full-label">Release Date:</label>
+          <input type="date" name="specs.general.releaseDate" class="styled-date" value="<%= D('specs.general.releaseDate') %>" />
+        </div>
+
+        <input type="text" name="specs.general.chargingPort" placeholder="Charging Port (eg. type-C)" value="<%= V('specs.general.chargingPort') %>" />
+        <input type="text" name="specs.general.simSize" placeholder="SIM Size (eg. nano)" value="<%= V('specs.general.simSize') %>" />
+        <input type="text" name="specs.general.protection" placeholder="Protection (e.g. IP68)" value="<%= V('specs.general.protection') %>" />
+        <input type="text" name="specs.general.osSystem" placeholder="Operating System" value="<%= V('specs.general.osSystem') %>" />
+        <input type="text" name="specs.general.osUpdates" placeholder="OS Updates" value="<%= V('specs.general.osUpdates') %>" />
+        <input type="text" name="specs.general.securityUpdates" placeholder="Security Updates" value="<%= V('specs.general.securityUpdates') %>" />
+      </fieldset>
+
+      <!-- 2. Design -->
+      <fieldset>
+        <legend>2. Design</legend>
+        <input type="text" name="specs.design.weight" placeholder="Weight" value="<%= V('specs.design.weight') %>" />
+        <input type="text" name="specs.design.color" placeholder="Color" value="<%= V('specs.design.color') %>" />
+        <input type="text" name="specs.design.dimensions" placeholder="Dimensions" value="<%= V('specs.design.dimensions') %>" />
+        <input type="text" name="specs.design.buildMaterial" placeholder="Build Material" value="<%= V('specs.design.buildMaterial') %>" />
+      </fieldset>
+
+      <!-- 3. Display -->
+      <fieldset>
+        <legend>3. Display</legend>
+        <input type="text" name="specs.display.type" placeholder="Type" value="<%= V('specs.display.type') %>" />
+        <input type="text" name="specs.display.size" placeholder="Size" value="<%= V('specs.display.size') %>" />
+        <input type="text" name="specs.display.resolution" placeholder="Resolution" value="<%= V('specs.display.resolution') %>" />
+        <input type="text" name="specs.display.screenToBodyRatio" placeholder="Screen-to-body Ratio" value="<%= V('specs.display.screenToBodyRatio') %>" />
+        <input type="text" name="specs.display.refreshRate" placeholder="Refresh Rate" value="<%= V('specs.display.refreshRate') %>" />
+        <input type="text" name="specs.display.peakBrightness" placeholder="Peak Brightness" value="<%= V('specs.display.peakBrightness') %>" />
+        <input type="text" name="specs.display.notch" placeholder="Notch" value="<%= V('specs.display.notch') %>" />
+      </fieldset>
+
+      <!-- 4. Memory -->
+      <fieldset>
+        <legend>4. Memory</legend>
+        <input type="text" name="specs.memory.ram" placeholder="RAM" value="<%= V('specs.memory.ram') %>" />
+        <input type="text" name="specs.memory.storage" placeholder="Storage" value="<%= V('specs.memory.storage') %>" />
+      </fieldset>
+
+      <!-- 5. Connectivity -->
+      <fieldset>
+        <legend>5. Connectivity</legend>
+        <input type="text" name="specs.connectivity.network" placeholder="Network" value="<%= V('specs.connectivity.network') %>" />
+        <input type="text" name="specs.connectivity.wifi" placeholder="WiFi" value="<%= V('specs.connectivity.wifi') %>" />
+        <input type="text" name="specs.connectivity.bluetooth" placeholder="Bluetooth" value="<%= V('specs.connectivity.bluetooth') %>" />
+      </fieldset>
+
+      <!-- 6. Back Camera -->
+      <fieldset>
+        <legend>6. Back Camera</legend>
+        <input type="text" name="specs.backCamera.type" placeholder="Type" value="<%= V('specs.backCamera.type') %>" />
+        <input type="text" name="specs.backCamera.video" placeholder="Video" value="<%= V('specs.backCamera.video') %>" />
+      </fieldset>
+
+      <!-- 7. Selfie Camera -->
+      <fieldset>
+        <legend>7. Selfie Camera</legend>
+        <input type="text" name="specs.selfieCamera.type" placeholder="Type" value="<%= V('specs.selfieCamera.type') %>" />
+        <input type="text" name="specs.selfieCamera.video" placeholder="Video" value="<%= V('specs.selfieCamera.video') %>" />
+      </fieldset>
+
+      <!-- 8. Performance -->
+      <fieldset>
+        <legend>8. Performance</legend>
+        <input type="text" name="specs.performance.cpu" placeholder="CPU / Chipset" value="<%= V('specs.performance.cpu') %>" />
+      </fieldset>
+
+      <!-- 9. Battery -->
+      <fieldset>
+        <legend>9. Battery</legend>
+        <input type="text" name="specs.battery.capacity" placeholder="Capacity" value="<%= V('specs.battery.capacity') %>" />
+        <input type="text" name="specs.battery.charging" placeholder="Charging" value="<%= V('specs.battery.charging') %>" />
+
+        <div class="form-group">
+          <label class="full-label">Wireless Charging:</label>
+          <div class="radio-group">
+            <label><input type="radio" name="specs.battery.wirelessCharging" value="Yes" <%= R('specs.battery.wirelessCharging','Yes') %> /> Yes</label>
+            <label><input type="radio" name="specs.battery.wirelessCharging" value="No" <%= R('specs.battery.wirelessCharging','No') %> /> No</label>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- 10. Sound -->
+      <fieldset>
+        <legend>10. Sound</legend>
+        <div class="form-group">
+          <label class="full-label">3.5mm Jack:</label>
+          <div class="radio-group">
+            <label><input type="radio" name="specs.sound.jack" value="Yes" <%= R('specs.sound.jack','Yes') %> /> Yes</label>
+            <label><input type="radio" name="specs.sound.jack" value="No" <%= R('specs.sound.jack','No') %> /> No</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="full-label">Stereo Speaker:</label>
+          <div class="radio-group">
+            <label><input type="radio" name="specs.sound.stereoSpeaker" value="Yes" <%= R('specs.sound.stereoSpeaker','Yes') %> /> Yes</label>
+            <label><input type="radio" name="specs.sound.stereoSpeaker" value="No" <%= R('specs.sound.stereoSpeaker','No') %> /> No</label>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- 11. Sensors -->
+      <fieldset>
+        <legend>11. Sensors</legend>
+        <input type="text" name="specs.sensors.fingerprint" placeholder="Fingerprint" value="<%= V('specs.sensors.fingerprint') %>" />
+        <input type="text" name="specs.sensors.other" placeholder="Other Sensors" value="<%= V('specs.sensors.other') %>" />
+      </fieldset>
+
+      <input id="aminputS" type="submit" value="<%= isEditMode ? 'Update Second-hand Phone' : 'Add Second-hand Phone' %>" />
+    </form>
   
 </body>
 </html>

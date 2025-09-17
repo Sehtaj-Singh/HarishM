@@ -12,6 +12,7 @@ const apiKey = process.env.FIREBASE_API_KEY;
 const sendOTP = require(`../Utils/sendOTP`);
 const { encrypt } = require("../utils/cryptoUtil");
 const razorpay = require("../utils/razorPay");
+const topSellingStore = require('../utils/topSellingStore');
 
 //database
 const secondHandModel = require(`../models/secondHandMobileDB`);
@@ -23,11 +24,13 @@ const userDB = require("../models/userDB");
 exports.getHomePage = (req, res, next) => {
   Promise.all([secondHandModel.find(), newModel.find(), accessoryModel.find()])
     .then(([registeredSHmobile, registeredNmobile, registeredAmobile]) => {
-      res.render(`store/main/index`, {
+      const topSellingIds = topSellingStore.getIds(); 
+      res.render('store/main/index', {
         registeredSHmobile,
         registeredNmobile,
         registeredAmobile,
         active: "home",
+        topSellingIds
       });
     })
     .catch((err) => {
@@ -86,7 +89,7 @@ exports.getSHdetailPage = async (req, res, next) => {
       return res.status(404).send("Product not found");
     }
 
-    res.render("store/SHdetailsPage", { product });
+    res.render("store/SHdetailsPage", { product, active: "null" });
   } catch (err) {
     console.error("❌ Error fetching product details:", err.message);
     res.status(500).send("Server error");

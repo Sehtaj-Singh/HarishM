@@ -159,7 +159,7 @@ exports.postLoginVerifyOTP = async (req, res, next) => {
     // OTP correct: Continue with login/session logic
     const { uid, idToken, refreshToken } = parsedSession;
     // Create session cookie (if using Firebase)
-    const expiresIn = 60 * 5 * 1000; // 5 days
+    const expiresIn = 60 * 60 * 5 * 1000; // 5 days
     const sessionCookie = await admin
       .auth()
       .createSessionCookie(idToken, { expiresIn });

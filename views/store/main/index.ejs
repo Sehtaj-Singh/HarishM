@@ -28,7 +28,7 @@
       </section>
     </div>
 
-    <!-- Google Fonts: Alegreya SC -->
+    <!-- Google Fonts:  -->
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Alegreya+SC:wght@400;700&display=swap"
@@ -37,11 +37,14 @@
       href="https://fonts.googleapis.com/css2?family=Overlock+SC&display=swap"
       rel="stylesheet"
     />
+    <link href="https://fonts.googleapis.com/css2?family=Alice&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
+
+
 
     <section class="category" aria-labelledby="cat-title">
       <header class="category-head">
         <h2 id="cat-title" class="cat-title">Categories</h2>
-        <a class="view-all" href="/store">View all</a>
       </header>
 
       <div class="cat2">
@@ -53,7 +56,6 @@
         <a href="/store?tab=new" class="box-new">
           <h3>New</h3>
           <h3>Mobile</h3>
-          
         </a>
       </div>
 
@@ -66,50 +68,52 @@
     <section class="top-selling">
       <h2 class="top-title">Top Selling</h2>
 
-      <div class="top-grid">
-        <div class="top-item">
-          <div class="top-image">
-            <img src="/images/sample-phone.png" alt="Top Product" />
-          </div>
-          <div class="top-info">
-            <h3 class="top-name">Samsung S23 FE</h3>
-            <p class="top-price">$30,000</p>
-          </div>
-        </div>
+      <% const selectedIds = (typeof topSellingIds !== 'undefined' &&
+      Array.isArray(topSellingIds)) ? topSellingIds.map(String) : []; const
+      mapSH = (m) => ({ id: String(m._id), image: m.SHimage, name: m.SHname,
+      price: m.SHprice, mrp: m.SHmrp, href: '/Second-Hand/Details/' + m._id,
+      tag: 'Refurbished' }); const mapN = (m) => ({ id: String(m._id), image:
+      m.Nimage, name: m.Nname, price: m.Nprice, mrp: m.Nmrp, href:
+      '/New/Details/' + m._id, tag: 'New' }); const mapA = (m) => ({ id:
+      String(m._id), image: m.Aimage, name: m.Aname, price: m.Aprice, mrp:
+      m.Amrp, href: '/Accessory/Details/' + m._id, tag: '' }); const combined =
+      [] .concat( (registeredSHmobile || []).map(mapSH), (registeredNmobile ||
+      []).map(mapN), (registeredAmobile || []).map(mapA) ) .filter(x => x &&
+      selectedIds.includes(x.id)); const topSelling = combined.slice(0, 8); %>
 
-        <div class="top-item">
-          <div class="top-image">
-            <img src="/images/sample-phone.png" alt="Top Product" />
+      <div class="top-selling-grid">
+        <% if (topSelling && topSelling.length) { %> <%
+        topSelling.forEach(function(item) { %>
+        <a href="<%= item.href %>" class="product-card">
+          <!-- Image Section -->
+          <div class="product-thumb">
+            <% if (item.tag) { %>
+             <span class="product-tag <%= item.tag.toLowerCase() %>"><%= item.tag %></span>
+            <% } %>
+            <img
+              src="/uploads/<%= item.image %>"
+              alt="<%= item.name %>"
+              class="topSellingImg"
+              loading="lazy"
+            />
           </div>
-          <div class="top-info">
-            <h3 class="top-name">OnePlus 11</h3>
-            <p class="top-price">$28,000</p>
-          </div>
-        </div>
 
-        <div class="top-item">
-          <div class="top-image">
-            <img src="/images/sample-phone.png" alt="Top Product" />
+          <!-- Details Section -->
+          <div class="product-info">
+            <h4 class="product-title"><%= item.name %></h4>
+            <div class="product-pricing">
+               <span class="product-price <%= item.tag.toLowerCase() %>">₹<%= item.price.toLocaleString("en-IN") %></span>
+              <% if (item.mrp) { %>
+              <span class="product-mrp">₹<%= item.mrp.toLocaleString("en-IN") %></span>
+              <% } %>
+            </div>
           </div>
-          <div class="top-info">
-            <h3 class="top-name">iPhone 14</h3>
-            <p class="top-price">$70,000</p>
-          </div>
-        </div>
-
-        <div class="top-item">
-          <div class="top-image">
-            <img src="/images/sample-phone.png" alt="Top Product" />
-          </div>
-          <div class="top-info">
-            <h3 class="top-name">Pixel 8</h3>
-            <p class="top-price">$52,000</p>
-          </div>
-        </div>
+        </a>
+        <% }) %> <% } else { %>
+        <p>No top selling items available right now.</p>
+        <% } %>
       </div>
     </section>
-
-    <sextion> </sextion>
 
     <div id="CardWrapperSH">
       <div class="sectionHeadingSHA">

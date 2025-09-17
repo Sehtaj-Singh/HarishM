@@ -28,16 +28,24 @@ adminRouter.get(`/repair`, adminController.getrepair);
 adminRouter.get(`/order`, adminController.getorder);
 adminRouter.get(`/mobileList`, adminController.getMobileList);
 adminRouter.get(`/repair/Add/Queue`, adminController.getAddRepairQueue);
+adminRouter.post('/mobileList/topSelling/:id', adminController.toggleTopSelling);
 
 
 //SHController
 adminRouter.post("/addMobile/Second-Hand", upload.single('SHimage'), SHcontroller.postSHaddMobile);
 adminRouter.post(`/mobileList/delete/SH/:SHmobileId`, SHcontroller.postDeleteSHmobile);
+adminRouter.get('/edit/Second-Hand/:SHmobileId', SHcontroller.getSHeditMobile);
+adminRouter.post('/edit/Second-Hand/:SHmobileId', upload.single('SHimage'), 
+  SHcontroller.postSHeditMobile);
 
 
 //NController
-adminRouter.post("/addMobile/New", upload.single('Nimage'), Ncontroller.postNaddMobile);
+adminRouter.post("/addMobile/new", upload.single('Nimage'), Ncontroller.postNaddMobile);
 adminRouter.post(`/mobileList/delete/N/:NmobileId`, Ncontroller.postDeleteNmobile);
+adminRouter.get('/edit/new/:NmobileId', Ncontroller.getNeditMobile);
+adminRouter.post('/edit/new/:NmobileId', upload.single('Nimage'), 
+  Ncontroller.postNeditMobile);
+
 
 //AController
 adminRouter.post("/addMobile/Accessory", upload.single('Aimage'), Acontroller.postAaddMobile);

@@ -102,42 +102,26 @@
   justify-content: space-between;
   align-items: baseline;
   position: relative;
-
-  margin-bottom: 1vh; /* space above the divider */
+  
   font-family: "Alegreya SC", serif;
+  
+  color: #0e192a;
 }
 
-/* the divider line under the header */
-.category-head::before {
-  content: "";
-  position: absolute;
-  left: 5vw;
-  right: 5vw;
-  bottom: -6px; /* distance of line from text */
-  height: 1.5px;
-  background: #515151;
-  opacity: 0.6;
-}
+
 
 /* left label */
 .category-head .cat-title {
   font-weight: 500;
   letter-spacing: 0.02em;
-  margin-left: 3vw;
+  margin-left: 4vw;
 
   padding-inline: 6px;
 
   z-index: 1;
 }
 
-/* right link */
-.category-head .view-all {
-  text-decoration: none; /* remove underline on the link */
-  color: inherit;
-  margin-right: 3vw;
-  padding-inline: 6px;
-  z-index: 1;
-}
+
 .cat2 {
   display: flex;
 }
@@ -161,25 +145,25 @@
   width: 42.5vw;
   margin-right: 5vw;
   margin-left: 5vw;
-  margin-top: 3vh;
+  margin-top: 1.5vh;
   background: url("/images/cat-refurb.jpg") center/cover no-repeat;
-  border: 2px solid #0e192a;
+  border: 2px solid #0e192a8d;
 }
 .box-new {
   height: 15vh;
   width: 42.5vw;
-  margin-top: 3vh;
+  margin-top: 1.5vh;
   background: url("/images/cat-new.jpg") center/cover no-repeat;
-  border: 2px solid #0e192a;
+  border: 2px solid #0e192a61;
 }
 .box-accessories {
   height: 16vh;
   
   width: 90vw;
   margin-left: 5vw;
-  margin-top: 2vh;
+  margin-top: 2.5vh;
   background: url("/images/cat-accessory.png") center/cover no-repeat;
-  border: 2px solid #0e192a;
+  border: 2px solid #0e192a61;
 }
 
 /* black overlay */
@@ -189,7 +173,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.05);
   border-radius: 10px;
   z-index: 1;
 }
@@ -234,55 +218,125 @@
   border-radius: 5px;
 }
 
-/* -------- Top Selling Section -------- */
-.top-selling {
-  margin-top: 3vh;
-  padding: 1rem 3vw;
-}
 
+ /* Top selling section  */
 .top-title {
-  font-family: "Alegreya SC", serif;
-  font-size: 6vw;
   margin-bottom: 1rem;
   color: #0e192a;
-}
-
-.top-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-}
-
-.top-item {
-  background: #f9f9f9;
-  border-radius: 12px;
-  padding: 0.8rem;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
-}
-
-.top-image img {
-  width: 100%;
-  border-radius: 8px;
-}
-
-.top-info {
-  margin-top: 0.6rem;
-  text-align: left;
-}
-
-.top-name {
-  font-size: 4vw;
-  font-weight: 600;
-  margin-bottom: 0.3rem;
-  border-bottom: 1px solid #333;
-  display: inline-block;
-  padding-bottom: 0.1rem;
-}
-
-.top-price {
-  font-size: 3.8vw;
+  font-family: "Alegreya SC", serif;
   font-weight: 500;
-  color: #d32f2f;
+  letter-spacing: 0.02em;
+  margin-left: 4vw;
+  padding-inline: 6px;
+  margin-top: 3vh;
+}
+
+.top-selling-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);  /* 2 equal columns */
+  gap: 1rem;
+  max-width: 900px;      /* optional: center on page */
+  margin: 0 auto;
+  margin-left: 4vw;
+  margin-right: 4vw;        /* optional: center on page */
+}
+
+/* Card */
+.product-card {
+  background: #ffffff;
+  
+  
+  overflow: hidden;
+ 
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+    
+}
+
+
+/* Hover */
+.product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+/* Image wrapper */
+.product-thumb {
+  position: relative;
+  width: 100%;
+  height: 21vh;         /* 👈 fixed smaller image box */
+  background: #f5f7f8;
+  display: flex;         /* 👈 for centering */
+  align-items: center;   /* vertical center */
+  justify-content: center; /* horizontal center */
+  overflow: hidden;
+}
+.product-thumb img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;   /* 👈 keep whole image visible */
+  object-position: center;
+  display: block;
+}
+/* Refurbished tag */
+.product-tag {
+  position: absolute;
+  top:4px;
+  left: 4px;
+  
+  color: #09101f;
+ 
+  font-size: 12px;
+  letter-spacing: 0.7px;
+  
+  border-radius: 4px;
+   font-family: "Alfa Slab One", serif;
+}
+
+/* Dynamic colors */
+.product-tag.refurbished,
+.product-price.refurbished {
+  color: #4a4e3d;
+}
+
+.product-tag.new,
+.product-price.new {
+  color: #544a8f;
+}
+/* Details */
+
+.product-title {
+  font-size: 1rem;
+  font-weight: 550;
+  color: #0e192a;
+  margin-bottom: 0.4rem;
+   font-family: "Alice", serif;
+   margin-top: 5px;
+   padding-left: 3px;
+   
+}
+.product-pricing {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding-left: 3px;
+  
+}
+.product-price {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #09101f;
+  font-family: "Alice", serif;
+  letter-spacing: 1px;
+
+}
+.product-mrp {
+  font-size: 0.9rem;
+  color: #999;
+  text-decoration: line-through;
+  font-family: "Alice", serif;
 }
 
 /* Card for SH and A 180 to */

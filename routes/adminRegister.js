@@ -47,6 +47,7 @@ adminRegister.post("/admin/register", async (req, res) => {
     // 5. Save admin in DB
     await userDB.create({
       uid: userRecord.uid,
+      name,
       email,
       phone,
       sessionCookie: encrypt(sessionCookie),

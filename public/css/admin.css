@@ -83,13 +83,20 @@ header a {
 }
 
 h2 {
-  font-size: 8vw;
+  font-size: 10vw;
   margin-top: 5vh;
   margin-bottom: 2vh;
   color: #444;
   border-bottom: 0.3vh solid #ccc;
   width: 90vw;
   text-align: center;
+}
+
+h3{
+  font-size: 3vh;
+  margin-left: 5%;
+  border-bottom: 0.3vh solid #ccc;
+  display: inline-block;
 }
 
 .form-container {
@@ -163,91 +170,77 @@ form input[type="submit"]:hover {
   }
 }
 
-#mlh1{
-  font-size: 3vh;
-}
-#mlCardWrapper{
-position: relative;
-
-background-color: #0077cc;
-}
-
-
-
-
-.mlCardSection {
-  
-  
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  gap: 1rem;
-  padding: 1rem;
-  scroll-padding: 1rem;
-  -webkit-overflow-scrolling: touch;
+/* Style for specs fieldset legends */
+fieldset {
+  border: 1px solid #ccc;
+  margin: 15px 0;
+  padding: 10px 15px;
+  border-radius: 8px;
 }
 
-.mlMobileCard {
+fieldset legend {
+  font-size: 1.4rem;   /* increase size */
+  font-weight: bold;
+  color: #333;
+  padding: 0 8px;
+}
+
+input[type="radio"] {
+  transform: scale(1.5);   /* increase size */
+  margin: 0 5px;           /* spacing between button and label */
+  cursor: pointer;
+}
+
+/* Optional: align labels nicely */
+label {
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* Group wrapper to behave like input field */
+.form-group {
   display: flex;
   flex-direction: column;
-  flex: 0 0 auto;
-  width: 40vw;
-  background-color: #5f2a2a;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  padding: 1rem;
-  scroll-snap-align: start;
+  margin: 0.5vh 0;
+  width: 90%;
 }
 
-.mlMobileCard h3 {
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  white-space: normal;
+/* Make the label bold and aligned */
+.full-label {
   font-size: 1rem;
+  margin-bottom: 0.3rem;
+  font-weight: 500;
 }
 
-#mlSHMobileImage {
+/* Radio group styled as box */
+.radio-group {
+  display: flex;
+  justify-content: space-around;
+  padding: 1vh 1vw;
+  border: 0.2vh solid #ccc;
+  border-radius: 1vh;
+  background: #fafafa;
+}
+
+/* Enlarge date input like text fields */
+.styled-date {
   width: 100%;
-  border-radius: 6px;
-}
-
-.mobile-card h3 {
+  padding: 1.5vh 1vw;
   font-size: 1rem;
-  margin: 0.5rem 0;
+  border: 0.2vh solid #ccc;
+  border-radius: 1vh;
 }
 
-.mlCardSection::-webkit-scrollbar {
-  display: none;
-}
-
-#removeDB{
-  background-color: #d32f2f;
-  color: #e2e3e4;
-  border: none;
-  padding: 0.5rem 0.7rem;
-  font-size: 2.5vw;
-  border-radius: 10px;
-  display: flex;
-  align-items: start;
-  gap: 0.3rem;
-  cursor: pointer;
-  z-index: 3;
-  position: relative;
-}
-
-#RemoveForm{
-z-index: 3;
-}
-
-#Ra{
-  display: inline-block;
+#Ra1{
   text-decoration: none;
-  color: #0077cc;
-  margin-bottom: 3vh;
-  font-size: 7vw;
-}
+  font-size: 3.5vh;
+ 
 
-#btmRow{
+}
+ 
+#ra{
   display: flex;
-  gap: 6vw;
+  flex-direction: column;
+  gap: 4vh;
+  
 }

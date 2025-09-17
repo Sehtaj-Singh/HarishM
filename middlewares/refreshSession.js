@@ -97,7 +97,7 @@ module.exports = async function RefreshSession(req, res, next) {
         const newSessionCookie = await admin
           .auth()
           .createSessionCookie(newIdToken, {
-            expiresIn: 60 * 60  * 1000, // 1 hour
+            expiresIn: 60 * 60 * 24 * 7  * 1000, // 1 hour
           });
 
         console.log("📦 New Session Cookie:", newSessionCookie);
