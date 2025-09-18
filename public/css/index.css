@@ -1,4 +1,4 @@
-/* Image slider 3 to 61*/
+/* Image slider 3 to 85*/
 
 @keyframes zoomOutOnly {
   0% {
@@ -9,7 +9,6 @@
   }
 }
 
-/* Slider box: responsive width but capped at your image native width */
 #imageSlider {
   margin-top: 11vw;
   width: 95vw; /* per your requirement */
@@ -17,7 +16,7 @@
   margin-left: auto;
   margin-right: auto;
   border-radius: 12px;
-  overflow: hidden; /* ensure image bleed clipped */
+  overflow: hidden;
   clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 4vw, 4vw 0);
 }
 
@@ -26,7 +25,6 @@
     drop-shadow(0 6px 4px rgba(0, 0, 0, 0.1));
 }
 
-/* container */
 .carousel {
   width: 100%;
   height: 100%;
@@ -34,14 +32,12 @@
   overflow: hidden;
 }
 
-/* track & slides */
 .carousel-track {
   display: flex;
   width: 100%;
   height: 100%;
 }
 
-/* slide items (your HTML currently has images directly; this targets each child) */
 .carousel-track > * {
   flex: 0 0 100%;
   height: 100%;
@@ -49,11 +45,10 @@
   overflow: hidden;
 }
 
-/* images: fill the exact slide box and cover (no gaps) */
 .carousel-track img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* full-bleed look; safe because JS sets integer box */
+  object-fit: cover;
   display: block;
   will-change: transform;
   transform-origin: center center;
@@ -63,7 +58,6 @@
   animation: zoomOutOnly 1500ms ease-out;
 }
 
-/* Dots inside the image */
 .carousel-dots {
   position: absolute;
   bottom: 0.9rem;
@@ -82,7 +76,6 @@
   transition: all 0.3s ease-in-out;
 }
 
-/* Active dot (larger and more visible) */
 .dot.active {
   width: 1.5vh;
   height: 1.5vh;
@@ -91,36 +84,28 @@
   bottom: 0.25vh;
 }
 
-/* category 76 to  */
+/* category 89 to 198 */
 
 .category {
   margin-top: 3vh;
 }
-/* header row */
+
 .category-head {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   position: relative;
-  
   font-family: "Alegreya SC", serif;
-  
   color: #0e192a;
 }
 
-
-
-/* left label */
 .category-head .cat-title {
   font-weight: 500;
   letter-spacing: 0.02em;
   margin-left: 4vw;
-
   padding-inline: 6px;
-
   z-index: 1;
 }
-
 
 .cat2 {
   display: flex;
@@ -139,7 +124,6 @@
   display: block; /* let anchor behave like div */
 }
 
-/* background images */
 .box-refurb {
   height: 15vh;
   width: 42.5vw;
@@ -158,7 +142,6 @@
 }
 .box-accessories {
   height: 16vh;
-  
   width: 90vw;
   margin-left: 5vw;
   margin-top: 2.5vh;
@@ -166,7 +149,6 @@
   border: 2px solid #0e192aaa;
 }
 
-/* black overlay */
 .box-refurb::after,
 .box-new::after,
 .box-accessories::after {
@@ -178,7 +160,6 @@
   z-index: 1;
 }
 
-/* text above overlay */
 .box-refurb h3,
 .box-new h3 {
   position: relative;
@@ -189,7 +170,6 @@
   letter-spacing: 1px;
   left: 3vw;
   top: 10vh;
-  
 }
 
 .box-accessories h3 {
@@ -203,23 +183,22 @@
   left: 55vw;
   top: 3vh;
 }
-#cat-shop{
-   position: relative;
-  
+#cat-shop {
+  position: relative;
   z-index: 2;
   color: #f5f7f8;
   font-size: 4vw;
   font-weight: 300;
   padding: 3px;
   letter-spacing: 1px;
-  left: 30vw;
+  left: 28vw;
   top: 8vh;
   border: 2px solid #f5f7f8;
   border-radius: 5px;
 }
 
+/* Top selling section 202 to 300*/
 
- /* Top selling section  */
 .top-title {
   margin-bottom: 1rem;
   color: #0e192a;
@@ -233,43 +212,31 @@
 
 .top-selling-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);  /* 2 equal columns */
+  grid-template-columns: repeat(2, 1fr); /* 2 equal columns */
   gap: 1rem;
-  max-width: 900px;      /* optional: center on page */
+  max-width: 900px; /* optional: center on page */
   margin: 0 auto;
   margin-left: 4vw;
-  margin-right: 4vw;        /* optional: center on page */
+  margin-right: 4vw; /* optional: center on page */
 }
 
-/* Card */
 .product-card {
   background: #ffffff;
-  
-  
   overflow: hidden;
- 
   transition: transform 0.15s ease, box-shadow 0.15s ease;
   display: flex;
   flex-direction: column;
   text-decoration: none;
-    
+  margin-top: 1vh;
 }
 
-
-/* Hover */
-.product-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-}
-
-/* Image wrapper */
 .product-thumb {
   position: relative;
   width: 100%;
-  height: 21vh;         /* 👈 fixed smaller image box */
+  height: 21vh; /* 👈 fixed smaller image box */
   background: #f5f7f8;
-  display: flex;         /* 👈 for centering */
-  align-items: center;   /* vertical center */
+  display: flex; /* 👈 for centering */
+  align-items: center; /* vertical center */
   justify-content: center; /* horizontal center */
   overflow: hidden;
   border-radius: 10px;
@@ -277,26 +244,22 @@
 .product-thumb img {
   max-width: 90%;
   max-height: 90%;
-  object-fit: contain;   /* 👈 keep whole image visible */
+  object-fit: contain; /* 👈 keep whole image visible */
   object-position: center;
   display: block;
 }
-/* Refurbished tag */
+
 .product-tag {
   position: absolute;
-  top:4px;
+  top: 4px;
   left: 6px;
-  
   color: #09101f;
- 
   font-size: 12px;
   letter-spacing: 0.7px;
-  
   border-radius: 4px;
-   font-family: "Alfa Slab One", serif;
+  font-family: "Alfa Slab One", serif;
 }
 
-/* Dynamic colors */
 .product-tag.refurbished,
 .product-price.refurbished {
   color: #4a4e3d;
@@ -306,24 +269,21 @@
 .product-price.new {
   color: #544a8f;
 }
-/* Details */
 
 .product-title {
   font-size: 1rem;
   font-weight: 550;
   color: #0e192a;
   margin-bottom: 0.4rem;
-   font-family: "Alice", serif;
-   margin-top: 5px;
-   padding-left: 3px;
-   
+  font-family: "Alice", serif;
+  margin-top: 5px;
+  padding-left: 3px;
 }
 .product-pricing {
   display: flex;
   gap: 0.5rem;
   align-items: center;
   padding-left: 3px;
-  
 }
 .product-price {
   font-size: 0.8rem;
@@ -331,7 +291,6 @@
   color: #09101f;
   font-family: "Alice", serif;
   letter-spacing: 1px;
-
 }
 .product-mrp {
   font-size: 0.9rem;
@@ -340,7 +299,169 @@
   font-family: "Alice", serif;
 }
 
-/* Card for SH and A 180 to */
+/* test */
+#CardWrapper{
+  background-color: #f5f7f8;
+  width: 94vw;
+  margin-left: 3vw;
+  margin-top: 1vh;
+  border-radius: 10px;
+}
+
+.sectionHeading{
+  display: flex;
+  align-items: center;
+  
+}
+
+#cardHeading{
+ font-family: "Alegreya SC", serif;
+  color: #0e192a;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  margin-left: 2vw;
+}
+
+.viewAllLink{
+ margin-left: auto;
+ text-decoration: none;
+ margin-right: 3vw;
+}
+
+.CardSection {
+  background: #f5f7f8;
+  height: auto;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 1rem;
+  padding: 1rem;
+  scroll-padding: 1rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.CardSection::-webkit-scrollbar {
+  display: none;
+}
+
+.MobileCard {
+  border-radius: 14px;
+  background: #f5f7f8;
+  box-shadow: 3px 3px 5px #d0d2d3, -3px -3px 5px #ffffff;
+  padding: 0.6rem;
+  scroll-snap-align: start;
+  position: relative;
+  text-decoration: none;
+}
+
+
+.cardLogo {
+  position: absolute;
+  left: -7px;
+  top: 2px;
+  height: 0.7rem;
+  font-size: 2.5vw;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+}
+
+#card-name {
+  color: #323a40;
+  font-size: 2.1vh;
+  font-family: "Alice", serif;
+  font-weight: 500;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;   /* 👈 add this */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  line-height: 1.2em;
+  max-height: 2.4em;
+}
+#card-discout{
+  display: flex;
+  gap: 18px;
+  align-items: center;
+ margin-top: 0.5vh;
+ margin-bottom: 0.5vh;
+}
+
+
+.finalPriceWrap {
+  position: relative;
+  display: inline-block;
+  
+}
+
+#ribbon-wrap{
+filter: drop-shadow(2px 2px 0.7px #192f49a4);
+}
+
+.finalPrice {
+  position: relative;
+  left: -1rem;
+  color: #f5f7f8;
+  width:75% ;
+  background-color: #192f49;
+  padding: 0.2rem 0.8rem;
+   font-family: "Alice", serif;
+  border-top-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+  font-size: 5vw;
+  font-weight: bold;
+  padding-left: 30px;
+  z-index: 1;
+}
+
+.cornerRibbonLeft {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 0 10px 10px; /* half corner */
+  border-color: transparent transparent #192f49d3 transparent;
+  position: relative;
+  bottom: 0;
+  left: -1rem;
+  z-index: 2;
+  transform: rotate(-90deg);
+}
+
+
+
+.mobilecCondition {
+  font-size: 3vw;
+  color: #454545;
+  margin-top: 0.5vh;
+ font-family: "Alice", serif;
+}
+
+.mobileDiscount {
+  text-align: center;
+  font-size: 4.5vw;
+  color: #d32f2f;
+  font-weight: bold;
+   font-family: "Alice", serif;
+}
+
+.mobileMRP{
+  text-decoration: line-through;
+  color: #454545;
+  font-size: 4.5vw;
+   font-family: "Alice", serif;
+}
+
+
+
+
+
+
+
+
+
+/* Card for SH and A 302 to */
 
 #CardWrapperSH {
   background: #ffffff;

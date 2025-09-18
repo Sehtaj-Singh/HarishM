@@ -37,10 +37,14 @@
       href="https://fonts.googleapis.com/css2?family=Overlock+SC&display=swap"
       rel="stylesheet"
     />
-    <link href="https://fonts.googleapis.com/css2?family=Alice&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
-
-
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alice&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap"
+      rel="stylesheet"
+    />
 
     <section class="category" aria-labelledby="cat-title">
       <header class="category-head">
@@ -88,7 +92,9 @@
           <!-- Image Section -->
           <div class="product-thumb">
             <% if (item.tag) { %>
-             <span class="product-tag <%= item.tag.toLowerCase() %>"><%= item.tag %></span>
+            <span class="product-tag <%= item.tag.toLowerCase() %>"
+              ><%= item.tag %></span
+            >
             <% } %>
             <img
               src="/uploads/<%= item.image %>"
@@ -102,9 +108,13 @@
           <div class="product-info">
             <h4 class="product-title"><%= item.name %></h4>
             <div class="product-pricing">
-               <span class="product-price <%= item.tag.toLowerCase() %>">₹<%= item.price.toLocaleString("en-IN") %></span>
+              <span class="product-price <%= item.tag.toLowerCase() %>"
+                >₹<%= item.price.toLocaleString("en-IN") %></span
+              >
               <% if (item.mrp) { %>
-              <span class="product-mrp">₹<%= item.mrp.toLocaleString("en-IN") %></span>
+              <span class="product-mrp"
+                >₹<%= item.mrp.toLocaleString("en-IN") %></span
+              >
               <% } %>
             </div>
           </div>
@@ -115,12 +125,88 @@
       </div>
     </section>
 
+    
+
+      <section id="CardWrapper">
+  <div class="sectionHeading">
+    <h2 id="cardHeading">Refurbished Mobiles</h2>
+    <a class="viewAllLink" href="/store?tab=second">
+      <span>View All</span>
+    </a>
+  </div>
+
+  <div class="CardSection">
+    <% registeredSHmobile.forEach(function(SHmobile) { %>
+
+      <%
+        // Helper
+        const _s = v => (v == null ? '' : String(v).trim());
+
+        // Base name (whatever admin entered)
+        const base = _s(SHmobile.SHname);
+
+        // Specs values (nested in schema!)
+        const net  = _s(SHmobile.specs?.connectivity?.network).toUpperCase(); 
+        const ramV = _s(SHmobile.specs?.memory?.ram); 
+        const stoV = _s(SHmobile.specs?.memory?.storage); 
+        const colV = _s(SHmobile.specs?.design?.color).toLowerCase(); 
+
+        // Normalize RAM/Storage to always show GB
+        const addGB = v => v ? (/\d/.test(v) && !/gb/i.test(v) ? `${v}GB` : v) : '';
+        const ram = addGB(ramV);
+        const storage = addGB(stoV);
+
+        // Inside parentheses
+        const parts = [];
+        if (ram) parts.push(ram);
+        if (storage) parts.push(storage);
+        let parenText = parts.join('/');
+        if (colV) parenText = parenText ? `${parenText}, ${colV}` : colV;
+
+        // Final display name
+        const displayName = [base, net].filter(Boolean).join(' ') + 
+                            (parenText ? ` (${parenText})` : '');
+      %>
+
+      <a class="MobileCard" href="/Second-Hand/Details/<%= SHmobile._id  %>">
+        <img class="cardLogo" src="/images/cardLogo1.png" />
+        <div id="card-image">
+          <img
+            class="mobileImage"
+            src="/uploads/<%= SHmobile.SHimage %>"
+            alt="mobile image"
+          />
+        </div>
+
+        <div id="card-details">
+          <h3 id="card-name"><%= displayName %></h3>
+          <p class="mobilecCondition">
+            Condition: <%= SHmobile.condition %>
+          </p>
+          <div id="card-discout">
+            <div class="mobileDiscount">-<%= SHmobile.SHdiscount %>%</div>
+            <div class="mobileMRP">₹<%= SHmobile.SHmrp %></div>
+          </div>
+
+          <div class="finalPriceWrap">
+            <div id="ribbon-wrap">
+            <div class="finalPrice">₹<%= SHmobile.SHprice %></div>
+            </div>
+            <div class="cornerRibbonLeft"></div>
+          </div>
+        </div>
+      </a>
+
+    <% }) %>
+  </div>
+</section>
+
+
     <div id="CardWrapperSH">
       <div class="sectionHeadingSHA">
         <h3 id="cardHeadingSHA">Second-Hand Mobiles</h3>
         <a class="viewAllLinkSHA" href="/store?tab=second">
           <span>View All</span>
-          <i class="fas fa-chevron-right"></i>
         </a>
       </div>
       <div class="CardSectionSHA">
@@ -129,11 +215,9 @@
           <a
             class="detailsOverlay"
             href="/Second-Hand/Details/<%= SHmobile._id  %>?from=home"
-            >details</a
-          >
+            >details</a>
 
           <img class="cardLogoSHA" src="/images/cardLogo1.png" />
-          <span class="statusBadgeSHA">Used</span>
 
           <img
             class="mobileImage"
@@ -147,7 +231,7 @@
           </p>
           <div class="mobileDiscountSHA"><%= SHmobile.SHdiscount %>% OFF</div>
           <div class="MRPflex">
-            <div class="cardMRPSHA">MRP</div>
+            <div class="cardMRPSHA"></div>
             <div class="mobileMRPSHA">₹<%= SHmobile.SHmrp %></div>
           </div>
           <div class="pricBuyRow">
@@ -155,9 +239,6 @@
               <div class="finalPriceSHA">₹<%= SHmobile.SHprice %></div>
               <div class="cornerRibbonLeftSHA"></div>
             </div>
-            <button class="buyButtonSHA">
-              <i class="fas fa-shopping-bag"></i> Buy
-            </button>
           </div>
         </div>
         <% }) %>
