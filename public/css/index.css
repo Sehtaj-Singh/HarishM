@@ -368,8 +368,8 @@
 #card-name {
   color: #323a40;
   font-size: 2.1vh;
-  font-family: "Alice", serif;
-  font-weight: 500;
+  font-family: 'Arsenal', sans-serif;
+  font-weight:bold;
 
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -396,7 +396,7 @@
 }
 
 #ribbon-wrap{
-filter: drop-shadow(2px 2px 0.7px #192f49a4);
+filter: drop-shadow(2px 2px 0.7px #192f4965);
 }
 
 .finalPrice {
@@ -412,7 +412,7 @@ filter: drop-shadow(2px 2px 0.7px #192f49a4);
   border-top-right-radius: 8px;
   font-size: 5vw;
   font-weight: bold;
-  padding-left: 30px;
+  padding-left: 18px;
   z-index: 1;
 }
 
