@@ -67,7 +67,7 @@ exports.postNaddMobile = async (req, res, next) => {
     console.log("Keys:", Object.keys(req.body));
     console.log(JSON.stringify(req.body, null, 2));
 
-    const { Nname, Nprice, Ndiscount, Nmrp } = req.body;
+    const { Nname, Nprice, Ndiscount, Nmrp,Nrating } = req.body;
     const Nimage = req.file ? req.file.filename : null;
 
     // rebuild nested specs
@@ -80,6 +80,7 @@ exports.postNaddMobile = async (req, res, next) => {
       Nimage,
       Ndiscount,
       Nmrp,
+      Nrating,
       specs: nestedSpecs,
     });
 
@@ -184,7 +185,7 @@ exports.postNeditMobile = async (req, res) => {
     }
 
     // simpler fields
-    const { Nname, Nprice, Ndiscount, Nmrp } = req.body;
+    const { Nname, Nprice, Ndiscount, Nmrp,Nrating} = req.body;
 
     // Rebuild nested specs object from flat keys like "specs.general.model"
     const nestedSpecs = nestSpecs(req.body || {});
@@ -195,6 +196,7 @@ exports.postNeditMobile = async (req, res) => {
     mobile.Nprice = Nprice;
     mobile.Ndiscount = Ndiscount;
     mobile.Nmrp = Nmrp;
+    mobile.Nrating = Nrating
     mobile.specs = nestedSpecs;
 
     // Handle image replace

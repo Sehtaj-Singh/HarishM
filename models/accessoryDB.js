@@ -6,6 +6,12 @@ const accessorySchema = mongoose.Schema({
   Aimage:{type:String, required:true},
   Adiscount:{type:Number, required:true},
   Amrp:{type:Number, required:true},
+  Nrating: {
+    type: Number,
+    required: true,
+    min: 0,
+    max: 5,
+  },
 });
 
 

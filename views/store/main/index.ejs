@@ -13,7 +13,20 @@
   </head>
   <body>
     <script src="javascript/store.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".star-wrapper").forEach(function (wrapper) {
+          const rating = parseFloat(wrapper.dataset.rating) || 0;
+          const pct = (rating / 5) * 100; // e.g. 4.2 -> 84
+          const filled = wrapper.querySelector(".stars-filled");
+          if (filled) filled.style.width = pct + "%";
+        });
+      });
+    </script>
+
     <%- include(`../../partials/storeHeader`) %>
+
     <div id="upwrapIS">
       <section id="imageSlider">
         <div class="carousel" id="carousel">
@@ -28,7 +41,7 @@
       </section>
     </div>
 
-    <!-- Google Fonts:  -->
+    <!-- Google Fonts -->
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Alegreya+SC:wght@400;700&display=swap"
@@ -45,11 +58,16 @@
       href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap"
       rel="stylesheet"
     />
-    <link href="https://fonts.googleapis.com/css2?family=Arsenal:wght@400;700&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Arsenal:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-
-
+    <!-- Categories -->
     <section class="category" aria-labelledby="cat-title">
       <header class="category-head">
         <h2 id="cat-title" class="cat-title">Categories</h2>
@@ -73,265 +91,203 @@
       </a>
     </section>
 
+    <!-- Top Selling -->
     <section class="top-selling">
       <h2 class="top-title">Top Selling</h2>
 
-      <% const selectedIds = (typeof topSellingIds !== 'undefined' &&
-      Array.isArray(topSellingIds)) ? topSellingIds.map(String) : []; const
-      mapSH = (m) => ({ id: String(m._id), image: m.SHimage, name: m.SHname,
-      price: m.SHprice, mrp: m.SHmrp, href: '/Second-Hand/Details/' + m._id,
-      tag: 'Refurbished' }); const mapN = (m) => ({ id: String(m._id), image:
-      m.Nimage, name: m.Nname, price: m.Nprice, mrp: m.Nmrp, href:
-      '/New/Details/' + m._id, tag: 'New' }); const mapA = (m) => ({ id:
-      String(m._id), image: m.Aimage, name: m.Aname, price: m.Aprice, mrp:
-      m.Amrp, href: '/Accessory/Details/' + m._id, tag: '' }); const combined =
-      [] .concat( (registeredSHmobile || []).map(mapSH), (registeredNmobile ||
-      []).map(mapN), (registeredAmobile || []).map(mapA) ) .filter(x => x &&
-      selectedIds.includes(x.id)); const topSelling = combined.slice(0, 8); %>
+      <% 
+        const selectedIds = (Array.isArray(topSellingIds) ? topSellingIds.map(String) : []);
+        const mapSH = m => ({ id: String(m._id), image: m.SHimage, name: m.SHname, price: m.SHprice, mrp: m.SHmrp, href: '/Second-Hand/Details/' + m._id, tag: 'Refurbished' });
+        const mapN = m => ({ id: String(m._id), image: m.Nimage, name: m.Nname, price: m.Nprice, mrp: m.Nmrp, href: '/New/Details/' + m._id, tag: 'New' });
+        const mapA = m => ({ id: String(m._id), image: m.Aimage, name: m.Aname, price: m.Aprice, mrp: m.Amrp, href: '/Accessory/Details/' + m._id, tag: '' });
+        const combined = [].concat(
+          (registeredSHmobile || []).map(mapSH),
+          (registeredNmobile || []).map(mapN),
+          (registeredAmobile || []).map(mapA)
+        ).filter(x => x && selectedIds.includes(x.id));
+        const topSelling = combined.slice(0, 8);
+      %>
 
       <div class="top-selling-grid">
-        <% if (topSelling && topSelling.length) { %> <%
-        topSelling.forEach(function(item) { %>
-        <a href="<%= item.href %>" class="product-card">
-          <!-- Image Section -->
-          <div class="product-thumb">
-            <% if (item.tag) { %>
-            <span class="product-tag <%= item.tag.toLowerCase() %>"
-              ><%= item.tag %></span
-            >
-            <% } %>
-            <img
-              src="/uploads/<%= item.image %>"
-              alt="<%= item.name %>"
-              class="topSellingImg"
-              loading="lazy"
-            />
-          </div>
+        <% if (topSelling && topSelling.length) { %>
+          <% topSelling.forEach(function(item) { %>
+            <a href="<%= item.href %>" class="product-card">
+              <div class="product-thumb">
+                <% if (item.tag) { %>
+                  <span class="product-tag <%= item.tag.toLowerCase() %>"><%= item.tag %></span>
+                <% } %>
+                <img src="/uploads/<%= item.image %>" alt="<%= item.name %>" class="topSellingImg" loading="lazy" />
+              </div>
 
-          <!-- Details Section -->
-          <div class="product-info">
-            <h4 class="product-title"><%= item.name %></h4>
-            <div class="product-pricing">
-              <span class="product-price <%= item.tag.toLowerCase() %>"
-                >₹<%= item.price.toLocaleString("en-IN") %></span
-              >
-              <% if (item.mrp) { %>
-              <span class="product-mrp"
-                >₹<%= item.mrp.toLocaleString("en-IN") %></span
-              >
-              <% } %>
-            </div>
-          </div>
-        </a>
-        <% }) %> <% } else { %>
-        <p>No top selling items available right now.</p>
+              <div class="product-info">
+                <h4 class="product-title"><%= item.name %></h4>
+                <div class="product-pricing">
+                  <span class="product-price <%= item.tag.toLowerCase() %>">₹<%= item.price.toLocaleString("en-IN") %></span>
+                  <% if (item.mrp) { %>
+                    <span class="product-mrp">₹<%= item.mrp.toLocaleString("en-IN") %></span>
+                  <% } %>
+                </div>
+              </div>
+            </a>
+          <% }) %>
+        <% } else { %>
+          <p>No top selling items available right now.</p>
         <% } %>
       </div>
     </section>
 
-    
+    <!-- Refurbished Mobiles -->
+    <section id="CardWrapperRefurb">
+      <div class="sectionHeading">
+        <h2 id="cardHeading">Refurbished Mobiles</h2>
+        <a class="viewAllLink" href="/store?tab=second"><span>View All</span></a>
+      </div>
 
-      <section id="CardWrapper">
-  <div class="sectionHeading">
-    <h2 id="cardHeading">Refurbished Mobiles</h2>
-    <a class="viewAllLink" href="/store?tab=second">
-      <span>View All</span>
-    </a>
-  </div>
+      <div class="CardSection">
+        <% registeredSHmobile.forEach(function(SHmobile) { %>
+          <% 
+            const _s = v => (v == null ? '' : String(v).trim());
+            const base = _s(SHmobile.SHname);
+            const net = _s(SHmobile.specs?.connectivity?.network).toUpperCase();
+            const ramV = _s(SHmobile.specs?.memory?.ram);
+            const stoV = _s(SHmobile.specs?.memory?.storage);
+            const colV = _s(SHmobile.specs?.design?.color).toLowerCase();
+            const addGB = v => v ? (/\d/.test(v) && !/gb/i.test(v) ? `${v}GB` : v) : '';
+            const ram = addGB(ramV);
+            const storage = addGB(stoV);
+            const parts = []; if (ram) parts.push(ram); if (storage) parts.push(storage);
+            let parenText = parts.join('/'); if (colV) parenText = parenText ? `${parenText}, ${colV}` : colV;
+            const displayName = [base, net].filter(Boolean).join(' ') + (parenText ? ` (${parenText})` : '');
+          %>
 
-  <div class="CardSection">
-    <% registeredSHmobile.forEach(function(SHmobile) { %>
-
-      <%
-        // Helper
-        const _s = v => (v == null ? '' : String(v).trim());
-
-        // Base name (whatever admin entered)
-        const base = _s(SHmobile.SHname);
-
-        // Specs values (nested in schema!)
-        const net  = _s(SHmobile.specs?.connectivity?.network).toUpperCase(); 
-        const ramV = _s(SHmobile.specs?.memory?.ram); 
-        const stoV = _s(SHmobile.specs?.memory?.storage); 
-        const colV = _s(SHmobile.specs?.design?.color).toLowerCase(); 
-
-        // Normalize RAM/Storage to always show GB
-        const addGB = v => v ? (/\d/.test(v) && !/gb/i.test(v) ? `${v}GB` : v) : '';
-        const ram = addGB(ramV);
-        const storage = addGB(stoV);
-
-        // Inside parentheses
-        const parts = [];
-        if (ram) parts.push(ram);
-        if (storage) parts.push(storage);
-        let parenText = parts.join('/');
-        if (colV) parenText = parenText ? `${parenText}, ${colV}` : colV;
-
-        // Final display name
-        const displayName = [base, net].filter(Boolean).join(' ') + 
-                            (parenText ? ` (${parenText})` : '');
-      %>
-
-      <a class="MobileCard" href="/Second-Hand/Details/<%= SHmobile._id  %>">
-        <img class="cardLogo" src="/images/cardLogo1.png" />
-        <div id="card-image">
-          <img
-            class="mobileImage"
-            src="/uploads/<%= SHmobile.SHimage %>"
-            alt="mobile image"
-          />
-        </div>
-
-        <div id="card-details">
-          <h3 id="card-name"><%= displayName %></h3>
-          <p class="mobilecCondition">
-            Condition: <%= SHmobile.condition %>
-          </p>
-          <div id="card-discout">
-            <div class="mobileDiscount">-<%= SHmobile.SHdiscount %>%</div>
-            <div class="mobileMRP">₹<%= SHmobile.SHmrp %></div>
-          </div>
-
-          <div class="finalPriceWrap">
-            <div id="ribbon-wrap">
-            <div class="finalPrice">₹<%= SHmobile.SHprice %></div>
+          <a class="MobileCard" href="/Second-Hand/Details/<%= SHmobile._id %>">
+            <img class="cardLogo" src="/images/cardLogo1.png" />
+            <div id="card-image">
+              <img class="mobileImage" src="/uploads/<%= SHmobile.SHimage %>" alt="mobile image" />
             </div>
-            <div class="cornerRibbonLeft"></div>
-          </div>
-        </div>
-      </a>
 
-    <% }) %>
-  </div>
-</section>
+            <div id="card-details">
+              <h3 id="card-name"><%= displayName %></h3>
+              <p class="mobilecCondition">Condition: <%= SHmobile.condition %></p>
+              <div id="card-discout">
+                <div class="mobileDiscount">-<%= SHmobile.SHdiscount %>%</div>
+                <div class="mobileMRP">₹<%= SHmobile.SHmrp %></div>
+              </div>
 
+              <div class="finalPriceWrap">
+                <div id="ribbon-wrap">
+                  <div class="finalPrice">₹<%= SHmobile.SHprice %></div>
+                </div>
+                <div class="cornerRibbonLeft"></div>
+              </div>
+            </div>
+          </a>
+        <% }) %>
+      </div>
+    </section>
 
-   
-    
-
-    <div id="CardWrapper">
+    <!-- Brand New Mobiles -->
+    <section id="CardWrapperNew">
       <div class="sectionHeading">
         <h2 id="cardHeading">Brand New Mobiles</h2>
-        <a class="viewAllLink" href="/store?tab=new">
-          <span>View All</span>
-          
-        </a>
+        <a class="viewAllLink" href="/store?tab=new"><span>View All</span></a>
       </div>
 
       <div class="CardSection">
-    <% registeredNmobile.forEach(function(Nmobile) { %>
+        <% registeredNmobile.forEach(function(Nmobile) { %>
+          <% 
+            const _s = v => (v == null ? '' : String(v).trim());
+            const base = _s(Nmobile.Nname);
+            const net = _s(Nmobile.specs?.connectivity?.network).toUpperCase();
+            const ramV = _s(Nmobile.specs?.memory?.ram);
+            const stoV = _s(Nmobile.specs?.memory?.storage);
+            const colV = _s(Nmobile.specs?.design?.color).toLowerCase();
+            const addGB = v => v ? (/\d/.test(v) && !/gb/i.test(v) ? `${v}GB` : v) : '';
+            const ram = addGB(ramV);
+            const storage = addGB(stoV);
+            const parts = []; if (ram) parts.push(ram); if (storage) parts.push(storage);
+            let parenText = parts.join('/'); if (colV) parenText = parenText ? `${parenText}, ${colV}` : colV;
+            const displayName = [base, net].filter(Boolean).join(' ') + (parenText ? ` (${parenText})` : '');
+          %>
 
-      <%
-        // Helper
-        const _s = v => (v == null ? '' : String(v).trim());
-
-        // Base name (whatever admin entered)
-        const base = _s(Nmobile.Nname);
-
-        // Specs values (nested in schema!)
-        const net  = _s(Nmobile.specs?.connectivity?.network).toUpperCase(); 
-        const ramV = _s(Nmobile.specs?.memory?.ram); 
-        const stoV = _s(Nmobile.specs?.memory?.storage); 
-        const colV = _s(Nmobile.specs?.design?.color).toLowerCase(); 
-
-        // Normalize RAM/Storage to always show GB
-        const addGB = v => v ? (/\d/.test(v) && !/gb/i.test(v) ? `${v}GB` : v) : '';
-        const ram = addGB(ramV);
-        const storage = addGB(stoV);
-
-        // Inside parentheses
-        const parts = [];
-        if (ram) parts.push(ram);
-        if (storage) parts.push(storage);
-        let parenText = parts.join('/');
-        if (colV) parenText = parenText ? `${parenText}, ${colV}` : colV;
-
-        // Final display name
-        const displayName = [base, net].filter(Boolean).join(' ') + 
-                            (parenText ? ` (${parenText})` : '');
-      %>
-
-      <a class="MobileCard" href="/Second-Hand/Details/<%= Nmobile._id  %>">
-        <img class="cardLogo" src="/images/cardLogo1.png" />
-        <div id="card-image">
-          <img
-            class="mobileImage"
-            src="/uploads/<%= Nmobile.Nimage %>"
-            alt="mobile image"
-          />
-        </div>
-
-        <div id="card-details">
-          <h3 id="card-name"><%= displayName %></h3>
-          <p class="mobilecCondition">
-            Condition: <%= Nmobile.condition %>
-          </p>
-          <div id="card-discout">
-            <div class="mobileDiscount">-<%= Nmobile.Ndiscount %>%</div>
-            <div class="mobileMRP">₹<%= Nmobile.Nmrp %></div>
-          </div>
-
-          <div class="finalPriceWrap">
-            <div id="ribbon-wrap">
-            <div class="finalPrice">₹<%= Nmobile.Nprice %></div>
+          <a class="MobileCard" href="/New/Details/<%= Nmobile._id %>">
+            <img class="cardLogo" src="/images/cardLogo1.png" />
+            <div id="card-image">
+              <img class="mobileImage" src="/uploads/<%= Nmobile.Nimage %>" alt="mobile image" />
             </div>
-            <div class="cornerRibbonLeft"></div>
-          </div>
-        </div>
-      </a>
 
-    <% }) %>
-  </div>
+            <div id="card-details">
+              <h3 id="card-name"><%= displayName %></h3>
+              <p class="mobileRating">
+                <span class="star-wrapper" data-rating="<%= Nmobile.Nrating || 0 %>">
+                  <span class="stars-empty">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </span>
+                  <span class="stars-filled">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </span>
+                </span>
+                <span class="rating-number"><%= Nmobile.Nrating ? Nmobile.Nrating.toFixed(1) : '0.0' %></span>
+              </p>
 
-   <div id="CardWrapper">
+              <div id="card-discout">
+                <div class="mobileDiscount">-<%= Nmobile.Ndiscount %>%</div>
+                <div class="mobileMRP">₹<%= Nmobile.Nmrp %></div>
+              </div>
+
+              <div class="finalPriceWrap">
+                <div id="ribbon-wrap">
+                  <div class="finalPrice">₹<%= Nmobile.Nprice %></div>
+                </div>
+                <div class="cornerRibbonLeft"></div>
+              </div>
+            </div>
+          </a>
+        <% }) %>
+      </div>
+    </section>
+
+    <!-- Accessories -->
+    <section id="CardWrapperAccessory">
       <div class="sectionHeading">
         <h2 id="cardHeading">Accessories</h2>
-        <a class="viewAllLink" href="/store?tab=new">
-          <span>View All</span>
-          
-        </a>
+        <a class="viewAllLink" href="/store?tab=new"><span>View All</span></a>
       </div>
 
       <div class="CardSection">
-    <% registeredAmobile.forEach(function(accessory) { %>
-
-      <a class="MobileCard" href="/Second-Hand/Details/<%=accessory._id  %>">
-        <img class="cardLogo" src="/images/cardLogo1.png" />
-        <div id="card-image">
-          <img
-            class="mobileImage"
-            src="/uploads/<%= accessory.Aimage %>"
-            alt="mobile image"
-          />
-        </div>
-
-        <div id="card-details">
-          <h3 id="card-name"><%= accessory.Aname %></h3>
-          <p class="mobilecCondition">
-            Condition: <%= accessory.condition %>
-          </p>
-          <div id="card-discout">
-            <div class="mobileDiscount">-<%= accessory.Adiscount %>%</div>
-            <div class="mobileMRP">₹<%= accessory.Amrp %></div>
-          </div>
-
-          <div class="finalPriceWrap">
-            <div id="ribbon-wrap">
-            <div class="finalPrice">₹<%= accessory.Aprice %></div>
+        <% registeredAmobile.forEach(function(accessory) { %>
+          <a class="MobileCard" href="/Accessory/Details/<%= accessory._id %>">
+            <img class="cardLogo" src="/images/cardLogo1.png" />
+            <div id="card-image">
+              <img class="mobileImage" src="/uploads/<%= accessory.Aimage %>" alt="mobile image" />
             </div>
-            <div class="cornerRibbonLeft"></div>
-          </div>
-        </div>
-      </a>
 
-    <% }) %>
-  </div>
+            <div id="card-details">
+              <h3 id="card-name"><%= accessory.Aname %></h3>
+              <p class="mobilecCondition">Condition: <%= accessory.condition %></p>
+              <div id="card-discout">
+                <div class="mobileDiscount">-<%= accessory.Adiscount %>%</div>
+                <div class="mobileMRP">₹<%= accessory.Amrp %></div>
+              </div>
 
-
-      
-
-    
-
-    
+              <div class="finalPriceWrap">
+                <div id="ribbon-wrap">
+                  <div class="finalPrice">₹<%= accessory.Aprice %></div>
+                </div>
+                <div class="cornerRibbonLeft"></div>
+              </div>
+            </div>
+          </a>
+        <% }) %>
+      </div>
+    </section>
   </body>
 </html>
