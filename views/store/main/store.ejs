@@ -15,6 +15,18 @@
   </head>
   <body>
     <script src="javascript/store.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".star-wrapper").forEach(function (wrapper) {
+          const rating = parseFloat(wrapper.dataset.rating) || 0;
+          const pct = (rating / 5) * 100; // e.g. 4.2 -> 84
+          const filled = wrapper.querySelector(".stars-filled");
+          if (filled) filled.style.width = pct + "%";
+        });
+      });
+    </script>
+    
     <%- include(`../../partials/storeHeader`) %>
 
      <link
@@ -61,46 +73,73 @@
           </div>
 
          
-          <div class="CardSection">
-            <% registeredNmobile.forEach(function(Nmobile) { %>
-            <div class="MobileCard">
-              <a
-                class="detailsOverlay"
-                href="/New/Details/<%= Nmobile._id %>?from=store"
-                >details</a
-              >
+          <div class="card-Section">
+             <% registeredNmobile.forEach(function(Nmobile) { %>
+               <% 
+                 const _s = v => (v == null ? '' : String(v).trim());
+                 const base = _s(Nmobile.Nname);
+                 const net = _s(Nmobile.specs?.connectivity?.network).toUpperCase();
+                 const ramV = _s(Nmobile.specs?.memory?.ram);
+                 const stoV = _s(Nmobile.specs?.memory?.storage);
+                 const colV = _s(Nmobile.specs?.design?.color).toLowerCase();
+                 const addGB = v => v ? (/\d/.test(v) && !/gb/i.test(v) ? `${v}GB` : v) : '';
+                 const ram = addGB(ramV);
+                 const storage = addGB(stoV);
+                 const parts = []; if (ram) parts.push(ram); if (storage) parts.push(storage);
+                 let parenText = parts.join('/'); if (colV) parenText = parenText ? `${parenText}, ${colV}` : colV;
+                 const displayName = [base, net].filter(Boolean).join(' ') + (parenText ? ` (${parenText})` : '');
+               %>
 
-              <img class="cardLogo" src="/images/cardLogo1.png" />
-              <div class="statusBadge">New</div>
 
-              <div class="cardContent">
-                <div class="cardImage">
-                  <img
+                <a class="Mobile-Card">
+                  <div class="card-Image">
+                    <img id="cardImg"
                     src="/uploads/<%= Nmobile.Nimage %>"
                     alt="<%= Nmobile.Nname %>"
                   />
-                </div>
-                <div class="cardDetails">
-                  <h3 class="mobileName"><%= Nmobile.Nname %></h3>
-                  <div class="priceRow">
-                    <p class="mrp">
-                      <span class="mrpLabel">MRP:</span>
-                      <span class="mrpValue"><s>₹<%= Nmobile.Nmrp %></s></span>
-                    </p>
-                    <span class="price">₹<%= Nmobile.Nprice %></span>
+
                   </div>
-                  <span class="discount"><%= Nmobile.Ndiscount %>% OFF</span>
-                  <div class="priceBuy">
-                    <button class="cartBtn">Add To Cart</button>
-                    <button class="buyBtn">
-                      <i class="fas fa-shopping-bag"></i> Buy
-                    </button>
+
+                  <div class="card-data">
+                    <h3 id="card-name"><%= displayName %></h3>
+                    <p class="mobileRating">
+                     <span class="star-wrapper" data-rating="<%= Nmobile.Nrating || 0 %>">
+                     <span class="stars-empty">
+                       <i class="fas fa-star"></i>
+                       <i class="fas fa-star"></i>
+                       <i class="fas fa-star"></i>
+                       <i class="fas fa-star"></i>
+                       <i class="fas fa-star"></i>
+                     </span>
+                     <span class="stars-filled">
+                       <i class="fas fa-star"></i>
+                       <i class="fas fa-star"></i>
+                       <i class="fas fa-star"></i>
+                       <i class="fas fa-star"></i>
+                       <i class="fas fa-star"></i>
+                     </span>
+                     </span>
+                      <span class="rating-number"><%= Nmobile.Nrating ? Nmobile.Nrating.toFixed(1) : '0.0' %></span>
+                     </p>
+                     <div class="finalPrice">₹<%= Nmobile.Nprice %></div>
+                     <div id="card-discout">
+                       <div class="mobileMRP">₹<%= Nmobile.Nmrp %></div>
+                       <div class="mobileDiscount">-<%= Nmobile.Ndiscount %>%    </div>
+                     </div>
+
+                     <div class="card-delivery">Free delivery , Sat 27 Sept </div>
+                     <button class="add-cart">Add To Cart</button>
+
+
                   </div>
-                </div>
-              </div>
-            </div>
-            <% }) %>
-          </div>
+                </a>
+
+
+          
+              <% }) %>
+           </div>
+
+          
         </section>
         
         <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
@@ -172,50 +211,7 @@
               <% }) %>
         </div>
 
-          
-          <!-- <div class="CardSection">
-            <% registeredSHmobile.forEach(function(SHmobile) { %>
-            <div class="MobileCard">
-              <a
-                class="detailsOverlay"
-                href="/Second-Hand/Details/<%= SHmobile._id %>?from=store"
-                >details</a
-              >
-
-              
-              
-
-              <div class="cardContent">
-                <div class="cardImage">
-                  <img
-                    src="/uploads/<%= SHmobile.SHimage %>"
-                    alt="<%= SHmobile.SHname %>"
-                  />
-                </div>
-                <div class="cardDetails">
-                  <h3 class="mobileName"><%= SHmobile.SHname %></h3>
-                  <p class="condition">Condition: <%= SHmobile.condition %></p>
-                  <div class="priceRow">
-                    <p class="mrp">
-                      <span class="mrpLabel">MRP:</span>
-                      <span class="mrpValue"
-                        ><s>₹<%= SHmobile.SHmrp %></s></span
-                      >
-                    </p>
-                    <span class="price">₹<%= SHmobile.SHprice %></span>
-                  </div>
-                  <span class="discount"><%= SHmobile.SHdiscount %>% OFF</span>
-                  <div class="priceBuy">
-                    <button class="cartBtn">Add To Cart</button>
-                    <button class="buyBtn">
-                      <i class="fas fa-shopping-bag"></i> Buy
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <% }) %>
-          </div> -->
+         
         </section>
 
         <!-- 🔹 Accessories Section -->
@@ -232,48 +228,70 @@
             ></i>
           </div>
 
-          <div class="CardSection">
-            <% registeredAmobile.forEach(function(accessory) { %>
-            <div class="MobileCard">
-              <a
-                class="detailsOverlay"
-                href="/Accessory/Details/<%= accessory._id %>?from=store"
-                >details</a
-              >
+           <div class="card-Section">
+             <% registeredAmobile.forEach(function(accessory) { %>
+               <% 
+                 const _s = v => (v == null ? '' : String(v).trim());
+                 const base = _s(accessory.Aname);
+                 const net = _s(accessory.specs?.connectivity?.network).toUpperCase();
+                 const ramV = _s(accessory.specs?.memory?.ram);
+                 const stoV = _s(accessory.specs?.memory?.storage);
+                 const colV = _s(accessory.specs?.design?.color).toLowerCase();
+                 const addGB = v => v ? (/\d/.test(v) && !/gb/i.test(v) ? `${v}GB` : v) : '';
+                 const ram = addGB(ramV);
+                 const storage = addGB(stoV);
+                 const parts = []; if (ram) parts.push(ram); if (storage) parts.push(storage);
+                 let parenText = parts.join('/'); if (colV) parenText = parenText ? `${parenText}, ${colV}` : colV;
+                 const displayName = [base, net].filter(Boolean).join(' ') + (parenText ? ` (${parenText})` : '');
+               %>
 
-              <img class="cardLogo" src="/images/cardLogo1.png" />
-              <div class="statusBadge">New</div>
 
-              <div class="cardContent">
-                <div class="cardImage">
-                  <img
+                <a class="Mobile-Card">
+                  <div class="card-Image">
+                    <img id="cardImg"
                     src="/uploads/<%= accessory.Aimage %>"
                     alt="<%= accessory.Aname %>"
                   />
-                </div>
-                <div class="cardDetails">
-                  <h3 class="mobileName"><%= accessory.Aname %></h3>
-                  <div class="priceRow">
-                    <p class="mrp">
-                      <span class="mrpLabel">MRP:</span>
-                      <span class="mrpValue"
-                        ><s>₹<%= accessory.Amrp %></s></span
-                      >
-                    </p>
-                    <span class="price">₹<%= accessory.Aprice %></span>
+
                   </div>
-                  <span class="discount"><%= accessory.Adiscount %>% OFF</span>
-                  <div class="priceBuy">
-                    <button class="cartBtn">Add To Cart</button>
-                    <button class="buyBtn">
-                      <i class="fas fa-shopping-bag"></i> Buy
-                    </button>
+
+                  <div class="card-data">
+                    <h3 id="card-name"><%= displayName %></h3>
+                     <p class="mobileRating">
+                       <span class="star-wrapper" data-rating="<%= accessory.Arating || 0 %>">
+                       <span class="stars-empty">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                      </span>
+                      <span class="stars-filled">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                       </span>
+                      </span>
+                       <span class="rating-number"><%= accessory.Arating ? accessory.Arating.toFixed(1) : '0.0' %></span>
+                     </p>
+                     <div class="finalPrice">₹<%= accessory.Aprice %></div>
+                     <div id="card-discout">
+                       <div class="mobileMRP">₹<%= accessory.Amrp %></div>
+                       <div class="mobileDiscount">-<%= accessory.Adiscount %>%    </div>
+                     </div>
+
+                     <div class="card-delivery">Free delivery , Sat 27 Sept </div>
+                     <button class="add-cart">Add To Cart</button>
+
+
                   </div>
-                </div>
-              </div>
-            </div>
-            <% }) %>
-          </div>
+                </a>
+
+
+          
+              <% }) %>
+           </div>
         </section>
       </div>
     </div>

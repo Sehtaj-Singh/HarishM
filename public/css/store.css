@@ -193,7 +193,7 @@ ul li {
 }
 
 .card-Image{
-  width: 28vw;
+  width: 36vw;
   display: flex;
   align-items: center;
   object-fit: contain;
@@ -204,7 +204,7 @@ ul li {
 }
 
 #cardImg{
-   width: 28vw;
+   width: 36vw;
   height: auto;
   object-fit: contain;
 }
@@ -222,7 +222,7 @@ ul li {
 
 #card-name {
   color: #323a40;
-  font-size: 2.5vh;
+  font-size: 2.4vh;
   font-family: 'Arsenal', sans-serif;
   font-weight:bold;
   display: -webkit-box;
@@ -297,7 +297,54 @@ ul li {
   display: flex;
 }
 
+.mobileRating {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin-top: 7px;
+}
 
+/* wrapper that holds both layers */
+.mobileRating .star-wrapper {
+  position: relative;
+  display: inline-block;
+  font-size: 1.3vh; /* keep your preferred sizing */
+  line-height: 1;
+}
+
+/* background (empty) stars */
+.mobileRating .stars-empty {
+  color: #ddd;
+  display: block;
+  white-space: nowrap;
+}
+
+/* filled stars overlay; width will be controlled by JS */
+.mobileRating .stars-filled {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;               /* default, JS will set to e.g. 84% */
+  color: #f5c518;         /* golden filled color */
+  pointer-events: none;
+}
+
+/* keep star spacing same in both layers */
+.mobileRating .stars-empty i,
+.mobileRating .stars-filled i {
+  margin-right: 2px;
+  font-size: inherit;
+}
+
+/* number styling (you already had this) */
+.rating-number {
+  font-size: 1.6vh;
+  color: #192f49c5;
+  margin-left: 5px;
+   font-family: "Alice", serif;
+}
 
 
 
