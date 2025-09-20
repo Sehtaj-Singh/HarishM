@@ -212,6 +212,7 @@ ul li {
 #card-discout{
   display: flex;
   gap:20px;
+  margin-top: 5px;
 }
 
 .card-data{
@@ -240,7 +241,7 @@ ul li {
 .mobilecCondition {
   font-size: 3.5vw;
   color: #3a3a3a;
-  margin-top: 0.5vh;
+  margin-top: 0.6vh;
  font-family: "Alice", serif;
 }
 
@@ -262,13 +263,9 @@ ul li {
 
 .finalPrice {
   position: relative;
-  
-  color:#4a4e3d;
-  
+  color:#192f49;
   letter-spacing: 2px;
-  
    font-family: "Alice", serif;
- 
   font-size: 6vw;
   font-weight: bold;
   margin-top: 6px;
@@ -279,7 +276,7 @@ ul li {
   width: 96%;
   margin: 10px auto 0;
   border-radius: 20px;
-  height: 3.2vh;
+  height: 3.5vh;
   background: linear-gradient(135deg, #192f49, #27496d);
   color: #fff;
   font-size: 0.9rem;
@@ -296,7 +293,8 @@ ul li {
 .card-delivery{
   font-family: "Alice", serif;
   margin-top: 8px;
-  font-size: 1.7vh;
+  font-size: 2.1vh;
+  display: flex;
 }
 
 
