@@ -48,8 +48,11 @@ adminRouter.post('/edit/new/:NmobileId', upload.single('Nimage'),
 
 
 //AController
-adminRouter.post("/addMobile/Accessory", upload.single('Aimage'), Acontroller.postAaddMobile);
+adminRouter.post("/addMobile/accessory", upload.single('Aimage'), Acontroller.postAaddMobile);
 adminRouter.post(`/mobileList/delete/A/:accessoryId`, Acontroller.postDeleteAmobile);
+adminRouter.get('/edit/accessory/:accessoryId', Acontroller.getAeditMobile);
+adminRouter.post('/edit/accessory/:accessoryId', upload.single('Aimage'), 
+  Acontroller.postAeditMobile);
 
 //repairController
 adminRouter.post(`/repair/Add/Queue`, repairController.postAddRepairQueue);

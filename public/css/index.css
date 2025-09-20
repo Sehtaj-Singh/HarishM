@@ -355,6 +355,7 @@ margin-top: 4vh;
   font-size: 1.6vh;
   color: #192f49c5;
   margin-left: 5px;
+   font-family: "Alice", serif;
 }
 
 
@@ -439,10 +440,10 @@ margin-top: 4vh;
   font-size: 2.1vh;
   font-family: 'Arsenal', sans-serif;
   font-weight:bold;
-
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;  
+  -webkit-line-clamp: 2; 
+  line-clamp: 2; 
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: normal;
@@ -483,6 +484,7 @@ filter: drop-shadow(2px 2px 0.7px #192f4965);
   font-weight: bold;
   padding-left: 18px;
   z-index: 1;
+  letter-spacing: 2px;
 }
 
 .cornerRibbonLeft {
@@ -520,6 +522,7 @@ filter: drop-shadow(2px 2px 0.7px #192f4965);
   color: #454545ca;
   font-size: 4.5vw;
    font-family: "Alice", serif;
+   letter-spacing: 1px;
 }
 
 /* Main image */

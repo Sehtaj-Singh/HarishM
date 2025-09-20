@@ -272,7 +272,25 @@
 
             <div id="card-details">
               <h3 id="card-name"><%= accessory.Aname %></h3>
-              <p class="mobilecCondition">Condition: <%= accessory.condition %></p>
+              <p class="mobileRating">
+                <span class="star-wrapper" data-rating="<%= accessory.Arating || 0 %>">
+                  <span class="stars-empty">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </span>
+                  <span class="stars-filled">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </span>
+                </span>
+                <span class="rating-number"><%= accessory.Arating ? accessory.Arating.toFixed(1) : '0.0' %></span>
+              </p>
               <div id="card-discout">
                 <div class="mobileDiscount">-<%= accessory.Adiscount %>%</div>
                 <div class="mobileMRP">₹<%= accessory.Amrp %></div>

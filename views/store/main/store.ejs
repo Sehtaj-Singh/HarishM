@@ -17,6 +17,31 @@
     <script src="javascript/store.js"></script>
     <%- include(`../../partials/storeHeader`) %>
 
+     <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Alegreya+SC:wght@400;700&display=swap"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Overlock+SC&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alice&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Arsenal:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+
     
 
     <div id="store-wrapper">
@@ -98,8 +123,57 @@
             ></i>
           </div>
 
+
+          <div class="card-Section">
+             <% registeredSHmobile.forEach(function(SHmobile) { %>
+               <% 
+                 const _s = v => (v == null ? '' : String(v).trim());
+                 const base = _s(SHmobile.SHname);
+                 const net = _s(SHmobile.specs?.connectivity?.network).toUpperCase();
+                 const ramV = _s(SHmobile.specs?.memory?.ram);
+                 const stoV = _s(SHmobile.specs?.memory?.storage);
+                 const colV = _s(SHmobile.specs?.design?.color).toLowerCase();
+                 const addGB = v => v ? (/\d/.test(v) && !/gb/i.test(v) ? `${v}GB` : v) : '';
+                 const ram = addGB(ramV);
+                 const storage = addGB(stoV);
+                 const parts = []; if (ram) parts.push(ram); if (storage) parts.push(storage);
+                 let parenText = parts.join('/'); if (colV) parenText = parenText ? `${parenText}, ${colV}` : colV;
+                 const displayName = [base, net].filter(Boolean).join(' ') + (parenText ? ` (${parenText})` : '');
+               %>
+
+
+                <a class="Mobile-Card">
+                  <div class="card-Image">
+                    <img id="cardImg"
+                    src="/uploads/<%= SHmobile.SHimage %>"
+                    alt="<%= SHmobile.SHname %>"
+                  />
+
+                  </div>
+
+                  <div class="card-data">
+                    <h3 id="card-name"><%= displayName %></h3>
+                     <p class="mobilecCondition">Condition: <%= SHmobile.condition %></p>
+                     <div class="finalPrice">₹<%= SHmobile.SHprice %></div>
+                     <div id="card-discout">
+                       <div class="mobileMRP">₹<%= SHmobile.SHmrp %></div>
+                       <div class="mobileDiscount">-<%= SHmobile.SHdiscount %>%    </div>
+                     </div>
+
+                     <div class="card-delivery">Free delivery , Sat 27 September </div>
+                     <button class="add-cart">Add To Cart</button>
+
+
+                  </div>
+                </a>
+
+
           
-          <div class="CardSection">
+              <% }) %>
+        </div>
+
+          
+          <!-- <div class="CardSection">
             <% registeredSHmobile.forEach(function(SHmobile) { %>
             <div class="MobileCard">
               <a
@@ -108,8 +182,8 @@
                 >details</a
               >
 
-              <img class="cardLogo" src="/images/cardLogo1.png" />
-              <div class="statusBadge">Used</div>
+              
+              
 
               <div class="cardContent">
                 <div class="cardImage">
@@ -141,7 +215,7 @@
               </div>
             </div>
             <% }) %>
-          </div>
+          </div> -->
         </section>
 
         <!-- 🔹 Accessories Section -->

@@ -216,6 +216,10 @@
           </div>
         </a>
         <div class="actions">
+           <form action="/Admin/edit/accessory/<%= item._id %>" method="GET">
+            <button type="submit" class="edit-btn">Edit</button>
+          </form>
+
           <form
             action="/Admin/mobileList/delete/A/<%= item._id %>"
             method="POST"

@@ -8,16 +8,157 @@
   <link rel="stylesheet" href="/css/admin.css">
 </head>
 <body>
+
+  <script>
+  const typeSelect = document.getElementById('Atype');
+  const earphoneSpecs = document.getElementById('earphoneSpecs');
+  const chargerSpecs = document.getElementById('chargerSpecs');
+  const cableSpecs = document.getElementById('cableSpecs');
+
+  function toggleSpecs() {
+    earphoneSpecs.style.display = 'none';
+    chargerSpecs.style.display = 'none';
+    cableSpecs.style.display = 'none';
+
+    if (typeSelect.value === 'earphone') earphoneSpecs.style.display = 'block';
+    if (typeSelect.value === 'charger') chargerSpecs.style.display = 'block';
+    if (typeSelect.value === 'cable') cableSpecs.style.display = 'block';
+  }
+
+  typeSelect.addEventListener('change', toggleSpecs);
+  toggleSpecs(); // show correct section on page load if editing
+</script>
+
   <%- include(`../../partials/adminHeader`) %>
-  <h2 id="amh2">Accessories</h2>
-  <form id="amform" action="/Admin/addMobile/Accessory" method="POST" enctype="multipart/form-data">
-    <input id="aminput" type="text" name="Aname" placeholder="Accessory Name" required />
-    <input id="aminput" type="text" name="Aprice" placeholder="Price" required />
-    <p>Front page Image for card :-</p>
-    <input id="aminputF" type="file" name="Aimage" required />
-    <input id="aminput" type="text" name="Adiscount" placeholder="Discount (%)" />
-    <input id="aminput" type="text" name="Amrp" placeholder="Fake MRP" required />
-    <input id="aminputS" type="submit" value="Add Accessory" />
+
+  <%
+      
+      const isEditMode = (typeof isEdit !== 'undefined' && isEdit) ? true : false;
+      const mob = (typeof mobile !== 'undefined' && mobile) ? mobile : null;
+      const specs = (typeof specsMap !== 'undefined' && specsMap) ? specsMap : {};
+
+      
+      const V = (name) => (specs[name] === undefined || specs[name] === null) ? '' : specs[name];
+      const R = (name, expect) => (String(specs[name]) === String(expect)) ? 'checked' : '';
+      const RBool = (name, truthy) => {
+        const val = specs[name];
+        if (val === undefined || val === null) return '';
+        if (val === true || val === false) return val === truthy ? 'checked' : '';
+        return (String(val) === (truthy ? 'Yes' : 'No')) ? 'checked' : '';
+      };
+      const D = (name) => {
+        const out = specs[name];S
+        if (!out) return '';
+        try {
+          const d = new Date(out);
+          if (!isNaN(d)) return d.toISOString().split('T')[0];
+          return String(out).split('T')[0];
+        } catch(e) { return ''; }
+      };
+    %>
+
+     <h2 id="amh2"><%= isEditMode ? 'Edit Accessory' : 'Accessory' %></h2>
+
+  <form
+      id="amform"
+      action="/Admin/<%= isEditMode && mob ? ('edit/accessory/' + mob._id) : 'addMobile/accessory' %>"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+
+     <!-- Basic Information -->
+      <input
+        id="aminput"
+        type="text"
+        name="Aname"
+        placeholder="Accessory Name"
+        value="<%= mob ? (mob.Aname || '') : '' %>"
+        required
+      />
+      <input
+        id="aminput"
+        type="text"
+        name="Aprice"
+        placeholder="Price"
+        value="<%= mob ? (mob.Aprice || '') : '' %>"
+        required
+      />
+
+      <p>Front page Image for card :-</p>
+      <% if (isEditMode && mob && mob.Aimage) { %>
+        <div style="margin-bottom:8px">
+          <img src="/uploads/<%= mob.Aimage %>" alt="Current image" style="max-height:80px" />
+        </div>
+      <% } %>
+      <input id="aminputF" type="file" name="Aimage" <%= isEditMode ? '' : 'required' %> />
+
+      
+      <input
+        id="aminput"
+        type="text"
+        name="Adiscount"
+        placeholder="Discount (%)"
+        value="<%= mob ? (mob.Adiscount || '') : '' %>"
+      />
+
+      <input
+        id="aminput"
+       type="text"
+        name="Arating"
+        placeholder="Rating (eg: 0 to 5)"
+        value="<%= mob ? (mob.Arating || '') : '' %>"
+          required
+      />
+
+      <input
+        id="aminput"
+        type="text"
+        name="Amrp"
+        placeholder="Fake MRP"
+        value="<%= mob ? (mob.Amrp || '') : '' %>"
+        required
+      />
+
+      <h2>Choose Specs</h2>
+<!-- ================== Earphone Specs ================== -->
+  <fieldset>
+    <legend>Earphone Specs</legend>
+    <input id="aminput" type="text" name="specs.earphone.brand" placeholder="Brand" value="<%= specs['specs.earphone.brand'] || '' %>" />
+    <input id="aminput" type="text" name="specs.earphone.color" placeholder="Color" value="<%= specs['specs.earphone.color'] || '' %>" />
+    <input id="aminput" type="text" name="specs.earphone.port" placeholder="Port" value="<%= specs['specs.earphone.port'] || '' %>" />
+    <input id="aminput" type="text" name="specs.earphone.driver" placeholder="Driver" value="<%= specs['specs.earphone.driver'] || '' %>" />
+    <input id="aminput" type="text" name="specs.earphone.playTime" placeholder="Play Time" value="<%= specs['specs.earphone.playTime'] || '' %>" />
+    <input id="aminput" type="text" name="specs.earphone.chargingTime" placeholder="Charging Time" value="<%= specs['specs.earphone.chargingTime'] || '' %>" />
+    <input id="aminput" type="text" name="specs.earphone.battery" placeholder="Battery" value="<%= specs['specs.earphone.battery'] || '' %>" />
+    <input id="aminput" type="text" name="specs.earphone.bluetooth" placeholder="Bluetooth" value="<%= specs['specs.earphone.bluetooth'] || '' %>" />
+    <input id="aminput" type="text" name="specs.earphone.other" placeholder="Other" value="<%= specs['specs.earphone.other'] || '' %>" />
+  </fieldset>
+
+  <!-- ================== Charger Specs ================== -->
+  <fieldset>
+    <legend>Charger Specs</legend>
+    <input id="aminput" type="text" name="specs.charger.brand" placeholder="Brand" value="<%= specs['specs.charger.brand'] || '' %>" />
+    <input id="aminput" type="text" name="specs.charger.color" placeholder="Color" value="<%= specs['specs.charger.color'] || '' %>" />
+    <input id="aminput" type="text" name="specs.charger.port" placeholder="Port" value="<%= specs['specs.charger.port'] || '' %>" />
+    <input id="aminput" type="text" name="specs.charger.power" placeholder="Charging Power" value="<%= specs['specs.charger.power'] || '' %>" />
+    <input id="aminput" type="text" name="specs.charger.compatible" placeholder="Compatible Phones" value="<%= specs['specs.charger.compatible'] || '' %>" />
+    <input id="aminput" type="text" name="specs.charger.other" placeholder="Other" value="<%= specs['specs.charger.other'] || '' %>" />
+  </fieldset>
+
+  <!-- ================== Charging Cable Specs ================== -->
+  <fieldset>
+    <legend>Charging Cable Specs</legend>
+    <input id="aminput" type="text" name="specs.cable.brand" placeholder="Brand" value="<%= specs['specs.cable.brand'] || '' %>" />
+    <input id="aminput" type="text" name="specs.cable.color" placeholder="Color" value="<%= specs['specs.cable.color'] || '' %>" />
+    <input id="aminput" type="text" name="specs.cable.port" placeholder="Port" value="<%= specs['specs.cable.port'] || '' %>" />
+    <input id="aminput" type="text" name="specs.cable.compatible" placeholder="Compatible Device" value="<%= specs['specs.cable.compatible'] || '' %>" />
+    <input id="aminput" type="text" name="specs.cable.power" placeholder="Charging Power" value="<%= specs['specs.cable.power'] || '' %>" />
+    <input id="aminput" type="text" name="specs.cable.other" placeholder="Other" value="<%= specs['specs.cable.other'] || '' %>" />
+  </fieldset>
+
+
+      <input id="aminputS" type="submit" value="<%= isEditMode ? 'Update Accessory' : 'Add Accessory' %>" />
+
   </form>
 
 </body>
