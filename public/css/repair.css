@@ -1,11 +1,73 @@
 #repair-banner{
   width: 100vw;
+    background:
+    /* linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.05)), */
+    url('/images/test.png') center/cover no-repeat;
+    height: 30vh;
+  
+  color: #fff;
 }
 
-#repair-img{
-  width: 100vw;
+#banner-text1{
+  padding-top: 4vh;
+  margin-left: 6vw;
+  font-size: 2.7vh;
+  color: #3a2f2a;
+    font-family: 'Bungee', sans-serif;
+   font-weight: 300;
 }
 
+#banner-text2{
+  color: #3a2f2a;
+   font-family: 'Bungee', sans-serif;
+   font-weight: 300;
+  margin-left: 23vw;
+  font-size: 3vh;
+}
+
+#banner-text3{
+  color: #3a2f2a;
+  font-family: 'Bungee', sans-serif;
+   font-weight: 300;
+  margin-left: 7vw;
+  font-size: 2.7vh;
+}
+
+#banner-text4{
+   font-family: 'Inika', serif;
+    color: #3a2f2a;
+  padding-top: 2vh;
+  margin-left: 6vw;
+  font-size: 1.9vh;
+  width: 45%;
+
+}
+
+#banner-text4A{
+   font-family: 'Inika', serif;
+    color: #3a2f2a;
+  margin-left: 6vw;
+  font-size: 1.9vh;
+  width: 45%;
+
+}
+
+#banner-text4B{
+   font-family: 'Inika', serif;
+    color: #3a2f2a;
+  margin-left: 6vw;
+  font-size: 1.9vh;
+  
+
+}
+
+#banner-text5{
+  margin-top: 3vh;
+  margin-left: 20vw;
+  font-size: 1.9vh;
+  
+
+}
 
 .repair-table{
   margin-top: 8vh;
