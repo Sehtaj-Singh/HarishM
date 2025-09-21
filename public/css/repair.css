@@ -2,7 +2,7 @@
   width: 100vw;
     background:
     /* linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.05)), */
-    url('/images/test2.jpg') center/contain no-repeat;
+    url('/images/test3.jpg') center/contain no-repeat;
     
     aspect-ratio: 4724/2692;
   
@@ -31,7 +31,7 @@
 #banner-text4{
    font-family: 'Inika', serif;
     color: #545559;
-  padding-top: 1.5vh;
+  padding-top: 1vh;
   margin-left: 5vw;
   font-size: 1.9vh;
   width: 45%;
