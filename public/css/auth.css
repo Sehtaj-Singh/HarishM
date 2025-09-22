@@ -1,0 +1,106 @@
+body{
+  padding: 0;
+  margin: 0;
+   overflow: hidden;
+}
+
+
+
+
+
+#login-wrap {
+  position: fixed;
+  inset: 0;              /* fill viewport */
+  margin: auto;          /* center */
+  top:-7vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  filter: drop-shadow(5px 10px 20px #071221);
+  transform: rotate(70deg) scale(1.5); /* apply tilt + scale to wrapper */
+  transform-origin: center;
+}
+
+#login-box {
+  width: 100vw;
+  height: 100vh;
+  z-index: 3;
+  background-color: #f5f7f8;
+  clip-path: ellipse(50% 35% at 50% 50%);
+  
+}
+
+
+#box-up{
+  background-color: #192f49;
+  z-index: 1;
+  width: 100vw;
+  height: 20vh;
+   background-image: linear-gradient(
+    to bottom,
+    #284974 0%,
+    #1d3655 60%,
+    #13273f 100%
+  );
+}
+
+#box-down{
+  position: absolute;
+  background-color:#192f49;
+  z-index: 1;
+  width: 100vw;
+  height: 30vh;
+  bottom: 0;
+   background-image: linear-gradient(
+    to bottom,
+    #284974 0%,
+    #1d3655 60%,
+    #13273f 100%
+  );
+}
+
+#down-t{
+   position:absolute;
+  bottom:0;
+  width:80vw;
+  height:14vh;
+  clip-path: polygon(0 40%, 0% 100%, 100% 100%);
+   background: linear-gradient(
+    12deg,                     /* adjust to match your slope */
+    rgb(10 24 41 / 0) 0%,      /* fully transparent */
+    rgb(10 24 41 / .35) 45%,   /* mid fade */
+    rgb(10 24 41 / .85) 100%   /* near-solid at the tip */
+  );   /* matches the darkest stop */
+  mix-blend-mode: normal;      /* disable blending */
+  opacity: 0.5;                  /* no fade */
+  z-index:2;                   /* soften the merge */
+}
+
+#title{
+  font-family: 'Abril Fatface', serif;
+  position: absolute;
+  color: #323a40;
+  font-size: 6vh;
+  z-index: 5;
+  font-weight: 400;
+  left:30vw;
+  top:10vh;
+  letter-spacing: 3px;
+}
+
+.input{
+  position: absolute;
+  z-index: 5;
+  width: 84vw;
+ 
+  left: 8vw;
+  top: 30vh;
+  
+}
+
+.input input{
+ height: 5vh;
+ width: 84vw;
+ border-radius: 20px ;
+}
