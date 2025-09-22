@@ -92,22 +92,22 @@ body{
 .input{
   position: absolute;
   z-index: 5;
-  width: 84vw;
+  width: 76vw;
  
-  left: 8vw;
+  left: 12vw;
   top: 30vh;
   
 }
 
 .input input{
  height: 5vh;
- width: 84vw;
+ width: 76vw;
  border-radius: 20px ;
 }
 
 #submit{
   width:64vw;
-  margin-left:10vw;
+  margin-left:8vw;
   font-size: 3vh;
   color: white;
   background-color: #284974;
@@ -116,4 +116,65 @@ body{
   font-family: 'Aboreto', serif;
   font-weight: 600;
   letter-spacing: 2px;
+}
+
+
+
+
+
+#box-up {
+  background-color: #1c2f46;
+  z-index: 1;
+  width: 100vw;
+  height: 30vh;
+  background-image: linear-gradient(
+    to bottom,
+    #2a5176 0%,     /* lighter blue top */
+    #203b5d 40%,    /* mid deep blue */
+    #182c4a 100%    /* dark navy bottom */
+  );
+}
+
+#box-down {
+  position: absolute;
+  background-color: #1c2f46;
+  z-index: 1;
+  width: 100vw;
+  height: 35vh;
+  bottom: 0;
+  background-image: linear-gradient(
+    to top,
+    #2a5176 0%,     /* lighter blue bottom */
+    #203b5d 40%,    /* blend */
+    #182c4a 100%    /* dark navy merge */
+  );
+}
+
+#down-t {
+  position: absolute;
+  bottom: 0;
+  width: 80vw;
+  height: 14vh;
+  clip-path: polygon(0 40%, 0% 100%, 100% 100%);
+  background: linear-gradient(
+    12deg,
+    rgba(20, 40, 65, 0) 0%,     /* transparent start */
+    rgba(25, 60, 100, 0.4) 45%, /* mid fade bluish */
+    rgba(15, 30, 55, 0.85) 100% /* dark at tip */
+  );
+  opacity: 0.6;
+  z-index: 2;
+}
+
+#login-box {
+  width: 100vw;
+  height: 100vh;
+  z-index: 3;
+  background: radial-gradient(
+    circle at center,
+    #f7f9fb 0%,      /* light center */
+    #e6ebf0 70%,     /* soft grey fade */
+    #dde3ea 100%     /* edge soft fade */
+  );
+  clip-path: ellipse(50% 35% at 50% 50%);
 }
