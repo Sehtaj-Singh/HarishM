@@ -1,7 +1,7 @@
 body{
   padding: 0;
   margin: 0;
-   overflow: hidden;
+    overflow-y: auto;
    height: 100%;
 }
 
@@ -45,7 +45,7 @@ body{
   position: absolute;
   z-index: 5;
   width: 90vw;
-  
+  height: 30vh;
  
   left: 5vw;
   top: 32vh;
@@ -56,11 +56,11 @@ body{
  height: 5vh;
  width: 76vw;
  border-radius: 20px ;
- margin-left: 7vw;
+ margin-left: 5vw;
  color: #071221;
   font-size: 20px; 
   font-family: 'Inika', serif; 
-  padding-left: 2vw;
+  padding-left: 4vw;
   border: none;
 }
 
@@ -75,6 +75,8 @@ body{
   font-family: 'Aboreto', serif;
   font-weight: 600;
   letter-spacing: 2px;
+  position: absolute;
+  bottom: 0.5vh;
 }
 
 #box-up {
@@ -215,7 +217,7 @@ input::placeholder {
   position: absolute;
   z-index: 7;
   bottom: 4vh;
-  left: 27vw;
+  left: 30vw;
   font-family: 'Inika', serif;
   color: #f5f7f8;
   font-size: 4vw;
