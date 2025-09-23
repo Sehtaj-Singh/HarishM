@@ -41,6 +41,19 @@ body{
   
 }
 
+#titleR{
+  font-family: 'Abril Fatface', serif;
+  position: absolute;
+  color: #244776;
+  font-size: 4vh;
+  z-index: 5;
+  font-weight: 400;
+  left:15vw;
+  top:18vh;
+  letter-spacing: 3px;
+  
+}
+
 .input{
   position: absolute;
   z-index: 5;
@@ -51,6 +64,31 @@ body{
   top: 32vh;
   
 }
+
+.inputR{
+  position: absolute;
+  z-index: 5;
+  width: 90vw;
+  height: 43vh;
+ 
+  left: 5vw;
+  top: 27vh;
+  
+}
+
+.inputR input{
+ height: 5vh;
+ width: 76vw;
+ margin-top: 2vh;
+ border-radius: 20px ;
+ margin-left: 5vw;
+ color: #071221;
+  font-size: 20px; 
+  font-family: 'Inika', serif; 
+  padding-left: 4vw;
+  border: none;
+}
+
 
 .input input{
  height: 5vh;
@@ -257,3 +295,53 @@ input::placeholder {
     filter: blur(100px);
   backdrop-filter: blur(50px);
 }
+
+.go-registerR{
+  position: absolute;
+  z-index: 7;
+  bottom: 4vh;
+  left: 35vw;
+  font-family: 'Inika', serif;
+  color: #f5f7f8;
+  font-size: 4vw;
+}
+
+.go-registerR a{
+  margin-left: -10px; 
+  font-family: 'Inika', serif;
+  color: #f5f7f8;
+  font-size: 5vw;
+}
+
+.phone-field{
+  display: flex;
+}
+.phone-field input{
+  width:64vw;
+  margin-left: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  padding-top: -5px;
+   font-size: 20px; 
+  font-family: 'Inika', serif;
+  color: #071221; 
+}
+
+.phone-field span{
+  margin-top: 2vh;
+  height: calc(5vh + 2px);
+  font-size: 20px;
+  padding-left: 4vw;
+  background-color: white;
+  margin-left: 5vw;
+   font-size: 20px; 
+  font-family: 'Inika', serif; 
+  color: #071221;
+   display: flex;
+   align-items: center;
+   
+   border-top-left-radius: 20px;
+   border-bottom-left-radius:20px ;
+  
+}
+
