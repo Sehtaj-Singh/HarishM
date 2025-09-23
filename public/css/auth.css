@@ -4,10 +4,6 @@ body{
    overflow: hidden;
 }
 
-
-
-
-
 #login-wrap {
   position: fixed;
   inset: 0;              /* fill viewport */
@@ -31,71 +27,27 @@ body{
   
 }
 
-
-#box-up{
-  background-color: #192f49;
-  z-index: 1;
-  width: 100vw;
-  height: 30vh;
-   background-image: linear-gradient(
-    to bottom,
-    #284974 0%,
-    #1d3655 60%,
-    #13273f 100%
-  );
-}
-
-#box-down{
-  position: absolute;
-  background-color:#192f49;
-  z-index: 1;
-  width: 100vw;
-  height: 35vh;
-  bottom: 0;
-   background-image: linear-gradient(
-    to bottom,
-    #284974 0%,
-    #1d3655 60%,
-    #13273f 100%
-  );
-}
-
-#down-t{
-   position:absolute;
-  bottom:0;
-  width:80vw;
-  height:14vh;
-  clip-path: polygon(0 40%, 0% 100%, 100% 100%);
-   background: linear-gradient(
-    12deg,                     /* adjust to match your slope */
-    rgb(10 24 41 / 0) 0%,      /* fully transparent */
-    rgb(10 24 41 / .35) 45%,   /* mid fade */
-    rgb(10 24 41 / .85) 100%   /* near-solid at the tip */
-  );   /* matches the darkest stop */
-  mix-blend-mode: normal;      /* disable blending */
-  opacity: 0.5;                  /* no fade */
-  z-index:2;                   /* soften the merge */
-}
-
 #title{
   font-family: 'Abril Fatface', serif;
   position: absolute;
-  color: #323a40;
-  font-size: 5vh;
+  color: #244776;
+  font-size: 4vh;
   z-index: 5;
   font-weight: 400;
-  left:35vw;
-  top:15vh;
+  left:15vw;
+  top:20vh;
   letter-spacing: 3px;
+  
 }
 
 .input{
   position: absolute;
   z-index: 5;
-  width: 76vw;
+  width: 90vw;
+  
  
-  left: 12vw;
-  top: 30vh;
+  left: 5vw;
+  top: 35vh;
   
 }
 
@@ -103,24 +55,26 @@ body{
  height: 5vh;
  width: 76vw;
  border-radius: 20px ;
+ margin-left: 7vw;
+ color: #071221;
+  font-size: 20px; 
+  font-family: 'Inika', serif; 
+  padding-left: 2vw;
+  border: none;
 }
 
 #submit{
   width:64vw;
-  margin-left:8vw;
+  margin-left:13vw;
   font-size: 3vh;
   color: white;
-  background-color: #284974;
-  margin-top: 2vh;
+  background-color: #2c5080;
+  margin-top: 4vh;
   border: none;
   font-family: 'Aboreto', serif;
   font-weight: 600;
   letter-spacing: 2px;
 }
-
-
-
-
 
 #box-up {
   background-color: #1c2f46;
@@ -153,18 +107,63 @@ body{
 #down-t {
   position: absolute;
   bottom: 0;
-  width: 80vw;
-  height: 14vh;
+  width: 40vw;
+  height: 12vh;
   clip-path: polygon(0 40%, 0% 100%, 100% 100%);
-  background: linear-gradient(
-    12deg,
-    rgba(20, 40, 65, 0) 0%,     /* transparent start */
-    rgba(25, 60, 100, 0.4) 45%, /* mid fade bluish */
-    rgba(15, 30, 55, 0.85) 100% /* dark at tip */
-  );
-  opacity: 0.6;
-  z-index: 2;
+  background: black;
+  
+  opacity: 0.8;
+  z-index: 3;
+    filter: blur(100px);
+  backdrop-filter: blur(50px);
+ 
 }
+
+#down-t2 {
+  position: absolute;
+  bottom: 0;
+  width: 50vw;
+  height: 16vh;
+  clip-path: polygon(0 40%, 0% 100%, 100% 100%);
+  background: black;
+  opacity: 0.4;
+  z-index: 2;
+    filter: blur(100px);
+  backdrop-filter: blur(50px);
+ 
+}
+
+#down-t3 {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 46vw;
+  height: 18vh;
+  clip-path: polygon(100% 35%, 0% 100%, 100% 100%);
+  background: black;
+  opacity: 0.8;
+  z-index: 2;
+    filter: blur(100px);
+  backdrop-filter: blur(50px);
+
+ 
+}
+
+#down-t4 {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 60vw;
+  height: 26vh;
+  clip-path: polygon(100% 35%, 0% 100%, 100% 100%);
+  background: black;
+  opacity: 0.4;
+  z-index: 2;
+    filter: blur(100px);
+  backdrop-filter: blur(50px);
+ 
+}
+
 
 #login-box {
   width: 100vw;
@@ -177,4 +176,81 @@ body{
     #dde3ea 100%     /* edge soft fade */
   );
   clip-path: ellipse(50% 35% at 50% 50%);
+}
+
+.input a{
+  text-decoration: none;
+  right: 5vw;
+  font-family: 'Inika', serif;
+  color: #071221;
+  position: absolute;
+  font-size: 18px;
+
+}
+
+
+
+#error{
+  padding: 0;
+  margin: 0;
+  font-family: 'Inika', serif;
+  font-size: 5vw;
+  margin-top: 4vh;
+  margin-left: 24vw;
+}
+
+input::placeholder {
+  color: #888;       /* change text color */
+  
+  font-size: 18px;   /* adjust size */
+  margin-top: 4px;
+  position: relative;
+  font-family: 'Inika', serif;
+  left: 5px;
+  
+}
+
+.go-register{
+  position: absolute;
+  z-index: 7;
+  bottom: 8vh;
+  left: 25vw;
+  font-family: 'Inika', serif;
+  color: #f5f7f8;
+  font-size: 4vw;
+}
+
+.go-register a{
+  margin-left: 13px;
+  font-family: 'Inika', serif;
+  color: #f5f7f8;
+  font-size: 5vw;
+}
+
+#up-t{
+  clip-path: polygon(100% 0, 0 0, 0 33%);
+   position: absolute;
+  top: 0;
+  width: 50vw;
+  height: 16vh;
+  left: 0;
+  background: black;
+  opacity: 0.8;
+  z-index: 2;
+    filter: blur(100px);
+  backdrop-filter: blur(50px);
+}
+
+#up-t2{
+  clip-path: polygon(100% 0, 0 0, 0 33%);
+   position: absolute;
+  top: 0;
+  width: 60vw;
+  height: 29vh;
+  left: 0;
+  background: black;
+  opacity: 0.4;
+  z-index: 2;
+    filter: blur(100px);
+  backdrop-filter: blur(50px);
 }

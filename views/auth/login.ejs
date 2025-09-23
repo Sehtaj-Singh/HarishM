@@ -4,14 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/auth.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inika:wght@400;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Aboreto&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
+
 
 
   
   <title>Login</title>
 </head>
 <body>
+
+  <div id="up-t"></div>
+  <div id="up-t2"></div>
 
   <div id="box-up"></div>
 
@@ -22,11 +27,12 @@
 
   <div id="box-down"></div>
   <div id="down-t"></div>
+  <div id="down-t2"> </div>
+  <div id="down-t3"> </div>
+  <div id="down-t4"> </div>
 
-    <h2 id="title">Login</h2>
-  <% if (error) { %>
-    <p style="color:red;"><%= error %></p>
-  <% } %>
+    <h2 id="title">Welcome Back</h2>
+  
   <form class="input" method="POST" action="/login">
    
     <input  placeholder="Email/Phone Number" type="text" name="loginId" required><br><br>
@@ -35,6 +41,14 @@
     <input placeholder="Password" type="password" name="password" required><br><br>
 
      <a href="/forgot-password">Forgot Password?</a>
+    
+    <% if (error) { %>
+    <p id="error" style="color:red;"><%= error %></p>
+  <% } %>
+
+    
+
+    
 
     <input id="submit" type="submit" value="Login">
   </form>
@@ -42,8 +56,8 @@
 
   
  
- <p>
-    Did not have account? <a href="player/register">Create account</a>
+ <p class="go-register">
+    Did not have account?<br> <a href="user/register">Create account</a>
   </p>
 
 </body>

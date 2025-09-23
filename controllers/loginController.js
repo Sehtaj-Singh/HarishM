@@ -86,7 +86,7 @@ exports.postLogin = async (req, res, next) => {
   } catch (err) {
     console.error("Login failed:", err.message);
     return res.status(401).render("auth/login", {
-      error: "Login failed. Check credentials.",
+      error: "Wrong credentials.",
     });
   }
 };
