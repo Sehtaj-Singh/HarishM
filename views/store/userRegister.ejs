@@ -42,7 +42,7 @@
       <input type="email" name="email" placeholder="Email Address" required />
       <input type="password" name="password" placeholder="Password" required />
       <div class="phone-field">
-        <span >+91</span>
+        <span>+91</span>
         <input
           type="tel"
           name="phone"
@@ -54,11 +54,11 @@
       </div>
 
       <% if (errors.email) { %>
-      <div style="color: red"><%= errors.email %></div>
-      <% } %> <% if (errors.phone) { %>
-      <div style="color: red"><%= errors.phone %></div>
+      <div id="errorR" style="color: red"><%= errors.email %></div>
+      <% } else if (errors.phone) { %>
+      <div id="errorR" style="color: red"><%= errors.phone %></div>
       <% } %>
-      <input id="submit" type="submit" value="Register" />
+      <input id="submitR" type="submit" value="Register" />
     </form>
 
     <p class="go-registerR">

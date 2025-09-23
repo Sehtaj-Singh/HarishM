@@ -120,10 +120,10 @@ exports.postUserRegister = async (req, res, next) => {
 
   const errors = {};
   if (await userDB.findOne({ email })) {
-    errors.email = "❌ Email already registered!";
+    errors.email = "Email already registered!";
   }
   if (await userDB.findOne({ phone })) {
-    errors.phone = "❌ Phone number already registered!";
+    errors.phone = "Phone number already registered!";
   }
 
   if (errors.email || errors.phone) {
