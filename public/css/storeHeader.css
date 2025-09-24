@@ -289,13 +289,15 @@ html, body {
   font-size: 2.5vh;
   background-color: #192f49;
   color: #fff;
-  margin-left: 18vw;
+  
   padding: 1vh 2.5vh;
   border-radius: 10px;
   display: inline-block;
   font-family: "Alice", serif;
   margin-top: 3vh;
    background: linear-gradient(135deg, #192f49, #2c4d75);
+   position: absolute;
+   left: 18vw;
 }
 
 #cart-a2{
@@ -303,11 +305,36 @@ text-decoration: none;
   font-size: 2.5vh;
   background-color: #192f49;
   color: #fff;
-  margin-left: 5vw;
+  
   font-family: "Alice", serif;
   padding: 1vh 2.5vh;
   border-radius: 10px;
   display: inline-block;
   margin-top: 3vh;
    background: linear-gradient(135deg, #192f49, #2c4d75);
+   position: absolute;
+   right: 18vw;
+}
+
+#cart-img{
+  
+  width: 60vw;
+  margin-left: 20vw;
+  
+}
+
+#cart-a3{
+  text-decoration: none;
+  font-size: 2.5vh;
+  background-color: #192f49;
+  color: #fff;
+  
+  padding: 1vh 2.5vh;
+  border-radius: 10px;
+  display: inline-block;
+  font-family: "Alice", serif;
+  margin-top: 3vh;
+   background: linear-gradient(135deg, #192f49, #2c4d75);
+   margin-left: 32vw;
+   
 }

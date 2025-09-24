@@ -11,7 +11,9 @@
   <a id="cart-a" href="/login">Login</a> <a id="cart-a2" href="/register">Register</a>
 
 <% } else if (!cartItems || cartItems.length === 0) { %>
-  <p>Your cart is empty</p>
+  <p class="cart-p">Your cart is empty</p>
+  <img id="cart-img" src="/images/cart.jpg"> 
+  <a id="cart-a3" href="/store">Shop Now</a>
 
 <% } else { %>
   <div id="cart-page" data-has-address="<%= (user && user.address) ? '1' : '0' %>">
