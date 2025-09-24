@@ -1,0 +1,47 @@
+<h1 id="cart-title">Cart</h1>
+
+<% cartItems = cartItems || []; %>
+<% cartTotal = cartTotal || 0; %>
+<% cartUserLoggedIn = cartUserLoggedIn || false; %>
+<% user = user || null; %>
+
+
+<% if (!cartUserLoggedIn) { %>
+  <p class="cart-p">You need to log in,<br><p id="cart-p2">to see your cart</p></p>
+  <a id="cart-a" href="/login">Login</a> <a id="cart-a2" href="/register">Register</a>
+
+<% } else if (!cartItems || cartItems.length === 0) { %>
+  <p>Your cart is empty</p>
+
+<% } else { %>
+  <div id="cart-page" data-has-address="<%= (user && user.address) ? '1' : '0' %>">
+    <table>
+      <tr>
+        <th>Image</th><th>Name</th><th>Price</th><th>Qty</th><th>Subtotal</th><th>Action</th>
+      </tr>
+      <% cartItems.forEach(item => { %>
+        <tr>
+          <td><img src="/uploads/<%= item.image %>" width="60"></td>
+          <td><%= item.name %></td>
+          <td>₹<%= item.price %></td>
+          <td><%= item.qty %></td>
+          <td>₹<%= item.price * item.qty %></td>
+          <td><a href="/cart/remove/<%= item.productId %>">Remove</a></td>
+        </tr>
+      <% }) %>
+    </table>
+
+    <h3>Total: ₹<%= cartTotal %></h3>
+
+    <% if (user.address) { %>
+      <button id="pay-now">Place Order</button>
+      <button id="edit-address-btn" type="button">Edit Address</button>
+      <script id="user-address-data" type="application/json"><%= JSON.stringify(user.address) %></script>
+    <% } else { %>
+      <p style="color: red">⚠️ No delivery address found</p>
+      <button id="add-address-btn" type="button">Add Address</button>
+    <% } %>
+  </div>
+
+  <%- include('partials/addressModal') %>
+<% } %>

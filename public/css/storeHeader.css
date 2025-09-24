@@ -26,7 +26,7 @@ html, body {
   left: 0;
   clip-path: polygon(0% 0%, 100% 0%, 95% 50%, 5% 50%, 0% 85%);
   display: flex;
-  z-index: 20;
+  z-index: 120;
   border: 3px solid #0e192a;
   transition: height 0.5s ease;
   overflow: hidden;
@@ -49,7 +49,7 @@ html, body {
 }
 #upwrap {
   filter: drop-shadow(1px 4px 0 #09101f);
-  z-index: 5;
+  z-index: 120;
   position: fixed;
   top: 0;
   left: 0;
@@ -208,4 +208,102 @@ html, body {
 #upperHeader.expanded #searchBarWrap {
   display: flex;
   opacity: 1;
+}
+
+
+/* Cart modal */
+
+.cart-modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100vw;         /* full screen width */
+  height: 100vh;
+  
+  display: none;     /* hidden by default */
+  z-index: 100;
+}
+
+.cart-modal-content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100vw;       /* slide panel width */
+  height: 100vh;
+  background: #fff;
+  
+  overflow-y: auto;
+  transform: translateX(100%);     /* off-screen initially */
+  transition: transform 0.8s ease; /* smooth slide-in */
+  padding-top: 4vh;
+}
+
+.cart-modal.show .cart-modal-content {
+  transform: translateX(0);        /* slide into view */
+}
+
+.close-cart {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  float: right;
+  cursor: pointer;
+}
+
+#cart-title{
+  font-size: 3vh;
+  margin-left: 3vw;
+   font-family: "Aclonica", sans-serif;
+   margin-top: 5px;
+   letter-spacing: 4px;
+   color: #192f49;
+  border-bottom: 1px solid #3436388f;
+  width: 90vw;
+  padding-left: 4vw;
+  padding-bottom: 4px;
+}
+
+#close-cart{
+  font-size: 4vh;
+  margin-right: 5vw;
+  color: #192f49;
+}
+
+.cart-p{
+  font-size: 3vh;
+ font-family: "Alice", serif;
+  margin-left: 22vw;
+  margin-top: 10vh;
+
+}
+
+#cart-p2{
+  font-size: 3vh;
+ font-family: "Alice", serif;
+  margin-left: 25vw;
+  
+}
+
+#cart-a{
+  text-decoration: none;
+  font-size: 3vh;
+  background-color: #192f49;
+  color: #fff;
+  margin-left: 23vw;
+  padding: 1vh;
+  border-radius: 10px;
+  display: inline-block;
+  margin-top: 3vh;
+}
+
+#cart-a2{
+text-decoration: none;
+  font-size: 3vh;
+  background-color: #192f49;
+  color: #fff;
+  margin-left: 3vw;
+  padding: 1vh;
+  border-radius: 10px;
+  display: inline-block;
+  margin-top: 3vh;
 }

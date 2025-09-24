@@ -18,6 +18,34 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // ----------- Cart Moal ---------------
+
+   const cartBtn = document.querySelector(".fa-cart-shopping")?.closest("button");
+  const cartModal = document.getElementById("cart-modal");
+  const closeCart = document.getElementById("close-cart");
+
+  if (cartBtn && cartModal && closeCart) {
+    // Open modal
+    cartBtn.addEventListener("click", () => {
+      cartModal.style.display = "block";
+      setTimeout(() => cartModal.classList.add("show"), 10);
+    });
+
+    // Close modal
+    closeCart.addEventListener("click", () => {
+      cartModal.classList.remove("show");
+      setTimeout(() => (cartModal.style.display = "none"), 800);
+    });
+
+    // Close when clicking backdrop
+    cartModal.addEventListener("click", (e) => {
+      if (e.target === cartModal) {
+        closeCart.click();
+      }
+    });
+  }
+
+
   // ---------- IMAGE SLIDER (responsive, fixes gap at 94%) ----------
   const track = document.querySelector(".carousel-track");
   const dotsContainer = document.querySelector(".carousel-dots");

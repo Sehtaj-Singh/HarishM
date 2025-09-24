@@ -15,8 +15,10 @@ userRouter.post(`/user/register` , userController.postUserRegister);
 userRouter.get(`/user/register/verify-otp` , userController.getUserRegisterVerifyOTP);
 userRouter.post(`/user/register/verify-otp` , userController.postUserRegisterVerifyOTP);
 
-userRouter.get(`/` , userController.getHomePage);
-userRouter.get(`/store` , userController.getStore);
+
+
+userRouter.get(`/` , cartAuth, userController.getHomePage);
+userRouter.get(`/store` ,  userController.getStore);
 userRouter.get(`/orders` , userController.getOrders);
 userRouter.get(`/repair` , userController.getRepair);
 userRouter.get(`/contact` , userController.getContact);

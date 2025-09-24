@@ -12,7 +12,7 @@ const apiKey = process.env.FIREBASE_API_KEY;
 const sendOTP = require(`../Utils/sendOTP`);
 const { encrypt } = require("../utils/cryptoUtil");
 const razorpay = require("../utils/razorPay");
-const topSellingStore = require('../utils/topSellingStore');
+const topSellingStore = require("../utils/topSellingStore");
 
 //database
 const secondHandModel = require(`../models/secondHandMobileDB`);
@@ -24,13 +24,17 @@ const userDB = require("../models/userDB");
 exports.getHomePage = (req, res, next) => {
   Promise.all([secondHandModel.find(), newModel.find(), accessoryModel.find()])
     .then(([registeredSHmobile, registeredNmobile, registeredAmobile]) => {
-      const topSellingIds = topSellingStore.getIds(); 
-      res.render('store/main/index', {
+      const topSellingIds = topSellingStore.getIds();
+      res.render("store/main/index", {
         registeredSHmobile,
         registeredNmobile,
         registeredAmobile,
         active: "home",
-        topSellingIds
+        topSellingIds,
+        cartItems: res.locals.cartItems || [],
+        cartTotal: res.locals.cartTotal || 0,
+        cartUserLoggedIn: res.locals.cartUserLoggedIn || false,
+        user: res.locals.user || null,
       });
     })
     .catch((err) => {
