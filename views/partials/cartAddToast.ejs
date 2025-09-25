@@ -1,0 +1,66 @@
+<div id="toast" class="toast"></div>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Alice&display=swap"
+  rel="stylesheet"
+/>
+
+<style>
+  .toast {
+    position: fixed;
+    bottom: 10vw; /* just above footer/header */
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: #f5f7f8;
+    padding: 12px 20px;
+    border-radius: 14px;
+    font-size: 20px;
+    opacity: 0;
+    width: 75vw;
+    font-family: "Alice", serif;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out, bottom 0.3s ease-in-out;
+    z-index: 9999;
+    text-align: center;
+    letter-spacing: 1px;
+  }
+  .toast.show {
+    opacity: 1;
+    bottom: 90px; /* slide up a little */
+  }
+  .toast.success {
+    background: #192f49;
+  }
+  .toast.error {
+    background: #192f49;
+  }
+</style>
+
+<script>
+  (function () {
+    const params = new URLSearchParams(window.location.search);
+    const msg = params.get("msg");
+    if (!msg) return;
+
+    const toast = document.getElementById("toast");
+    if (!toast) return;
+
+    if (msg === "added") {
+      toast.textContent = "Added to cart successfully";
+      toast.classList.add("success");
+    } else if (msg === "alreadyInCart") {
+      toast.textContent = "Product already in cart";
+      toast.classList.add("error");
+    } else if (msg === "removed") {
+      toast.textContent = "Product removed successfully";
+      toast.classList.add("error"); // or success, up to you
+    }
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2500);
+  })();
+</script>

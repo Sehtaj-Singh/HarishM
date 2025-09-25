@@ -18,33 +18,51 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // ----------- Cart Moal ---------------
+  // ----------- Cart Modal ---------------
+  const cartBtn = document.querySelector(".fa-cart-shopping")?.closest("button");
+const cartModal = document.getElementById("cart-modal");
+const closeCart = document.getElementById("close-cart");
 
-   const cartBtn = document.querySelector(".fa-cart-shopping")?.closest("button");
-  const cartModal = document.getElementById("cart-modal");
-  const closeCart = document.getElementById("close-cart");
+function openCartModal() {
+  if (!cartModal) return;
+  cartModal.style.display = "block";
+  setTimeout(() => cartModal.classList.add("show"), 10);
+}
 
-  if (cartBtn && cartModal && closeCart) {
-    // Open modal
-    cartBtn.addEventListener("click", () => {
-      cartModal.style.display = "block";
-      setTimeout(() => cartModal.classList.add("show"), 10);
-    });
+function closeCartModal() {
+  if (!cartModal) return;
+  cartModal.classList.remove("show");
+  setTimeout(() => (cartModal.style.display = "none"), 800);
+}
 
-    // Close modal
-    closeCart.addEventListener("click", () => {
-      cartModal.classList.remove("show");
-      setTimeout(() => (cartModal.style.display = "none"), 800);
-    });
+// Bind manual toggle via header icon
+if (cartBtn && cartModal && closeCart) {
+  cartBtn.addEventListener("click", openCartModal);
+  closeCart.addEventListener("click", closeCartModal);
+  cartModal.addEventListener("click", (e) => {
+    if (e.target === cartModal) {
+      closeCartModal();
+    }
+  });
+}
 
-    // Close when clicking backdrop
-    cartModal.addEventListener("click", (e) => {
-      if (e.target === cartModal) {
-        closeCart.click();
-      }
-    });
-  }
+// Auto-open on ?openCart=1 or ?openCart=login
+(function autoOpenCartFromQuery() {
+  if (!cartModal) return;
+  const params = new URLSearchParams(window.location.search);
+  const flag = params.get("openCart");
+  if (!flag) return;
 
+  openCartModal();
+
+  // Clean URL so refresh doesn't reopen
+  params.delete("openCart");
+  const newUrl =
+    window.location.pathname +
+    (params.toString() ? "?" + params.toString() : "") +
+    window.location.hash;
+  window.history.replaceState({}, "", newUrl);
+})();
 
   // ---------- IMAGE SLIDER (responsive, fixes gap at 94%) ----------
   const track = document.querySelector(".carousel-track");

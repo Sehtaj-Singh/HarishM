@@ -87,25 +87,82 @@ exports.getContact = (req, res, next) => {
 exports.getSHdetailPage = async (req, res, next) => {
   try {
     const productId = req.params.SHmobileId;
-    const product = await secondHandModel.findById(productId);
+    const p = await secondHandModel.findById(productId);
 
-    if (!product) {
-      return res.status(404).send("Product not found");
-    }
+    if (!p) return res.status(404).send("Product not found");
+
+    const product = {
+      id: p._id,
+      name: p.SHname,
+      image: p.SHimage,
+      mrp: p.SHmrp,
+      price: p.SHprice,
+      discount: p.SHdiscount,
+      condition: p.condition,
+      rating:null,
+      category: "SH",
+      specs: p.specs || {},
+    };
 
     res.render("store/SHdetailsPage", { product, active: "null" });
   } catch (err) {
-    console.error("❌ Error fetching product details:", err.message);
+    console.error("❌ Error fetching SH product:", err.message);
     res.status(500).send("Server error");
   }
 };
 
-exports.getNdetailPage = (req, res, next) => {
-  res.render(`store/contact`);
+exports.getNdetailPage = async (req, res, next) => {
+  try {
+    const productId = req.params.NmobileId;
+    const p = await newModel.findById(productId);
+
+    if (!p) return res.status(404).send("Product not found");
+
+    const product = {
+      id: p._id,
+      name: p.Nname,
+      image: p.Nimage,
+      mrp: p.Nmrp,
+      price: p.Nprice,
+      discount: p.Ndiscount,
+      condition: null,
+      category: "N",
+      rating:p.Nrating,
+      specs: p.specs || {},
+    };
+
+    res.render("store/SHdetailsPage", { product, active: "null" });
+  } catch (err) {
+    console.error("❌ Error fetching N product:", err.message);
+    res.status(500).send("Server error");
+  }
 };
 
-exports.getAdetailPage = (req, res, next) => {
-  res.render(`store/contact`);
+exports.getAdetailPage = async (req, res, next) => {
+  try {
+    const productId = req.params.accessoryId;
+    const p = await accessoryModel.findById(productId);
+
+    if (!p) return res.status(404).send("Product not found");
+
+    const product = {
+      id: p._id,
+      name: p.Aname,
+      image: p.Aimage,
+      mrp: p.Amrp,
+      price: p.Aprice,
+      discount: p.Adiscount,
+      condition: null,
+      rating:p.Arating,
+      category: "A",
+      specs: p.specs || {},
+    };
+
+    res.render("store/SHdetailsPage", { product, active: "null" });
+  } catch (err) {
+    console.error("❌ Error fetching A product:", err.message);
+    res.status(500).send("Server error");
+  }
 };
 
 // user register
@@ -288,45 +345,155 @@ exports.getUserProfile = (req, res) => {
 };
 
 // cart and order
-
 exports.addToCart = async (req, res) => {
+  const { productId, qty, redirectTo } = req.body;
+  const base = redirectTo || req.get("referer") || "/store";
+  const u = new URL(base, `${req.protocol}://${req.get("host")}`);
+
   try {
-    const { productId, qty } = req.body;
-    await req.cart.add(productId, qty);
-    // After add, either redirect to cart or wherever you want
-    res.redirect("/cart");
+    await req.cart.add(productId, qty); // set by cartAuth
+    u.searchParams.set("msg", "added");   // 👈 flag for success
+    u.searchParams.set("openCart", "1");  // optional, auto open cart
+    return res.redirect(u.pathname + "?" + u.searchParams.toString());
   } catch (err) {
-    console.error("❌ Error adding to cart:", err.message);
     const status = err.status || 500;
-    res.status(status).send(status === 500 ? "Server error" : err.message);
+    if (status === 401) {
+      u.searchParams.set("openCart", "login");
+      return res.redirect(u.pathname + "?" + u.searchParams.toString());
+    }
+    if (status === 409) {
+      u.searchParams.set("msg", "alreadyInCart"); // 👈 flag for duplicate
+      u.searchParams.set("openCart", "1");
+      return res.redirect(u.pathname + "?" + u.searchParams.toString());
+    }
+    console.error("❌ addToCart:", err.message);
+    return res.status(status).send(status === 500 ? "Server error" : err.message);
   }
 };
 
+
+// GET /cart
 exports.viewCart = async (req, res) => {
   try {
-    // assuming cart data is prepared by middleware
-    res.render("store/cart", {
+    // cartAuth already populated res.locals.cartItems/cartTotal
+    return res.render("store/cart", {
       items: res.locals.cartItems,
       total: res.locals.cartTotal,
       user: res.locals.user || null,
     });
   } catch (err) {
     console.error("❌ Error rendering cart:", err.message);
-    res.status(500).send("Server error");
+    return res.status(500).send("Server error");
   }
 };
 
+// POST /cart/remove/:id
 exports.removeFromCart = async (req, res) => {
   try {
-    const productId = req.params.id; // treat :id as the productId
+    const productId = req.params.id;
     await req.cart.remove(productId);
-    res.redirect("/cart");
+    await req.cart.refreshView();
+
+    const wantsJson =
+      req.get("x-requested-with") === "fetch" ||
+      (req.accepts(["json", "html"]) === "json");
+
+    if (wantsJson) {
+      return res.json({
+        success: true,
+        items: res.locals.cartItems,
+        total: res.locals.cartTotal,
+        message: "Product removed successfully",
+      });
+    }
+
+    // Non-JS fallback
+    const referer = req.get("referer") || "/cart";
+    const u = new URL(referer, `${req.protocol}://${req.get("host")}`);
+    const isEmpty = !res.locals.cartItems || res.locals.cartItems.length === 0;
+
+    if (!isEmpty) {
+      u.searchParams.set("openCart", "1");
+    } else {
+      u.searchParams.delete("openCart");
+    }
+
+    // 👇 set toast flag for removal
+    u.searchParams.set("msg", "removed");
+
+    return res.redirect(u.pathname + "?" + u.searchParams.toString());
   } catch (err) {
     console.error("❌ Error removing from cart:", err.message);
     const status = err.status || 500;
-    res.status(status).send(status === 500 ? "Server error" : err.message);
+
+    if (
+      req.get("x-requested-with") === "fetch" ||
+      (req.accepts(["json", "html"]) === "json")
+    ) {
+      return res
+        .status(status)
+        .json({ success: false, error: err.message });
+    }
+
+    return res
+      .status(status)
+      .send(status === 500 ? "Server error" : err.message);
   }
 };
+
+// POST /cart/update/:id
+exports.updateCart = async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const qty = parseInt(req.body.qty, 10);
+
+    if (isNaN(qty) || qty < 1) {
+      return res.status(400).json({ error: "Invalid quantity" });
+    }
+
+    const current = (await req.cart.refreshView(), res.locals.cartItems) || [];
+    const item = current.find((i) => i.productId === productId);
+    if (!item) {
+      return res.status(404).json({ error: "Item not found in cart" });
+    }
+
+    // update redis map directly
+    const uid = req.user?.uid;
+    const redis = require("../utils/redisClient");
+    const mapKey = `cart:${uid}`;
+    const mapRaw = await redis.get(mapKey);
+    const map = mapRaw ? JSON.parse(mapRaw) : {};
+    map[productId] = qty;
+    await redis.set(mapKey, JSON.stringify(map));
+
+    // refresh cart
+    await req.cart.refreshView();
+
+    // calculate totals
+    const totalPrice = res.locals.cartItems.reduce(
+      (sum, it) => sum + it.price * it.qty,
+      0
+    );
+    const totalMrp = res.locals.cartItems.reduce(
+      (sum, it) => sum + (it.mrp || it.price) * it.qty,
+      0
+    );
+    const saved = totalMrp - totalPrice;
+
+    return res.json({
+      success: true,
+      qty,
+      totalPrice,
+      totalMrp,
+      saved,
+    });
+  } catch (err) {
+    console.error("❌ updateCart error:", err.message);
+    return res.status(500).json({ error: "Server error" });
+  }
+};
+
+
 
 // payment
 

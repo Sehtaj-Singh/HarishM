@@ -19,26 +19,29 @@
   </head>
   <body>
     <%- include(`../partials/storeHeader`) %>
+    <%- include(`../partials/cartAddToast`) %>
 
-    <script src="javascript/store.js"></script>
+    
+
+    <script src="/javascript/store.js"></script>
 
     <div class="product-details">
-      <img
-        src="/uploads/<%= product.SHimage %>"
-        alt="<%= product.SHname %>"
-        width="300"
-      />
-      <h1><%= product.SHname %></h1>
-      <p>Condition: <%= product.condition %></p>
-      <p>MRP: ₹<%= product.SHmrp %></p>
-      <p>Discount: <%= product.SHdiscount %>%</p>
-      <p>Price: ₹<%= product.SHprice %></p>
+  <img src="/uploads/<%= product.image %>" alt="<%= product.name %>" width="300" />
+  <h1><%= product.name %></h1>
 
-      <form action="/cart/add" method="POST">
-        <input type="hidden" name="productId" value="<%= product._id %>" />
-        <input type="hidden" name="qty" value="1" />
-        <button type="submit">Buy Now</button>
-      </form>
-    </div>
+  <% if (product.condition) { %>
+    <p>Condition: <%= product.condition %></p>
+  <% } %>
+
+  <p>MRP: ₹<%= product.mrp %></p>
+  <p>Discount: <%= product.discount %>%</p>
+  <p>Price: ₹<%= product.price %></p>
+
+  <form action="/cart/add" method="POST">
+    <input type="hidden" name="productId" value="<%= product.id %>" />
+    <input type="hidden" name="qty" value="1" />
+    <button type="submit">Buy Now</button>
+  </form>
+</div>
   </body>
 </html>

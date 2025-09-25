@@ -94,7 +94,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-
+   
+ 
   // ----- Razorpay, only when address exists -----
   if (hasAddress) {
     const payBtn = document.getElementById("pay-now");

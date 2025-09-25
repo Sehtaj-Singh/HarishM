@@ -3,8 +3,6 @@ const express = require(`express`);
 const userRouter = express.Router();
 
 //middleware
-const refreshSession = require("../middlewares/refreshSession"); // authentication
-const loadUserFromDB = require("../middlewares/loadUserFromDB");
 const cartAuth = require("../middlewares/cartAuth");
 
 //local module
@@ -15,9 +13,10 @@ userRouter.post(`/user/register` , userController.postUserRegister);
 userRouter.get(`/user/register/verify-otp` , userController.getUserRegisterVerifyOTP);
 userRouter.post(`/user/register/verify-otp` , userController.postUserRegisterVerifyOTP);
 
+userRouter.use(cartAuth);
 
 
-userRouter.get(`/` , cartAuth, userController.getHomePage);
+userRouter.get(`/` ,  userController.getHomePage);
 userRouter.get(`/store` ,  userController.getStore);
 userRouter.get(`/orders` , userController.getOrders);
 userRouter.get(`/repair` , userController.getRepair);
@@ -28,18 +27,19 @@ userRouter.get(`/Second-Hand/Details/:SHmobileId` , userController.getSHdetailPa
 userRouter.get(`/New/Details/:NmobileId` , userController.getNdetailPage); 
 userRouter.get(`/Accessory/Details/:accessoryId` , userController.getAdetailPage);
 
-userRouter.use(refreshSession);
-userRouter.use(loadUserFromDB);
+
+
 
 userRouter.get(`/profile`, userController.getUserProfile);
 
-userRouter.post("/cart/add" , cartAuth, userController.addToCart);
-userRouter.get("/cart" , cartAuth, userController.viewCart);
-userRouter.get("/cart/remove/:id" , cartAuth, userController.removeFromCart);
+userRouter.post("/cart/add" , userController.addToCart);
+userRouter.get("/cart" , userController.viewCart);
+userRouter.get("/cart/remove/:id" , userController.removeFromCart);
+userRouter.post("/cart/update/:id", userController.updateCart);
 
 //payment
-userRouter.post("/checkout/create-order" , cartAuth , userController.createOrder);
-userRouter.post("/checkout/verify" , cartAuth, userController.verifyPayment);
+userRouter.post("/checkout/create-order" ,  userController.createOrder);
+userRouter.post("/checkout/verify" ,  userController.verifyPayment);
 
 userRouter.post("/user/address",  userController.saveAddress);
 
