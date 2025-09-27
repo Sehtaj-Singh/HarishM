@@ -1,9 +1,4 @@
-body{
-  margin: 0;
-  padding: 0;
-  margin-top: 23vh ;
-}
-#title{
+#title {
   color: #192f49;
   font-size: 3.5vh;
   text-align: center;
@@ -11,78 +6,74 @@ body{
   font-family: "Alice", serif;
   padding-left: 10vw;
   padding-right: 10vw;
-
 }
 
-#login-image{
-width: 100vw;
+#login-image {
+  width: 100vw;
 }
 
-.btn{
-  padding-left: 20vw;
-  padding-right: 20vw;
+#btn {
+  padding-left: 10vw;
+  padding-right: 10vw;
   padding-top: 1.5vh;
   padding-bottom: 1.5vh;
-  height: 3vh;
-  font-size: 3vh;
+  
+  font-size: 2vh;
   border-radius: 25px;
-  background-color: #0D3980;
+  background-color: #0d3980;
   text-decoration: none;
   color: #fff;
   display: inline-block;
-  font-family: 'Aboreto', serif;
+  font-family: "Aboreto", serif;
+  letter-spacing: 1px;
 }
 
-.btn2{
-  padding-left: 20vw;
-  padding-right: 20vw;
+#btn2 {
+  padding-left: 10vw;
+  padding-right: 10vw;
   padding-top: 1.5vh;
   padding-bottom: 1.5vh;
-  height: 3vh;
-  font-size: 3vh;
+  letter-spacing: 1px;
+  font-size: 2vh;
   border-radius: 25px;
-  background-color: #0D3980;
+  background-color: #0d3980;
   text-decoration: none;
   color: #fff;
-  margin-top: 5vh;
+
   display: inline-block;
-  font-family: 'Aboreto', serif;
+  font-family: "Aboreto", serif;
 }
 
-#btn-container{
-display: flex;
-flex-direction: column;
-align-items: center;
+#btn-container {
+  display: flex !important;
+  flex-direction: column !important;
+  margin-top: 4vh;
 }
 
 /* with data */
-#info-card{
-height: 16vh;
-width: 80vw;
-background-color: #f6f6f6;
-position: absolute;
-border-bottom-left-radius: 32px;
-border-top-left-radius: 32px;
-right: 0;
-top: 5vh;
-
+#info-card {
+  height: 16vh;
+  width: 80vw;
+  background-color: #f6f6f6;
+  position: absolute;
+  border-bottom-left-radius: 32px;
+  border-top-left-radius: 32px;
+  right: 0;
+  top: 5vh;
 }
 
-
-#profile{
+#profile {
   height: 10vh;
   width: 10vh;
   border-radius: 50%;
   z-index: 5;
-  
   position: absolute;
-  margin-left:3vw ;
+  margin-left: 3vw;
   top: 8vh;
-  background: url("/images/profile.jpg") center/cover ;
-  
+  background: url("/images/profile.jpg") center/cover;
 }
 
-#info-name{
+#info-name {
   font-size: 3vh;
   margin-left: 8vw;
   margin-top: 2vh;
@@ -91,20 +82,20 @@ top: 5vh;
   color: #192f49;
 }
 
-#info-email{
+#info-email {
   font-size: 2vh;
   margin-left: 8vw;
   margin-top: 1vh;
   font-family: "Alice", serif;
   letter-spacing: 1px;
   color: #192f49;
-   text-overflow: ellipsis;
-   white-space: nowrap; 
-    overflow: hidden;
-    max-width: 70vw;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 70vw;
 }
 
-#info-phone{
+#info-phone {
   font-size: 2vh;
   margin-left: 8vw;
   margin-top: 1vh;
@@ -113,29 +104,28 @@ top: 5vh;
   color: #192f49;
 }
 
-.address-info{
-width: 85vw;
-background-color: #f2e8dc;
-height: 7vh;
-display: flex;
-padding: 1vh;
-
+.address-info {
+  width: 85vw;
+  background-color: #f2e8dc;
+  height: 7vh;
+  display: flex;
+  padding: 1vh;
 }
 
-.address-info i{
+.address-info i {
   font-size: 3.5vh;
   margin-top: 1.75vh;
   color: #192f49;
 }
 
-#address{
+#address {
   font-size: 2vh;
   font-family: "Alice", serif;
   letter-spacing: 1px;
   color: #192f49;
 }
 
-#address-btn{
+#address-btn {
   border: none;
   font-size: 1.5vh;
   font-family: "Alice", serif;
@@ -145,11 +135,9 @@ padding: 1vh;
   background-color: #192f49;
   border-radius: 32px;
   margin-top: 1.75vh;
-  
-
 }
 
-#address-box{
+#address-box {
   width: 70vw;
   margin-left: 3vw;
 }

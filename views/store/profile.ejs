@@ -2,13 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Profile</title>
-    <link rel="stylesheet" href="/css/profile.css" />
     <link rel="stylesheet" href="css/storeHeader.css" />
+    <link rel="stylesheet" href="/css/profile.css" />
+    
     <script
       src="https://kit.fontawesome.com/3a523928fc.js"
       crossorigin="anonymous"
     ></script>
+    <script src="/javascript/cart.js"></script>
+    <script src="javascript/store.js"></script>
   </head>
   <body>
     <%- include(`../partials/storeHeader`) %>
@@ -55,8 +59,8 @@
   <h1 id="title">You need to log in to see your profile</h1>
   <img id="login-image" src="images/login.jpg">
   <div id="btn-container">
-  <a href="/login" class="btn">Login</a><br>
-  <a href="/register" class="btn2">Register</a>
+   <a href="/login" id="btn">Login</a> 
+   <a href="/register" id="btn2">Register</a>
   </div>
 <% } %>
 

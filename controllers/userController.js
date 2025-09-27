@@ -20,6 +20,7 @@ const newModel = require(`../models/newMobileDB`);
 const accessoryModel = require("../models/accessoryDB");
 const repairModel = require("../models/repairDB");
 const userDB = require("../models/userDB");
+const { isNull } = require("util");
 
 exports.getHomePage = (req, res, next) => {
   Promise.all([secondHandModel.find(), newModel.find(), accessoryModel.find()])
@@ -85,7 +86,7 @@ exports.getContact = (req, res, next) => {
 exports.getUserProfile = async (req, res) => {
   try {
     if (!req.user) {
-      return res.render("store/profile", { user: null });
+      return res.render("store/profile", { user: null,active:"profile"});
     }
 
    const user = await userDB.findOne({ uid: req.user.uid });
