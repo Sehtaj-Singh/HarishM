@@ -1,7 +1,7 @@
 body{
   margin: 0;
   padding: 0;
-  
+  margin-top: 23vh ;
 }
 #title{
   color: #192f49;
@@ -57,30 +57,99 @@ align-items: center;
 
 /* with data */
 #info-card{
-height: 10vh;
-width: 85vw;
-background-color: antiquewhite;
+height: 16vh;
+width: 80vw;
+background-color: #f6f6f6;
 position: absolute;
-
+border-bottom-left-radius: 32px;
+border-top-left-radius: 32px;
 right: 0;
-top: 4.5vh;
+top: 5vh;
 
 }
 
-.profile-card{
-margin-top: 4vh;
-height: 10vh;
-
-}
 
 #profile{
-  height: 8vh;
-  width: 8vh;
+  height: 10vh;
+  width: 10vh;
   border-radius: 50%;
   z-index: 5;
-  background-color: aqua;
-  position: absolute;
-  margin-left:4vw ;
-  top: 5.5vh;
   
+  position: absolute;
+  margin-left:3vw ;
+  top: 8vh;
+  background: url("/images/profile.jpg") center/cover ;
+  
+}
+
+#info-name{
+  font-size: 3vh;
+  margin-left: 8vw;
+  margin-top: 2vh;
+  font-family: "Alice", serif;
+  letter-spacing: 1px;
+  color: #192f49;
+}
+
+#info-email{
+  font-size: 2vh;
+  margin-left: 8vw;
+  margin-top: 1vh;
+  font-family: "Alice", serif;
+  letter-spacing: 1px;
+  color: #192f49;
+   text-overflow: ellipsis;
+   white-space: nowrap; 
+    overflow: hidden;
+    max-width: 70vw;
+}
+
+#info-phone{
+  font-size: 2vh;
+  margin-left: 8vw;
+  margin-top: 1vh;
+  font-family: "Alice", serif;
+  letter-spacing: 1px;
+  color: #192f49;
+}
+
+.address-info{
+width: 85vw;
+background-color: #f2e8dc;
+height: 7vh;
+display: flex;
+padding: 1vh;
+
+}
+
+.address-info i{
+  font-size: 3.5vh;
+  margin-top: 1.75vh;
+  color: #192f49;
+}
+
+#address{
+  font-size: 2vh;
+  font-family: "Alice", serif;
+  letter-spacing: 1px;
+  color: #192f49;
+}
+
+#address-btn{
+  border: none;
+  font-size: 1.5vh;
+  font-family: "Alice", serif;
+  letter-spacing: 1px;
+  color: #fff;
+  padding: 1vh 1vh;
+  background-color: #192f49;
+  border-radius: 32px;
+  margin-top: 1.75vh;
+  
+
+}
+
+#address-box{
+  width: 70vw;
+  margin-left: 3vw;
 }

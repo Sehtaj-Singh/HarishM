@@ -15,21 +15,42 @@
     <%- include(`../partials/fonts`) %>
 
    <% if (user) { %>
-  <h1>Welcome, <%= user.name %>!</h1>
+  
 
   <div class="profile-card">
     <div id="profile">
 
     </div>
     <div id="info-card">
-      <p><strong>Name:</strong> <%= user.name %></p>
-      <p><strong>Email:</strong> <%= user.email %></p>
-      <p><strong>Phone:</strong> <%= user.phone %></p>
+      <p id="info-name"> <%= user.name %></p>
+      <p id="info-email"><strong>Email:</strong> <%= user.email %></p>
+      <p id="info-phone"><strong>Phone:</strong> <%= user.phone %></p>
     </div>
     
   </div>
 
-  <a href="/" class="btn">🏠 Back to Home</a>
+  <% if (user.address) { %>
+<div class="address-info">
+   
+   <i class="fa-solid fa-location-dot"></i>
+  
+  
+    <!-- Address details -->
+  <div id="address-box">
+    <p id="address"><%= user.address.fullName %></p>
+    <p id="address"><%= user.address.flat %>, <%= user.address.area %>, <%= user.address.city %></p>
+    <p id="address"><%= user.address.state %>, <%= user.address.pincode %></p>
+  </div>
+
+  <form action="/profile/address/edit" method="get">
+    <button id="address-btn" type="submit">Change</button>
+  </form>
+
+
+</div>
+<% } %>
+
+  
 <% } else { %>
   <h1 id="title">You need to log in to see your profile</h1>
   <img id="login-image" src="images/login.jpg">
