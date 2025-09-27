@@ -12,23 +12,23 @@
   width: 100vw;
 }
 
-#btn {
+.profile-page #btnn {
   padding-left: 10vw;
   padding-right: 10vw;
   padding-top: 1.5vh;
   padding-bottom: 1.5vh;
+  font-weight: 700;
+  font-size: 2vh;
+  border-radius: 25px;
+  background-color: #0d3980;
+  text-decoration: none;
+  color: #fff;
   
-  font-size: 2vh;
-  border-radius: 25px;
-  background-color: #0d3980;
-  text-decoration: none;
-  color: #fff;
-  display: inline-block;
   font-family: "Aboreto", serif;
   letter-spacing: 1px;
 }
 
-#btn2 {
+.profile-page #btn2 {
   padding-left: 10vw;
   padding-right: 10vw;
   padding-top: 1.5vh;
@@ -37,6 +37,7 @@
   font-size: 2vh;
   border-radius: 25px;
   background-color: #0d3980;
+  font-weight: 700;
   text-decoration: none;
   color: #fff;
 
@@ -44,10 +45,12 @@
   font-family: "Aboreto", serif;
 }
 
-#btn-container {
+.profile-page #btn-container2 {
   display: flex !important;
-  flex-direction: column !important;
+  flex-direction: column !important ;
   margin-top: 4vh;
+  align-items: center;
+  gap: 4vh;
 }
 
 /* with data */
@@ -110,6 +113,9 @@
   height: 7vh;
   display: flex;
   padding: 1vh;
+  margin-top: 23vh;
+  border-top-right-radius: 32px;
+  border-bottom-right-radius: 32px;
 }
 
 .address-info i {
