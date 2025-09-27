@@ -1,6 +1,6 @@
 const redis = require("../utils/redisClient");
 const secondHandModel = require("../models/secondHandMobileDB");
-const newModel = require("../models/newMobileDB");        // 👈 add this
+const newModel = require("../models/newMobileDB"); // 👈 add this
 const accessoryModel = require("../models/accessoryDB"); // 👈 and this
 const refreshSession = require("./refreshSession");
 const userDB = require("../models/userDB");
@@ -42,7 +42,7 @@ async function expandCart(cartMap) {
         name: p.SHname,
         price: Number(p.SHprice) || 0,
         image: p.SHimage,
-        condition:p.condition,
+        condition: p.condition,
         mrp: Number(p.SHmrp) || 0,
         qty,
         category: "SH", // 👈 add category
@@ -76,7 +76,7 @@ async function expandCart(cartMap) {
         name: p.Aname,
         price: Number(p.Aprice) || 0,
         image: p.Aimage,
-        mrp: Number(p.Amrp) || 0,       // 👈 add MRP
+        mrp: Number(p.Amrp) || 0, // 👈 add MRP
         rating: Number(p.Arating) || 0, // 👈 add rating
         qty,
         category: "A",
@@ -114,7 +114,7 @@ module.exports = async function cartAuth(req, res, next) {
         res.locals.cartItems = [];
         res.locals.cartTotal = 0;
       },
-      clear: async () => {}
+      clear: async () => {},
     };
 
     // If no cookie, stay guest
@@ -152,29 +152,52 @@ module.exports = async function cartAuth(req, res, next) {
     req.cart = {
       add: async (productId, qty) => {
         const addQty = Math.max(1, parseInt(qty || 1, 10));
-        const product = await secondHandModel.findById(productId);
+
+        // Try finding product in all categories
+        let product = await secondHandModel.findById(productId);
+        let category = "SH";
+
+        if (!product) {
+          product = await newModel.findById(productId);
+          category = "N";
+        }
+        if (!product) {
+          product = await accessoryModel.findById(productId);
+          category = "A";
+        }
+
         if (!product) {
           const e = new Error("Product not found");
           e.status = 404;
           throw e;
         }
+
         const current = (await getCartMap(uid)) || {};
-        if (current[productId]) {
-         const e = new Error("Already in cart");
-         e.status = 409; // conflict
-         throw e;
-        }
-        current[productId] = addQty;
+        current[productId] =
+          (parseInt(current[productId] || 0, 10) || 0) + addQty;
         await setCartMap(uid, current);
+
         const view = await expandCart(current);
         res.locals.cartItems = view.items;
         res.locals.cartTotal = view.total;
       },
 
       remove: async (productId) => {
+        // Try finding product in all categories
+        let product = await secondHandModel.findById(productId);
+        if (!product) product = await newModel.findById(productId);
+        if (!product) product = await accessoryModel.findById(productId);
+
+        if (!product) {
+          const e = new Error("Product not found");
+          e.status = 404;
+          throw e;
+        }
+
         const current = (await getCartMap(uid)) || {};
-        if (current[productId]) delete current[productId];
+        delete current[productId];
         await setCartMap(uid, current);
+
         const view = await expandCart(current);
         res.locals.cartItems = view.items;
         res.locals.cartTotal = view.total;
@@ -191,7 +214,7 @@ module.exports = async function cartAuth(req, res, next) {
         await setCartMap(uid, {});
         res.locals.cartItems = [];
         res.locals.cartTotal = 0;
-      }
+      },
     };
 
     return next();
@@ -219,7 +242,7 @@ module.exports = async function cartAuth(req, res, next) {
         res.locals.cartItems = [];
         res.locals.cartTotal = 0;
       },
-      clear: async () => {}
+      clear: async () => {},
     };
 
     return next();

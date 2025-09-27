@@ -3,17 +3,43 @@
   <head>
     <meta charset="UTF-8" />
     <title>Your Profile</title>
-    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/profile.css" />
+    <link rel="stylesheet" href="css/storeHeader.css" />
+    <script
+      src="https://kit.fontawesome.com/3a523928fc.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
-    <h1>Welcome, <%= user.name %>!</h1>
+    <%- include(`../partials/storeHeader`) %>
+    <%- include(`../partials/fonts`) %>
 
-    <div class="profile-card">
+   <% if (user) { %>
+  <h1>Welcome, <%= user.name %>!</h1>
+
+  <div class="profile-card">
+    <div id="profile">
+
+    </div>
+    <div id="info-card">
       <p><strong>Name:</strong> <%= user.name %></p>
       <p><strong>Email:</strong> <%= user.email %></p>
       <p><strong>Phone:</strong> <%= user.phone %></p>
     </div>
+    
+  </div>
 
-    <a href="/" class="btn">🏠 Back to Home</a>
+  <a href="/" class="btn">🏠 Back to Home</a>
+<% } else { %>
+  <h1 id="title">You need to log in to see your profile</h1>
+  <img id="login-image" src="images/login.jpg">
+  <div id="btn-container">
+  <a href="/login" class="btn">Login</a><br>
+  <a href="/register" class="btn2">Register</a>
+  </div>
+<% } %>
+
+
+    
   </body>
 </html>

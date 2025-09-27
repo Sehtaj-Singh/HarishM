@@ -1,15 +1,15 @@
-body{
+body {
   padding: 0;
   margin: 0;
-    overflow-y: auto;
-   height: 100%;
+  overflow-y: auto;
+  height: 100%;
 }
 
 #login-wrap {
   position: fixed;
-  inset: 0;              /* fill viewport */
-  margin: auto;          /* center */
-  top:-9vh;
+  inset: 0; /* fill viewport */
+  margin: auto; /* center */
+  top: -9vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -25,113 +25,105 @@ body{
   z-index: 3;
   background-color: #f5f7f8;
   clip-path: ellipse(50% 35% at 50% 50%);
-  
 }
 
-#title{
-  font-family: 'Abril Fatface', serif;
+#title {
+  font-family: "Abril Fatface", serif;
   position: absolute;
   color: #244776;
   font-size: 4vh;
   z-index: 5;
   font-weight: 400;
-  left:15vw;
-  top:16vh;
+  left: 15vw;
+  top: 16vh;
   letter-spacing: 3px;
-  
 }
 
-#titleR{
-  font-family: 'Abril Fatface', serif;
+#titleR {
+  font-family: "Abril Fatface", serif;
   position: absolute;
   color: #244776;
   font-size: 4vh;
   z-index: 5;
   font-weight: 400;
-  left:15vw;
-  top:13vh;
+  left: 15vw;
+  top: 13vh;
   letter-spacing: 3px;
-  
 }
 
-.input{
+.input {
   position: absolute;
   z-index: 5;
   width: 90vw;
   height: 30vh;
- 
   left: 5vw;
   top: 30vh;
-  
 }
 
-.inputR{
+.inputR {
   position: absolute;
   z-index: 5;
   width: 90vw;
   height: 43vh;
- 
+
   left: 5vw;
   top: 25vh;
-  
 }
 
-.inputR input{
- height: 5vh;
- width: 76vw;
- margin-top: 2vh;
- border-radius: 20px ;
- margin-left: 5vw;
- color: #071221;
-  font-size: 20px; 
-  font-family: 'Inika', serif; 
+.inputR input {
+  height: 5vh;
+  width: 76vw;
+  margin-top: 2vh;
+  border-radius: 20px;
+  margin-left: 5vw;
+  color: #071221;
+  font-size: 20px;
+  font-family: "Inika", serif;
   padding-left: 4vw;
   border: none;
 }
 
-
-.input input{
- height: 5vh;
- width: 76vw;
- border-radius: 20px ;
- margin-left: 5vw;
- color: #071221;
-  font-size: 20px; 
-  font-family: 'Inika', serif; 
+.input input {
+  height: 5vh;
+  width: 76vw;
+  border-radius: 20px;
+  margin-left: 5vw;
+  color: #071221;
+  font-size: 20px;
+  font-family: "Inika", serif;
   padding-left: 4vw;
   border: none;
 }
 
-#submit{
-  width:64vw;
-  margin-left:13vw;
+#submit {
+  width: 64vw;
+  margin-left: 13vw;
   font-size: 3vh;
   color: white;
   background-color: #2c5080;
   margin-top: 2.5vh;
   border: none;
-  font-family: 'Aboreto', serif;
+  font-family: "Aboreto", serif;
   font-weight: 600;
   letter-spacing: 2px;
   position: absolute;
   bottom: 0.5vh;
 }
 
-#submitR{
-  width:64vw;
-  margin-left:13vw;
+#submitR {
+  width: 64vw;
+  margin-left: 13vw;
   font-size: 3vh;
   color: white;
   background-color: #2c5080;
   margin-top: 2.5vh;
   border: none;
-  font-family: 'Aboreto', serif;
+  font-family: "Aboreto", serif;
   font-weight: 600;
   letter-spacing: 2px;
   position: absolute;
   bottom: 2vh;
 }
-
 
 #box-up {
   background-color: #1c2f46;
@@ -140,9 +132,9 @@ body{
   height: 30vh;
   background-image: linear-gradient(
     to bottom,
-    #2a5176 0%,     /* lighter blue top */
-    #203b5d 40%,    /* mid deep blue */
-    #182c4a 100%    /* dark navy bottom */
+    #2a5176 0%,
+    /* lighter blue top */ #203b5d 40%,
+    /* mid deep blue */ #182c4a 100% /* dark navy bottom */
   );
 }
 
@@ -155,9 +147,9 @@ body{
   bottom: 0;
   background-image: linear-gradient(
     to top,
-    #2a5176 0%,     /* lighter blue bottom */
-    #203b5d 40%,    /* blend */
-    #182c4a 100%    /* dark navy merge */
+    #2a5176 0%,
+    /* lighter blue bottom */ #203b5d 40%,
+    /* blend */ #182c4a 100% /* dark navy merge */
   );
 }
 
@@ -168,12 +160,11 @@ body{
   height: 12vh;
   clip-path: polygon(0 40%, 0% 100%, 100% 100%);
   background: black;
-  
+
   opacity: 0.8;
   z-index: 3;
-    filter: blur(100px);
+  filter: blur(100px);
   backdrop-filter: blur(50px);
- 
 }
 
 #down-t2 {
@@ -185,9 +176,8 @@ body{
   background: black;
   opacity: 0.4;
   z-index: 2;
-    filter: blur(100px);
+  filter: blur(100px);
   backdrop-filter: blur(50px);
- 
 }
 
 #down-t3 {
@@ -200,10 +190,8 @@ body{
   background: black;
   opacity: 0.8;
   z-index: 2;
-    filter: blur(100px);
+  filter: blur(100px);
   backdrop-filter: blur(50px);
-
- 
 }
 
 #down-t4 {
@@ -216,11 +204,9 @@ body{
   background: black;
   opacity: 0.4;
   z-index: 2;
-    filter: blur(100px);
+  filter: blur(100px);
   backdrop-filter: blur(50px);
- 
 }
-
 
 #login-box {
   width: 100vw;
@@ -228,75 +214,70 @@ body{
   z-index: 3;
   background: radial-gradient(
     circle at center,
-    #f7f9fb 0%,      /* light center */
-    #e6ebf0 70%,     /* soft grey fade */
-    #dde3ea 100%     /* edge soft fade */
+    #f7f9fb 0%,
+    /* light center */ #e6ebf0 70%,
+    /* soft grey fade */ #dde3ea 100% /* edge soft fade */
   );
   clip-path: ellipse(50% 35% at 50% 50%);
 }
 
-.input a{
+.input a {
   text-decoration: none;
   right: 5vw;
-  font-family: 'Inika', serif;
+  font-family: "Inika", serif;
   color: #071221;
   position: absolute;
   font-size: 18px;
-
 }
 
-
-
-#error{
+#error {
   padding: 0;
   margin: 0;
-  font-family: 'Inika', serif;
+  font-family: "Inika", serif;
   font-size: 4vw;
   margin-top: 4vh;
   margin-left: 7vw;
 }
 
-#errorR{
+#errorR {
   padding: 0;
   margin: 0;
-  font-family: 'Inika', serif;
+  font-family: "Inika", serif;
   font-size: 4vw;
   margin-top: 2vh;
   margin-left: 7vw;
 }
 
-
 input::placeholder {
-  color: #888;       /* change text color */
-  
-  font-size: 18px;   /* adjust size */
+  color: #888; /* change text color */
+
+  font-size: 18px; /* adjust size */
   margin-top: 4px;
   position: relative;
-  font-family: 'Inika', serif;
+  font-family: "Inika", serif;
   left: 5px;
-  
 }
 
-.go-register{
+.go-register {
   position: absolute;
   z-index: 7;
   bottom: 4vh;
   left: 30vw;
-  font-family: 'Inika', serif;
+  font-family: "Inika", serif;
   color: #f5f7f8;
   font-size: 4vw;
 }
 
-.go-register a{
+.go-register a {
   margin-left: 13px;
-  font-family: 'Inika', serif;
+  font-family: "Inika", serif;
   color: #f5f7f8;
   font-size: 5vw;
 }
 
-#up-t{
+#up-t {
   clip-path: polygon(100% 0, 0 0, 0 33%);
-   position: absolute;
+  position: absolute;
   top: 0;
   width: 50vw;
   height: 16vh;
@@ -304,13 +285,13 @@ input::placeholder {
   background: black;
   opacity: 0.8;
   z-index: 2;
-    filter: blur(100px);
+  filter: blur(100px);
   backdrop-filter: blur(50px);
 }
 
-#up-t2{
+#up-t2 {
   clip-path: polygon(100% 0, 0 0, 0 33%);
-   position: absolute;
+  position: absolute;
   top: 0;
   width: 60vw;
   height: 29vh;
@@ -318,57 +299,141 @@ input::placeholder {
   background: black;
   opacity: 0.4;
   z-index: 2;
-    filter: blur(100px);
+  filter: blur(100px);
   backdrop-filter: blur(50px);
 }
 
-.go-registerR{
+.go-registerR {
   position: absolute;
   z-index: 7;
   bottom: 4vh;
   left: 35vw;
-  font-family: 'Inika', serif;
+  font-family: "Inika", serif;
   color: #f5f7f8;
   font-size: 4vw;
 }
 
-.go-registerR a{
-  margin-left: -10px; 
-  font-family: 'Inika', serif;
+.go-registerR a {
+  margin-left: -10px;
+  font-family: "Inika", serif;
   color: #f5f7f8;
   font-size: 5vw;
 }
 
-.phone-field{
+.phone-field {
   display: flex;
 }
-.phone-field input{
-  width:62vw;
+.phone-field input {
+  width: 62vw;
   margin-left: 2vw;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   padding-top: -5px;
-   font-size: 20px; 
-  font-family: 'Inika', serif;
-  color: #071221; 
+  font-size: 20px;
+  font-family: "Inika", serif;
+  color: #071221;
 }
 
-.phone-field span{
+.phone-field span {
   margin-top: 2vh;
   height: calc(5vh + 2px);
   font-size: 20px;
   padding-left: 2vw;
   background-color: white;
   margin-left: 5vw;
-   font-size: 20px; 
-  font-family: 'Inika', serif; 
+  font-size: 20px;
+  font-family: "Inika", serif;
   color: #071221;
-   display: flex;
-   align-items: center;
-   width: 10vw;
-   
-   border-top-left-radius: 20px;
-   border-bottom-left-radius:20px ;
+  display: flex;
+  align-items: center;
+  width: 10vw;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+/*  verify page */
+
+#verify-title {
+  z-index: 5;
+  position: absolute;
+  font-size: 2.7vh;
+  font-family: "Inika", serif;
+  text-align: center;
+  color: #244776;
+  left: 8vw;
+  top: 20vh;
+}
+
+#verify-head{
+  color: #323a40;
+  text-align: center;
+  font-size: 3.5vh;
+  font-family: "Inika", serif;
+  margin-left: 5vw;
   
 }
 
+
+#verify-input{
+  width: 90%;
+  margin-left: 3vw;
+  height: 5vh;
+  margin-top: 0.5vh;
+  border-radius: 20px;
+  color: #071221;
+  font-size: 20px;
+  font-family: "Inika", serif;
+  padding-left: 4vw;
+  border: none;
+}
+#verify-btn{
+width: 60%;
+  height: 5vh;
+  font-size: 3vh;
+  color: white;
+  background-color: #2c5080;
+  margin-top: 3vh;
+  border: none;
+  font-family: "Aboreto", serif;
+  font-weight: 600;
+  letter-spacing: 2px;
+  border-radius: 24px;
+  bottom: 0.5vh;
+  margin-left: 18vw;
+}
+
+#verify-form{
+  display: flex;
+  position: absolute;
+  z-index: 5;
+  top: 30vh;
+  width: 80vw;
+  left: 10vw;
+  flex-direction: column;
+  
+}
+
+  
+#resend-otp{
+ margin-top: 4vh;
+ font-size: 2.2vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+   font-family: "Inika", serif;
+   color: #323a40;
+}
+#resendBtn{
+  border: none;
+  background-color: transparent;
+  font-family: "Inika", serif;
+  color: #323a40;
+  font-size: 2.5vh;
+  text-decoration: underline;
+}
+
+#resendMsg{
+  color: #203b5d;
+  font-family: "Inika", serif;
+ font-size: 2.4vh;
+ margin-top: -10px;
+}

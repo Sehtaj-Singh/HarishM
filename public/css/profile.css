@@ -1,0 +1,86 @@
+body{
+  margin: 0;
+  padding: 0;
+  
+}
+#title{
+  color: #192f49;
+  font-size: 3.5vh;
+  text-align: center;
+  margin-top: 8vh;
+  font-family: "Alice", serif;
+  padding-left: 10vw;
+  padding-right: 10vw;
+
+}
+
+#login-image{
+width: 100vw;
+}
+
+.btn{
+  padding-left: 20vw;
+  padding-right: 20vw;
+  padding-top: 1.5vh;
+  padding-bottom: 1.5vh;
+  height: 3vh;
+  font-size: 3vh;
+  border-radius: 25px;
+  background-color: #0D3980;
+  text-decoration: none;
+  color: #fff;
+  display: inline-block;
+  font-family: 'Aboreto', serif;
+}
+
+.btn2{
+  padding-left: 20vw;
+  padding-right: 20vw;
+  padding-top: 1.5vh;
+  padding-bottom: 1.5vh;
+  height: 3vh;
+  font-size: 3vh;
+  border-radius: 25px;
+  background-color: #0D3980;
+  text-decoration: none;
+  color: #fff;
+  margin-top: 5vh;
+  display: inline-block;
+  font-family: 'Aboreto', serif;
+}
+
+#btn-container{
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+/* with data */
+#info-card{
+height: 10vh;
+width: 85vw;
+background-color: antiquewhite;
+position: absolute;
+
+right: 0;
+top: 4.5vh;
+
+}
+
+.profile-card{
+margin-top: 4vh;
+height: 10vh;
+
+}
+
+#profile{
+  height: 8vh;
+  width: 8vh;
+  border-radius: 50%;
+  z-index: 5;
+  background-color: aqua;
+  position: absolute;
+  margin-left:4vw ;
+  top: 5.5vh;
+  
+}

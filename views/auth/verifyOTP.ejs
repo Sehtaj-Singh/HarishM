@@ -3,40 +3,62 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/auth.css" />
   
  <title>Verify OTP</title>
 </head>
 <body>
+
+  <%- include(`../partials/fonts`) %>
+
+  <div id="up-t"></div>
+  <div id="up-t2"></div>
+
+  <div id="box-up"></div>
+
+  <div id="login-wrap">
+   <div id="login-box">
+   </div>
+  </div>
+
+  <div id="box-down"></div>
+  <div id="down-t"></div>
+  <div id="down-t2"> </div>
+  <div id="down-t3"> </div>
+  <div id="down-t4"> </div>
  
 
 
 
  <% if (maskedPhone) { %>
-  <p>✅ OTP sent to WhatsApp number: <strong><%= maskedPhone %></strong></p>
+  <p id="verify-title">OTP sent to WhatsApp number : <br><strong id="mask-no"><%= maskedPhone %></strong></p>
 <% } %>
 
-  <h2>Enter OTP</h2>
+<div id="verify-form">
+
+  <h2 id="verify-head">Enter OTP</h2>
  
   
 
- <form action="<%= otpAction %>" method="POST">
+ <form id="verify-otp" action="<%= otpAction %>" method="POST">
   <input type="hidden" name="verifyType" value="<%= verifyType %>">
   <input type="hidden" name="verifyID" value="<%= verifyID %>">
-  <input type="text" name="otp" placeholder="Enter OTP">
-  <% if (error) { %><p><%= error %></p><% } %>
-  <button type="submit">Verify OTP</button>
+  <input id="verify-input" type="text" name="otp" placeholder="6-digit code">
+  <% if (error) { %><p><%= error %></p><% } %><br>
+  <button id="verify-btn" type="submit">verify</button>
 </form>
 
 
 <form id="resendForm" method="POST" action="/resend-otp">
  <input type="hidden" name="verifyType" value="<%= verifyType %>">
   <input type="hidden" name="verifyID" value="<%= verifyID %>">
-  <p>
-    Didn’t receive OTP?
-    <button type="submit" id="resendBtn" style="background: none; border: none; color: blue; text-decoration: underline; cursor: pointer;">Resend</button>
-    <span id="resendMsg" style="color: green; margin-left: 10px;"></span>
+  <p id="resend-otp">
+    Didn’t receive OTP?<br>
+    <button type="submit" id="resendBtn">Resend</button><br>
+    <span id="resendMsg" ></span>
   </p>
 </form>
+</div>
 
 <script>
   const resendForm = document.getElementById("resendForm");
@@ -62,11 +84,11 @@
       return response.text();
     })
     .then(() => {
-      resendMsg.textContent = "✅ OTP resent successfully.";
+      resendMsg.textContent = "OTP resent successfully.";
       startCountdown(30); // 30 second timer
     })
     .catch(() => {
-      resendMsg.textContent = "❌ Error resending OTP.";
+      resendMsg.textContent = "Error resending OTP.";
       resendBtn.disabled = false;
       resendBtn.textContent = "Resend";
     });

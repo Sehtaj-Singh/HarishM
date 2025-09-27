@@ -291,8 +291,7 @@ body {
   font-family: "Alice", serif;
   margin-top: 4vh;
   background: linear-gradient(135deg, #192f49, #2c4d75);
-  position: absolute;
-  left: 18vw;
+  
 }
 
 #cart-a2 {
@@ -306,8 +305,15 @@ body {
   display: inline-block;
   margin-top: 4vh;
   background: linear-gradient(135deg, #192f49, #2c4d75);
-  position: absolute;
-  right: 18vw;
+  
+}
+
+#btn-container{
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: center;
+gap: 10vw;
 }
 
 #cart-img {
@@ -367,12 +373,15 @@ body {
   flex-direction: column;
   background-color: #f6f6f6;
   width: 25vw;
-  border-radius: 14px;
+  border-bottom-left-radius: 14px;
+  border-top-left-radius: 14px;
+  gap: 3vh;
 }
 
 .cart-card-img {
   width: 90%;
   height: auto;
+  margin-top: 2vh;
   object-fit: contain;
   border-radius: 10px;
 }
@@ -388,12 +397,13 @@ body {
   display: flex;
   flex-direction: column;     /* stack children vertically */
   justify-content: flex-start;
-  gap: 0.4rem;   
+  gap:0.7vh;   
+  
              
 }
 .cart-card-name {
   color: #323a40;
-  font-size: 2.4vh;
+  font-size: 5vw;
   font-family: 'Arsenal', sans-serif;
   font-weight: bold;
   display: -webkit-box;
@@ -405,12 +415,12 @@ body {
   line-height: 1.2em;
   max-height: 2.4em;
   word-break: break-word;
+  margin-top: 8px;
 }
 
 .cart-mobile-condition {
   font-size: 3.5vw;
   color: #3a3a3a;
-  
   font-family: "Alice", serif;
 }
 
@@ -441,7 +451,6 @@ body {
 
 .cart-card-delivery {
   font-family: "Alice", serif;
-  
   font-size: 2vh;
   display: flex;
 }
@@ -527,4 +536,43 @@ body {
   margin: 5px;
 }
 
+.cart-qty{
+  
+  position: relative;
+  bottom: 20px;
+  background-color: #f6f6f6;
+  border-bottom-left-radius: 14px;
+}
 
+.qty-minus{
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  margin-right: 15px;
+  background-color: #323a40;
+  color: #f5f7f8;
+  font-weight: 700;
+  font-size: 14px;
+ 
+
+}
+
+.qty-plus{
+width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  margin-left: 15px;
+  background-color: #323a40;
+  color: #f5f7f8;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.qty-count{
+  color: #323a40;
+  font-size: 17px;
+}
+
+#login-image{
+width: 100vw;
+}

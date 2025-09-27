@@ -40,7 +40,6 @@ userRouter.post("/cart/update/:id", userController.updateCart);
 //payment
 userRouter.post("/checkout/create-order" ,  userController.createOrder);
 userRouter.post("/checkout/verify" ,  userController.verifyPayment);
-
 userRouter.post("/user/address",  userController.saveAddress);
 
 module.exports = userRouter;

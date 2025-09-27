@@ -82,6 +82,21 @@ exports.getContact = (req, res, next) => {
   res.render(`store/main/contact`);
 };
 
+exports.getUserProfile = async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.render("store/profile", { user: null });
+    }
+
+   const user = await userDB.findOne({ uid: req.user.uid });
+
+    res.render("store/profile", { user, active: "profile" });
+  } catch (err) {
+    console.error("❌ Profile error:", err.message);
+    res.status(500).send("Server error");
+  }
+};
+
 // Detail page
 
 exports.getSHdetailPage = async (req, res, next) => {
@@ -340,9 +355,7 @@ exports.postUserRegisterVerifyOTP = async (req, res, next) => {
   }
 };
 
-exports.getUserProfile = (req, res) => {
-  res.render("store/profile", { user: res.locals.user });
-};
+
 
 // cart and order
 exports.addToCart = async (req, res) => {
