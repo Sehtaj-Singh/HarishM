@@ -1,177 +1,159 @@
 <h1 id="cart-title">Cart</h1>
 
-<% cartItems = cartItems || []; %>
-<% cartTotal = cartTotal || 0; %>
-<% cartUserLoggedIn = cartUserLoggedIn || false; %>
-<% user = user || null; %>
-
-<%
-// normalize
-const allCartItems = cartItems.map(m => ({
-  id: m.productId || String(m._id),
-  image: m.SHimage || m.Nimage || m.Aimage || m.image,
-  name: m.SHname || m.Nname || m.Aname || m.name,
-  price: m.SHprice || m.Nprice || m.Aprice || m.price,
-  mrp: m.SHmrp || m.Nmrp || m.Amrp || m.mrp,
-  discount: m.SHdiscount || m.Ndiscount || m.Adiscount || m.discount,
-  rating: m.Nrating || m.Arating || m.rating,
-  condition: m.condition || null,
-  category: m.category || null,
-  qty: m.qty || 1 
-}));
-%>
-
-<% if (!cartUserLoggedIn) { %>
-  <p class="cart-p">You need to log in,<br><p id="cart-p2">to see your cart</p></p>
-  <img id="login-image" src="images/login.jpg">
-  <div id="btn-container">
-  <a id="cart-a" href="/login">Login</a> <a id="cart-a2" href="/register">Register</a>
-  </div>
+<% cartItems = cartItems || []; %> <% cartTotal = cartTotal || 0; %> <%
+cartUserLoggedIn = cartUserLoggedIn || false; %> <% user = user || null; %> <%
+// normalize const allCartItems = cartItems.map(m => ({ id: m.productId ||
+String(m._id), image: m.SHimage || m.Nimage || m.Aimage || m.image, name:
+m.SHname || m.Nname || m.Aname || m.name, price: m.SHprice || m.Nprice ||
+m.Aprice || m.price, mrp: m.SHmrp || m.Nmrp || m.Amrp || m.mrp, discount:
+m.SHdiscount || m.Ndiscount || m.Adiscount || m.discount, rating: m.Nrating ||
+m.Arating || m.rating, condition: m.condition || null, category: m.category ||
+null, qty: m.qty || 1 })); %> <% if (!cartUserLoggedIn) { %>
+<p class="cart-p">
+  You need to log in,<br />
+  <p id="cart-p2">to see your cart</p>
+</p>
+<img id="login-image" src="images/login.jpg" />
+<div id="btn-container">
+  <a id="cart-a" href="/login">Login</a>
+  <a id="cart-a2" href="/register">Register</a>
+</div>
 
 <% } else if (!allCartItems || allCartItems.length === 0) { %>
-  <p class="cart-p">Your cart is empty</p>
-  <img id="cart-img" src="/images/cart.jpg"> 
-  <a id="cart-a3" href="/store">Shop Now</a>
+<p class="cart-p">Your cart is empty</p>
+<img id="cart-img" src="/images/cart.jpg" />
+<a id="cart-a3" href="/store">Shop Now</a>
 
 <% } else { %>
-  <div id="cart-page" data-has-address="<%= (user && user.address) ? '1' : '0' %>">
-    <div class="cart-card-section">
-      <% allCartItems.forEach(function(item) { %>
-        <div class="cart-card">
-          <!-- <a id="cart-anchor" href="<%=
+<div
+  id="cart-page"
+  data-has-address="<%= (user && user.address) ? '1' : '0' %>"
+>
+  <div class="cart-card-section">
+    <% allCartItems.forEach(function(item) { %>
+    <div class="cart-card">
+      <!-- <a id="cart-anchor" href="<%=
            item.category === 'SH'
            ? '/Second-Hand/Details/' + item.id
            : item.category === 'N'
            ? '/New/Details/' + item.id
            : '/Accessory/Details/' + item.id
           %>"></a> -->
-          <div class="cart-card-image">
-            <img class="cart-card-img" src="/uploads/<%= item.image %>" alt="<%= item.name %>" />
-            <div class="cart-qty" data-id="<%= item.id %>">
-              <button type="button" class="qty-minus" data-delta="-1">-</button>
-              <span class="qty-count"><%= item.qty %></span>
-              <button type="button" class="qty-plus" data-delta="1">+</button>
-            </div>
-          </div>
-
-          <div class="cart-card-data">
-           <h3 class="cart-card-name">
-             <%= item.name %>
-             <% if (item.category === "SH") { %>  
-             - Refurbished
-              <% } else if (item.category === "N") { %>
-             - New
-             <% } %>
-            </h3>
-
-            <% if (item.rating != null) { %>
-              <p class="cart-mobile-rating">
-                <span class="cart-star-wrapper" data-rating="<%= item.rating || 0 %>">
-                  <span class="cart-stars-empty">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                  </span>
-                  <span class="cart-stars-filled">
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                  </span>
-                </span>
-                <span class="cart-rating-number"><%= item.rating ? item.rating.toFixed(1) : '0.0' %></span>
-              </p>
-            <% } %>
-
-            <% if (item.condition) { %>
-              <p class="cart-mobile-condition">Condition: <%= item.condition %></p>
-            <% } %>
-
-              <div class="cart-final-price">₹<%= item.price %></div> 
-           
-
-            <div class="cart-card-delivery">Free delivery, Sat 27 Sept</div>
-            <a class="cart-remove" href="/cart/remove/<%= item.id %>">Remove</a>
-          </div>
+      <div class="cart-card-image">
+        <img
+          class="cart-card-img"
+          src="/uploads/<%= item.image %>"
+          alt="<%= item.name %>"
+        />
+        <div class="cart-qty" data-id="<%= item.id %>">
+          <button type="button" class="qty-minus" data-delta="-1">-</button>
+          <span class="qty-count"><%= item.qty %></span>
+          <button type="button" class="qty-plus" data-delta="1">+</button>
         </div>
-        
-      <% }) %>
+      </div>
+
+      <div class="cart-card-data">
+        <h3 class="cart-card-name">
+          <%= item.name %> <% if (item.category === "SH") { %> - Refurbished <%
+          } else if (item.category === "N") { %> - New <% } %>
+        </h3>
+
+        <% if (item.rating != null) { %>
+        <p class="cart-mobile-rating">
+          <span class="cart-star-wrapper" data-rating="<%= item.rating || 0 %>">
+            <span class="cart-stars-empty">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </span>
+            <span class="cart-stars-filled">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </span>
+          </span>
+          <span class="cart-rating-number"
+            ><%= item.rating ? item.rating.toFixed(1) : '0.0' %></span
+          >
+        </p>
+        <% } %> <% if (item.condition) { %>
+        <p class="cart-mobile-condition">Condition: <%= item.condition %></p>
+        <% } %>
+
+        <div class="cart-final-price">₹<%= item.price %></div>
+
+        <div class="cart-card-delivery">Free delivery, Sat 27 Sept</div>
+        <a class="cart-remove" href="/cart/remove/<%= item.id %>">Remove</a>
+      </div>
     </div>
 
-    
-
-    
-
-    <% if (user && user.address) { %>
-     
-      
-     
-    <% } else { %>
-      
-     
-    <% } %>
+    <% }) %>
   </div>
 
-
-  <%
-  // Calculate totals
-  const totalPrice = allCartItems.reduce((sum, it) => sum + (Number(it.price) * (it.qty || 1)), 0);
-  const totalMrp = allCartItems.reduce((sum, it) => sum + (Number(it.mrp || it.price) * (it.qty || 1)), 0);
-  const saved = totalMrp - totalPrice;
-%>
-
-<div id="cart-summary">
-  <p>Subtotal (selling price): <span id="cart-summary-subtotal">₹<%= cartTotal %></span></p>
-  <p>Subtotal (MRP): <s id="cart-summary-mrp">₹<%= allCartItems.reduce((s,it)=>s+(Number(it.mrp||it.price)*it.qty),0) %></s></p>
-  <p style="color: green;">You saved: <span id="cart-summary-saved">₹<%= allCartItems.reduce((s,it)=>s+(Number(it.mrp||it.price)*it.qty),0) - cartTotal %></span></p>
-
-  <% if (user && user.address) { %>
-    <button id="pay-now">Place Order</button>
-    <button id="edit-address-btn" type="button">Edit Address</button>
-  <% } else { %>
-    <button id="add-address-btn" type="button">Add Address</button>
-     <script id="user-address-data" type="application/json"><%= JSON.stringify(user.address) %></script>
-  <% } %>
+  <% if (user && user.address) { %> <% } else { %> <% } %>
 </div>
 
-  <%- include('./addressModal') %>
-<% } %>
+<% // Calculate totals const totalPrice = allCartItems.reduce((sum, it) => sum +
+(Number(it.price) * (it.qty || 1)), 0); const totalMrp =
+allCartItems.reduce((sum, it) => sum + (Number(it.mrp || it.price) * (it.qty ||
+1)), 0); const saved = totalMrp - totalPrice; %>
 
+<div id="cart-summary">
+  <!-- Left box: prices -->
+  <div class="cart-summary-box">
+    <p id="cart-summary-subtotal">₹<%= cartTotal %></p>
+    <p id="cart-summary-mrp"><s>₹<%= totalMrp %></s></p>
+  </div>
+
+  <!-- Right box: action -->
+  <div class="cart-summary-box">
+    <% if (user && user.address) { %>
+    <button id="place-order-btn">Place Order</button>
+    <% } else { %>
+    <button id="add-address-btn">Add Address</button>
+    <% } %>
+  </div>
+</div>
+
+<%- include('./addressModal') %> <% } %>
 
 <script>
-document.addEventListener("click", async function (e) {
-  const btn = e.target.closest(".qty-plus, .qty-minus");
-  if (!btn) return;
+  document.addEventListener("click", async function (e) {
+    const btn = e.target.closest(".qty-plus, .qty-minus");
+    if (!btn) return;
 
-  const wrapper = btn.closest(".cart-qty");
-  const id = wrapper.dataset.id;
-  const delta = parseInt(btn.dataset.delta, 10);
+    const wrapper = btn.closest(".cart-qty");
+    const id = wrapper.dataset.id;
+    const delta = parseInt(btn.dataset.delta, 10);
 
-  const countSpan = wrapper.querySelector(".qty-count");
-  const current = parseInt(countSpan.textContent, 10) || 1;
+    const countSpan = wrapper.querySelector(".qty-count");
+    const current = parseInt(countSpan.textContent, 10) || 1;
 
-  // Prevent going below 1
-  if (delta === -1 && current === 1) return;
+    // Prevent going below 1
+    if (delta === -1 && current === 1) return;
 
-  try {
-    const res = await fetch(`/cart/update/${id}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ qty: current + delta }),
-    });
+    try {
+      const res = await fetch(`/cart/update/${id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ qty: current + delta }),
+      });
 
-    if (!res.ok) throw new Error("Failed to update cart");
-    const data = await res.json();
+      if (!res.ok) throw new Error("Failed to update cart");
+      const data = await res.json();
 
-    // ✅ update UI
-    countSpan.textContent = data.qty;
+      // ✅ update UI
+      countSpan.textContent = data.qty;
 
-    // update totals + prices
-    document.getElementById("cart-summary-subtotal").textContent = "₹" + data.totalPrice;
-    document.getElementById("cart-summary-mrp").textContent = "₹" + data.totalMrp;
-    document.getElementById("cart-summary-saved").textContent = "₹" + data.saved;
-
-  } catch (err) {
-    console.error(err);
-  }
-});
+      // update totals + prices
+      document.getElementById("cart-summary-subtotal").textContent =
+        "₹" + data.totalPrice;
+      document.getElementById("cart-summary-mrp").textContent =
+        "₹" + data.totalMrp;
+      document.getElementById("cart-summary-saved").textContent =
+        "₹" + data.saved;
+    } catch (err) {
+      console.error(err);
+    }
+  });
 </script>

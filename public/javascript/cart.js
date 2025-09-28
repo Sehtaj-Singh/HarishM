@@ -15,6 +15,56 @@ document.addEventListener("DOMContentLoaded", () => {
     if (el) el.style.display = "none";
   };
 
+  // -------- +/- button -----------
+  
+    document.querySelectorAll(".cart-qty").forEach(control => {
+    const minusBtn = control.querySelector(".qty-minus");
+    const plusBtn = control.querySelector(".qty-plus");
+    const countSpan = control.querySelector(".qty-count");
+    const productId = control.getAttribute("data-id");
+
+    const updateQuantity = (newQty) => {
+      // Call backend
+      fetch(`/cart/update/${productId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ qty: newQty })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          // ✅ Always use qty returned from server
+          countSpan.textContent = data.qty;
+
+          // Update summary totals
+          const subtotalEl = document.querySelector("#cart-summary-subtotal");
+          const mrpEl = document.querySelector("#cart-summary-mrp");
+          const savedEl = document.querySelector("#cart-summary-saved");
+
+          if (subtotalEl) subtotalEl.textContent = `₹${data.totalPrice}`;
+          if (mrpEl) mrpEl.textContent = `₹${data.totalMrp}`;
+          if (savedEl) savedEl.textContent = `You saved ₹${data.saved}`;
+        } else {
+          alert(data.error || "Failed to update cart");
+        }
+      })
+      .catch(err => console.error("Update cart failed:", err));
+    };
+
+    // Handlers
+    minusBtn.addEventListener("click", () => {
+      let currentQty = parseInt(countSpan.textContent, 10);
+      if (currentQty > 1) {
+        updateQuantity(currentQty - 1);
+      }
+    });
+
+    plusBtn.addEventListener("click", () => {
+      let currentQty = parseInt(countSpan.textContent, 10);
+      updateQuantity(currentQty + 1);
+    });
+  });
+
   // ----- Read page state (set by data-attribute in cart.ejs) -----
   const page = document.getElementById("cart-page");
   const hasAddress = page && page.dataset.hasAddress === "1";

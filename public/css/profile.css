@@ -62,7 +62,8 @@
   border-bottom-left-radius: 32px;
   border-top-left-radius: 32px;
   right: 0;
-  top: 5vh;
+  top: 6vh;
+  box-shadow: -1px 5px 10px rgba(0, 0, 0, 0.15);
 }
 
 #profile {
@@ -72,7 +73,7 @@
   z-index: 5;
   position: absolute;
   margin-left: 3vw;
-  top: 8vh;
+  top: 9vh;
   background: url("/images/profile.jpg") center/cover;
 }
 
@@ -109,11 +110,12 @@
 
 .address-info {
   width: 85vw;
-  background-color: #f2e8dc;
+  background: linear-gradient(135deg, #f2e8dc, #e8dbc9, #d6bfa3);
   height: 7vh;
   display: flex;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   padding: 1vh;
-  margin-top: 23vh;
+  margin-top: 24vh;
   border-top-right-radius: 32px;
   border-bottom-right-radius: 32px;
 }
@@ -138,7 +140,7 @@
   letter-spacing: 1px;
   color: #fff;
   padding: 1vh 1vh;
-  background-color: #192f49;
+  background-color: #3E2723;
   border-radius: 32px;
   margin-top: 1.75vh;
 }
@@ -146,4 +148,101 @@
 #address-box {
   width: 70vw;
   margin-left: 3vw;
+}
+
+/* Profile quick actions */
+#profile-anchor {
+  display: flex;
+  
+  margin: 1rem 0;
+ 
+}
+
+/* Card */
+.profile-box {
+  flex: 1;
+  margin-left: 5vw;
+  padding-top: 1vh;
+  width: 15vw;
+  height: 10vh;
+  margin-right: 5vw;
+  text-align: center;
+  background: #fff;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #323a40;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1vh;
+}
+
+/* Icon */
+.profile-box i {
+  font-size: 3vh;
+  line-height: 1;               /* avoid vertical wobble */
+  color: #192f49;
+}
+
+/* Label: apply to both p and span, and kill default p margins */
+.profile-box p,
+.profile-box span {
+  margin: 0;                    /* removes default p margin */
+  font-size: 2.2vh;
+  font-weight: 600;
+  font-family: "Alice", serif;  /* matches rest of profile page */
+  color: #323a40;
+}
+
+
+
+#profile-list {
+  display: flex;
+  flex-direction: column;
+  margin-top: 3vh;
+  width: 90vw;
+  margin-left: auto;
+  margin-right: auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.profile-item {
+  display: flex;
+  align-items: center;
+  gap: 4vw;
+  padding: 1.5vh 3vw;
+  text-decoration: none;
+  color: #323a40;
+  font-family: "Alice", serif;
+  font-size: 2vh;
+  border-bottom: 1px solid #e0e0e0;
+  transition: background 0.2s ease;
+}
+
+.profile-item:last-child {
+  border-bottom: none;
+}
+
+.profile-item i {
+  font-size: 2.2vh;
+  color: #323a40;
+  width: 24px; /* keeps icons aligned */
+  text-align: center;
+}
+
+.profile-item:hover {
+  background: #f5f0e6;
+}
+
+/* Highlight logout */
+.logout-item {
+  color: #d32f2f;
+}
+
+.logout-item i {
+  color: #d32f2f;
 }

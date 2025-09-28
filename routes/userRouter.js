@@ -13,7 +13,7 @@ userRouter.post(`/user/register` , userController.postUserRegister);
 userRouter.get(`/user/register/verify-otp` , userController.getUserRegisterVerifyOTP);
 userRouter.post(`/user/register/verify-otp` , userController.postUserRegisterVerifyOTP);
 
-userRouter.use(cartAuth);
+
 
 
 userRouter.get(`/` ,  userController.getHomePage);
@@ -28,7 +28,7 @@ userRouter.get(`/New/Details/:NmobileId` , userController.getNdetailPage);
 userRouter.get(`/Accessory/Details/:accessoryId` , userController.getAdetailPage);
 
 
-
+userRouter.use(cartAuth);
 
 userRouter.get(`/profile`, userController.getUserProfile);
 

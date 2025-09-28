@@ -394,6 +394,7 @@ exports.viewCart = async (req, res) => {
       items: res.locals.cartItems,
       total: res.locals.cartTotal,
       user: res.locals.user || null,
+       active: null
     });
   } catch (err) {
     console.error("❌ Error rendering cart:", err.message);

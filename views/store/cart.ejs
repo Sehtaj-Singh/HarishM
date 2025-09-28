@@ -5,91 +5,194 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>My Cart</title>
-    <link rel="stylesheet" href="/css/userHeader.css" />
-    <style>
-      h1 {
-        margin-top: 8vh;
-      }
-    </style>
+    <link rel="stylesheet" href="/css/storeHeader.css" />
+    <link rel="stylesheet" href="/css/cart.css" />
+    
+     <script
+      src="https://kit.fontawesome.com/3a523928fc.js"
+      crossorigin="anonymous"
+    ></script>
+
   </head>
   <body>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".star-wrapper").forEach(function (wrapper) {
+          const rating = parseFloat(wrapper.dataset.rating) || 0;
+          const pct = (rating / 5) * 100; // e.g. 4.2 -> 84
+          const filled = wrapper.querySelector(".stars-filled");
+          if (filled) filled.style.width = pct + "%";
+        });
+      });
+    </script>
+
+    <%- include('../partials/storeHeader') %>
+    <%- include(`../partials/fonts`) %>
+    <%- include(`../partials/cartAddToast`) %>
+    <script src="javascript/store.js"></script>
+    <script src="javascript/cart.js"></script>
+
     
 
-    <h1>My Cart</h1>
+    <a class="back-btn" href="/"><i class="fa-solid fa-arrow-left"></i>  Cart</a>
 
-    <% if (!items || items.length === 0) { %>
-    <p>Your cart is empty</p>
-    <% } else { %>
 
-    <!-- Page wrapper exposes whether user has an address (read by cart.js) -->
-    <div
-      id="cart-page"
-      data-has-address="<%= (user && user.address) ? '1' : '0' %>"
-    >
-      <table border="1" cellpadding="8" cellspacing="0">
-        <tr>
-          <th>Image</th>
-          <th>Name</th>
-          <th>Price</th>
-          <th>Qty</th>
-          <th>Subtotal</th>
-          <th>Action</th>
-        </tr>
-        <% items.forEach(item => { %>
-        <tr>
-          <td>
-            <img
-              src="/uploads/<%= item.image %>"
-              width="80"
-              alt="<%= item.name %>"
-            />
-          </td>
-          <td><%= item.name %></td>
-          <td>₹<%= item.price %></td>
-          <td><%= item.qty %></td>
-          <td>₹<%= Number(item.price) * Number(item.qty) %></td>
-          <td><a href="/cart/remove/<%= item.productId %>">Remove</a></td>
-        </tr>
-        <% }) %>
-      </table>
+    
 
-      <h3>Total: ₹<%= total %></h3>
+    <% cartItems = cartItems || []; %>
+    <% cartUserLoggedIn = cartUserLoggedIn || false; %>
+    <% user = user || null; %>
 
-      <% if (user && user.address) { %>
-      <div>
-        <h4>Delivery Address</h4>
-        <p>
-          <strong><%= user.address.fullName %></strong><br />
-          <%= user.address.flat %>, <%= user.address.area %><br />
-          <% if (user.address.landmark) { %> Landmark: <%= user.address.landmark
-          %><br />
-          <% } %> <%= user.address.city %>, <%= user.address.state %> - <%=
-          user.address.pincode %><br />
-          Phone: <%= user.address.mobile %>
-        </p>
-        <!-- 🔹 Edit button -->
-        <button id="edit-address-btn" type="button">Edit Address</button>
+    <% if (!cartUserLoggedIn) { %>
+      <p class="cart-p">You need to log in,<br><span id="cart-p2">to see your cart</span></p>
+      <img id="login-image" src="/images/login.jpg" />
+      <div id="btn-container2">
+        <a id="cart-a" href="/login">Login</a>
+        <a id="cart-a2" href="/register">Register</a>
       </div>
 
-      <!-- Hidden JSON for JS (prefill modal on edit) -->
-      <script id="user-address-data" type="application/json">
-        <%= JSON.stringify(user.address) %>
-      </script>
+    <% } else if (!cartItems || cartItems.length === 0) { %>
+      <p class="cart-p">Your cart is empty</p>
+      <img id="cart-img" src="/images/cart.jpg" />
+      <a id="cart-a3" href="/store">Shop Now</a>
 
-      <button id="pay-now">Place Order</button>
-      <% } else { %>
-      <p style="color: red">⚠️ No delivery address found</p>
-      <button id="add-address-btn" type="button">Add Address</button>
+    <% } else { %>
+      <% 
+        // normalize + totals
+        const allCartItems = cartItems.map(m => ({
+          id: m.productId || String(m._id),
+          image: m.SHimage || m.Nimage || m.Aimage || m.image,
+          name: m.SHname || m.Nname || m.Aname || m.name,
+          price: m.SHprice || m.Nprice || m.Aprice || m.price,
+          mrp: m.SHmrp || m.Nmrp || m.Amrp || m.mrp,
+          discount: m.SHdiscount || m.Ndiscount || m.Adiscount || m.discount,
+          rating: m.Nrating || m.Arating || m.rating,
+          category: m.category || null,
+          condition: m.condition || null,
+          qty: m.qty || 1
+        }));
+        const totalPrice = allCartItems.reduce((s, it) => s + (Number(it.price) * it.qty), 0);
+        const totalMrp = allCartItems.reduce((s, it) => s + (Number(it.mrp || it.price) * it.qty), 0);
+      %>
+
+      <% if (user && user.address) { %>
+      <div id="cart-address-bar">
+       <div class="cart-address-icon">
+        <i class="fa-solid fa-location-dot"></i>
+      </div>
+      <div class="cart-address-details">
+        <p class="cart-address-name">Deliver to: <%= user.address.fullName %></p>
+        <p class="cart-address-line">
+        <%= user.address.flat %>, <%= user.address.area %>, <%= user.address.city %>
+        </p>
+        <p class="cart-address-line">
+        <%= user.address.state || "" %> - <%= user.address.pincode %>
+        </p>
+      </div>
+      <div class="cart-address-action">
+        <a href="/profile/address" class="change-address-btn">Change</a>
+      </div>
+      </div>
       <% } %>
-    </div>
 
-    <!-- Address Modal Partial -->
-    <%- include('../partials/addressModal') %>
+      <p class="cart-count">
+       <% 
+        let totalQty = 0;
+        if (cartItems && cartItems.length) {
+        cartItems.forEach(it => totalQty += it.qty || 1);
+       }
+       %>
+       <%= totalQty %> item<%= totalQty !== 1 ? 's' : '' %>
+      </p>
 
-    <!-- Razorpay SDK -->
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <!-- Your page JS -->
-    <script src="/javascript/cart.js"></script>
+
+      <div class="cart-page" id="cart-page" data-has-address="<%= (user && user.address) ? '1' : '0' %>">
+        <!-- Cart items -->
+        <div id="cart-card-section">
+          <% allCartItems.forEach(function(item) { %>
+            <div id="cart-card">
+              <!-- <a id="cart-anchor" href="<%=
+               item.category === 'SH'
+               ? '/Second-Hand/Details/' + item.id
+               : item.category === 'N'
+               ? '/New/Details/' + item.id
+               : '/Accessory/Details/' + item.id
+              %>"></a> -->
+              <div class="cart-card-image">
+                <img id="cardImg" src="/uploads/<%= item.image %>" alt="<%= item.name %>" />
+                <div class="cart-qty" data-id="<%= item.id %>">
+                  <button type="button" class="qty-minus" data-delta="-1">-</button>
+                  <span class="qty-count"><%= item.qty %></span>
+                  <button type="button" class="qty-plus" data-delta="1">+</button>
+                </div>
+              </div>
+             <div class="cart-card-data">
+           <h3 class="cart-card-name">
+             <%= item.name %>
+             <% if (item.category === "SH") { %>  
+             - Refurbished
+              <% } else if (item.category === "N") { %>
+             - New
+             <% } %>
+            </h3>
+
+            <% if (item.rating != null) { %>
+              <p class="cart-mobile-rating">
+                <span class="cart-star-wrapper" data-rating="<%= item.rating || 0 %>">
+                  <span class="cart-stars-empty">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </span>
+                  <span class="cart-stars-filled">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </span>
+                </span>
+                <span class="cart-rating-number"><%= item.rating ? item.rating.toFixed(1) : '0.0' %></span>
+              </p>
+            <% } %>
+
+            <% if (item.condition) { %>
+              <p class="cart-mobile-condition">Condition: <%= item.condition %></p>
+            <% } %>
+
+              <div class="cart-final-price">₹<%= item.price %></div> 
+           
+
+            <div class="cart-card-delivery">Free delivery, Sat 27 Sept</div>
+            <a class="cart-remove" href="/cart/remove/<%= item.id %>">Remove</a>
+          </div>
+            </div>
+          <% }) %>
+        </div>
+
+        <!-- Cart summary -->
+        <div id="cart-summary">
+          <div class="cart-summary-left">
+           <p class="cart-total">₹<%= totalPrice %></p>
+           <p class="cart-mrp"><s>₹<%= totalMrp %></s></p>
+         </div>
+         <div class="cart-summary-right">
+           <% if (user && user.address) { %>
+           <button id="place-order-btn">Place Order</button>
+           <% } else { %>
+           <button id="add-address-btn">Add Address</button>
+           <% } %>
+         </div>
+        </div>
+
+       
+      </div>
+
+      <!-- Address Modal -->
+      <%- include('../partials/addressModal') %>
+
+      <!-- Razorpay SDK + page JS -->
+      <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+      <script src="/javascript/cart.js"></script>
     <% } %>
+
   </body>
 </html>

@@ -14,9 +14,9 @@
         <button class="headButton" id="searchIconButton">
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
-        <button class="headButton">
+        <a href="/cart" class="headButton">
           <i id="headIcon" class="fa-solid fa-cart-shopping"></i>
-        </button>
+        </a>
         <button class="headButton">
           <i id="headIcon" class="fa-solid fa-bars"></i>
         </button>
@@ -55,20 +55,6 @@
 </header>
 
 
-<!-- 🛒 Cart Modal -->
-<div id="cart-modal" class="cart-modal">
-  <div class="cart-modal-content">
-    <button id="close-cart" class="close-cart">&times;</button>
 
-    
-    <!-- Cart content -->
-   <%- include('./cartModal', {
-  cartItems: cartItems || [],
-  cartTotal: cartTotal || 0,
-  cartUserLoggedIn: cartUserLoggedIn || false,
-  user: user || null
-}) %>
-  </div>
-</div>
 
 
