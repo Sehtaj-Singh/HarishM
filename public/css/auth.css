@@ -473,6 +473,7 @@ width: 60%;
   transition: all 0.3s ease;
   background: transparent; /* match form background */
   padding: 0 6px;
+  
 }
 
 /* Float label only when input has text or focus */
@@ -483,4 +484,25 @@ width: 60%;
   font-size: 16px;
   color: #2c5080; /* blue highlight */
   font-family: "Inika", serif;
+  
+}
+
+.inputGroup input:focus {
+  border: 2px solid #2c5080; /* blue */
+}
+
+.inputGroup input {
+  border: 2px solid #ccc;
+  border-radius: 20px;
+  background: #fff;
+  transition: border-color 0.2s ease; 
+}
+
+.inputGroup input:focus {
+  outline: none;
+  border-color: #2c5080; /* blue border */
+}
+
+.inputGroup label {
+  transition: top 0.3s ease, left 0.3s ease, font-size 0.3s ease, color 0.3s ease;
 }
