@@ -29,7 +29,7 @@ body {
 
 #title {
   font-family: "Abril Fatface", serif;
-  position: absolute;
+  position:fixed;
   color: #244776;
   font-size: 4vh;
   z-index: 5;
@@ -41,7 +41,7 @@ body {
 
 #titleR {
   font-family: "Abril Fatface", serif;
-  position: absolute;
+  position: fixed;
   color: #244776;
   font-size: 4vh;
   z-index: 5;
@@ -489,20 +489,7 @@ width: 60%;
 
 .inputGroup input:focus {
   border: 2px solid #2c5080; /* blue */
-}
-
-.inputGroup input {
-  border: 2px solid #ccc;
-  border-radius: 20px;
-  background: #fff;
-  transition: border-color 0.2s ease; 
-}
-
-.inputGroup input:focus {
   outline: none;
-  border-color: #2c5080; /* blue border */
 }
 
-.inputGroup label {
-  transition: top 0.3s ease, left 0.3s ease, font-size 0.3s ease, color 0.3s ease;
-}
+
