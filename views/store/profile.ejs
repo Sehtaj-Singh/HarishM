@@ -18,6 +18,7 @@
   <body class="profile-page">
     <%- include(`../partials/storeHeader`) %>
     <%- include(`../partials/fonts`) %>
+    <%- include('../partials/addressModal') %>
 
    <% if (user) { %>
   
@@ -34,6 +35,8 @@
     
   </div>
 
+  <div id="margin-body"></div>
+
   <% if (user.address) { %>
 <div class="address-info">
    
@@ -47,9 +50,17 @@
     <p id="address"><%= user.address.state %>, <%= user.address.pincode %></p>
   </div>
 
-  <form action="/profile/address/edit" method="get">
-    <button id="address-btn" type="submit">Change</button>
-  </form>
+  <div>
+  <button
+    id="address-btn"
+    type="button"
+    class="change-address-btn"
+    data-address='<%- JSON.stringify(user.address || {}) %>'
+    onclick="openAddressModalFromBtn(this)"
+  >
+    Change
+  </button>
+</div>
 
 
 </div>

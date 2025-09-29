@@ -9,7 +9,8 @@
 }
 
 #login-image {
-  width: 100vw;
+  width: 80vw;
+  margin-left: 10vw;
 }
 
 .profile-page #btnn {
@@ -48,9 +49,13 @@
 .profile-page #btn-container2 {
   display: flex !important;
   flex-direction: column !important ;
-  margin-top: 4vh;
+  margin-top: 2vw;
   align-items: center;
   gap: 4vh;
+}
+#margin-body{
+  margin-top: 24vh;
+  height: 1px;
 }
 
 /* with data */
@@ -58,6 +63,7 @@
   height: 16vh;
   width: 80vw;
   background-color: #f6f6f6;
+  background: linear-gradient(135deg, #f6f6f6, #e5e5e5, #bababa);
   position: absolute;
   border-bottom-left-radius: 32px;
   border-top-left-radius: 32px;
@@ -115,7 +121,7 @@
   display: flex;
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   padding: 1vh;
-  margin-top: 24vh;
+ 
   border-top-right-radius: 32px;
   border-bottom-right-radius: 32px;
 }
@@ -140,7 +146,7 @@
   letter-spacing: 1px;
   color: #fff;
   padding: 1vh 1vh;
-  background-color: #3E2723;
+  background-color: #192f49;
   border-radius: 32px;
   margin-top: 1.75vh;
 }
@@ -155,7 +161,7 @@
   display: flex;
   
   margin: 1rem 0;
- 
+  margin-bottom: 10px;
 }
 
 /* Card */
@@ -189,7 +195,7 @@
 .profile-box p,
 .profile-box span {
   margin: 0;                    /* removes default p margin */
-  font-size: 2.2vh;
+  font-size: 2vh;
   font-weight: 600;
   font-family: "Alice", serif;  /* matches rest of profile page */
   color: #323a40;
@@ -200,7 +206,7 @@
 #profile-list {
   display: flex;
   flex-direction: column;
-  margin-top: 3vh;
+  margin-top: 2vh;
   width: 90vw;
   margin-left: auto;
   margin-right: auto;

@@ -7,17 +7,23 @@ document.addEventListener("DOMContentLoaded", () => {
   // Expose as globals so inline onclick works
   window.showOverlay = function (id) {
     const el = document.getElementById(id);
-    if (el) el.style.display = "block";
+    if (el) {
+      el.style.display = "block";
+      setTimeout(() => el.classList.add("show"), 10); // allow transition
+    }
   };
 
   window.hideOverlay = function (id) {
     const el = document.getElementById(id);
-    if (el) el.style.display = "none";
+    if (el) {
+      el.classList.remove("show");
+      setTimeout(() => (el.style.display = "none"), 300); // match CSS transition
+    }
   };
 
   // -------- +/- button -----------
-  
-    document.querySelectorAll(".cart-qty").forEach(control => {
+
+  document.querySelectorAll(".cart-qty").forEach((control) => {
     const minusBtn = control.querySelector(".qty-minus");
     const plusBtn = control.querySelector(".qty-plus");
     const countSpan = control.querySelector(".qty-count");
@@ -28,27 +34,27 @@ document.addEventListener("DOMContentLoaded", () => {
       fetch(`/cart/update/${productId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ qty: newQty })
+        body: JSON.stringify({ qty: newQty }),
       })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          // ✅ Always use qty returned from server
-          countSpan.textContent = data.qty;
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            // ✅ Always use qty returned from server
+            countSpan.textContent = data.qty;
 
-          // Update summary totals
-          const subtotalEl = document.querySelector("#cart-summary-subtotal");
-          const mrpEl = document.querySelector("#cart-summary-mrp");
-          const savedEl = document.querySelector("#cart-summary-saved");
+            // Update summary totals
+            const subtotalEl = document.querySelector("#cart-summary-subtotal");
+            const mrpEl = document.querySelector("#cart-summary-mrp");
+            const savedEl = document.querySelector("#cart-summary-saved");
 
-          if (subtotalEl) subtotalEl.textContent = `₹${data.totalPrice}`;
-          if (mrpEl) mrpEl.textContent = `₹${data.totalMrp}`;
-          if (savedEl) savedEl.textContent = `You saved ₹${data.saved}`;
-        } else {
-          alert(data.error || "Failed to update cart");
-        }
-      })
-      .catch(err => console.error("Update cart failed:", err));
+            if (subtotalEl) subtotalEl.textContent = `₹${data.totalPrice}`;
+            if (mrpEl) mrpEl.textContent = `₹${data.totalMrp}`;
+            if (savedEl) savedEl.textContent = `You saved ₹${data.saved}`;
+          } else {
+            alert(data.error || "Failed to update cart");
+          }
+        })
+        .catch((err) => console.error("Update cart failed:", err));
     };
 
     // Handlers
@@ -94,13 +100,13 @@ document.addEventListener("DOMContentLoaded", () => {
           const userAddress = JSON.parse(userAddressData.textContent);
 
           addressForm.fullName.value = userAddress.fullName || "";
-          addressForm.mobile.value   = userAddress.mobile || "";
-          addressForm.flat.value     = userAddress.flat || "";
-          addressForm.area.value     = userAddress.area || "";
+          addressForm.mobile.value = userAddress.mobile || "";
+          addressForm.flat.value = userAddress.flat || "";
+          addressForm.area.value = userAddress.area || "";
           addressForm.landmark.value = userAddress.landmark || "";
-          addressForm.city.value     = userAddress.city || "";
-          addressForm.state.value    = userAddress.state || "";
-          addressForm.pincode.value  = userAddress.pincode || "";
+          addressForm.city.value = userAddress.city || "";
+          addressForm.state.value = userAddress.state || "";
+          addressForm.pincode.value = userAddress.pincode || "";
 
           if (saveBtn) saveBtn.innerText = "Update Address";
         }
@@ -113,7 +119,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Close modal
   if (closeAddressBtn) {
-    closeAddressBtn.addEventListener("click", () => window.hideOverlay("address-overlay"));
+    closeAddressBtn.addEventListener("click", () =>
+      window.hideOverlay("address-overlay")
+    );
   }
 
   // Save / Update form
@@ -144,8 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-   
- 
+
   // ----- Razorpay, only when address exists -----
   if (hasAddress) {
     const payBtn = document.getElementById("pay-now");

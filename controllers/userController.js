@@ -360,30 +360,39 @@ exports.postUserRegisterVerifyOTP = async (req, res, next) => {
 
 // cart and order
 exports.addToCart = async (req, res) => {
-  const { productId, qty, redirectTo } = req.body;
+  const { productId, qty, redirectTo, buyNow } = req.body;
   const base = redirectTo || req.get("referer") || "/store";
   const u = new URL(base, `${req.protocol}://${req.get("host")}`);
 
   try {
-    await req.cart.add(productId, qty); // set by cartAuth
-    u.searchParams.set("msg", "added");   // 👈 flag for success
-    u.searchParams.set("openCart", "1");  // optional, auto open cart
+    await req.cart.add(productId, qty);
+
+    if (buyNow === "true") {   // 👈 check the hidden input
+      return res.redirect("/cart?msg=added");
+    }
+
+    u.searchParams.set("msg", "added");
+    u.searchParams.set("openCart", "1");
     return res.redirect(u.pathname + "?" + u.searchParams.toString());
   } catch (err) {
     const status = err.status || 500;
+
     if (status === 401) {
       u.searchParams.set("openCart", "login");
       return res.redirect(u.pathname + "?" + u.searchParams.toString());
     }
+
     if (status === 409) {
-      u.searchParams.set("msg", "alreadyInCart"); // 👈 flag for duplicate
+      u.searchParams.set("msg", "alreadyInCart");
       u.searchParams.set("openCart", "1");
       return res.redirect(u.pathname + "?" + u.searchParams.toString());
     }
+
     console.error("❌ addToCart:", err.message);
     return res.status(status).send(status === 500 ? "Server error" : err.message);
   }
 };
+
 
 
 // GET /cart

@@ -44,7 +44,7 @@
     <% user = user || null; %>
 
     <% if (!cartUserLoggedIn) { %>
-      <p class="cart-p">You need to log in,<br><span id="cart-p2">to see your cart</span></p>
+      <p class="cart-p">You need to log in,<br>to see your cart</p>
       <img id="login-image" src="/images/login.jpg" />
       <div id="btn-container2">
         <a id="cart-a" href="/login">Login</a>
@@ -90,8 +90,15 @@
         </p>
       </div>
       <div class="cart-address-action">
-        <a href="/profile/address" class="change-address-btn">Change</a>
-      </div>
+        <button
+         type="button"
+         class="change-address-btn"
+         data-address='<%- JSON.stringify(user.address || {}) %>'
+         onclick="openAddressModalFromBtn(this)"
+         >
+         Change
+       </button>
+     </div>
       </div>
       <% } %>
 
@@ -168,7 +175,31 @@
           <% }) %>
         </div>
 
-        <!-- Cart summary -->
+
+        
+         <div class="price-summary">
+            <h3>Price Summary</h3>
+             <div class="price-row">
+              <span>Price (MRP)</span>
+               <span>₹<%= totalMrp %></span>
+             </div>
+             <div class="price-row">
+               <span>Discount</span>
+               <span id="green">-₹<%= totalMrp - totalPrice %></span>
+             </div>
+             <div class="price-row">
+              <span>Delivery Charges</span>
+              <span id="green">Free</span>
+             </div>
+             <hr />
+            <div class="price-row total">
+              <span>Total Amount</span>
+            <span>₹<%= totalPrice %></span>
+             </div>
+            </div>
+
+
+       
         <div id="cart-summary">
           <div class="cart-summary-left">
            <p class="cart-total">₹<%= totalPrice %></p>
@@ -191,7 +222,7 @@
 
       <!-- Razorpay SDK + page JS -->
       <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-      <script src="/javascript/cart.js"></script>
+      
     <% } %>
 
   </body>

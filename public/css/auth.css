@@ -437,3 +437,50 @@ width: 60%;
  font-size: 2.4vh;
  margin-top: -10px;
 }
+
+
+/* placeholder */
+/* Floating Label Inputs (login page) */
+.inputGroup {
+  position: relative;
+  margin: 20px 0;
+  width: 100%;
+}
+
+.inputGroup input {
+  height: 5vh;
+  width: 76vw;
+  border-radius: 20px;
+  margin-left: 5vw;
+  color: #071221;
+  font-size: 20px;
+  font-family: "Inika", serif;
+  padding-left: 4vw;
+  border: none;
+  background: #fff;
+}
+
+/* Labels initially sit like placeholders */
+.inputGroup label {
+  position: absolute;
+  left: 9vw;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #888;
+  font-family: "Inika", serif;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  background: transparent; /* match form background */
+  padding: 0 6px;
+}
+
+/* Float label only when input has text or focus */
+.inputGroup input:focus ~ label,
+.inputGroup input:not(:placeholder-shown) ~ label {
+  top: -9px;
+  left: 8vw;
+  font-size: 16px;
+  color: #2c5080; /* blue highlight */
+  font-family: "Inika", serif;
+}

@@ -1,19 +1,234 @@
-<!-- Overlay (hidden by default) -->
-<div id="address-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000;">
-  <!-- Modal Box -->
-  <div id="address-modal" style="background:#fff; width:90%; max-width:400px; margin:10% auto; padding:20px; border-radius:8px; position:relative;">
-    <h3>Enter Delivery Address</h3>
-    <form id="address-form">
-      <input type="text" name="fullName" placeholder="Full Name" required><br>
-      <input type="text" name="mobile" placeholder="Mobile No" required><br>
-      <input type="text" name="flat" placeholder="Flat / House No / Building / Apartment" required><br>
-      <input type="text" name="area" placeholder="Area / Street / Village" required><br>
-      <input type="text" name="landmark" placeholder="Landmark"><br>
-      <input type="text" name="city" placeholder="Town / City" required><br>
-      <input type="text" name="state" placeholder="State" required><br>
-      <input type="text" name="pincode" placeholder="Pincode" required><br>
-      <button type="submit">Save Address</button>
-      <button type="button" onclick="hideOverlay('address-overlay')">Cancel</button>
+<!-- Address Modal Overlay -->
+<div id="address-overlay">
+  <!-- Sliding Modal -->
+  <div id="address-modal">
+    <!-- Close Button -->
+    <button type="button" class="close-address" onclick="hideOverlay('address-overlay')">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <h3>Delivery Address</h3>
+
+    <form id="address-form" method="POST" action="/profile/address">
+      <div class="inputGroup">
+        <input id="addr-fullName" type="text" name="fullName" placeholder=" " required />
+        <label for="addr-fullName">Full Name</label>
+      </div>
+
+      <div class="inputGroup">
+        <input id="addr-mobile" placeholder=" " type="text" name="mobile" required />
+        <label for="addr-mobile">Mobile No</label>
+      </div>
+
+      <div class="inputGroup">
+        <input id="addr-flat" placeholder=" " type="text" name="flat" required />
+        <label for="addr-flat">Flat / House No / Building</label>
+      </div>
+
+      <div class="inputGroup">
+        <input id="addr-area" placeholder=" " type="text" name="area" required />
+        <label for="addr-area">Area / Street / Village</label>
+      </div>
+
+      <div class="inputGroup">
+        <input id="addr-landmark" placeholder=" " type="text" name="landmark" />
+        <label for="addr-landmark">Landmark</label>
+      </div>
+
+      <div class="inputGroup">
+        <input id="addr-city" type="text" placeholder=" " name="city" required />
+        <label for="addr-city">Town / City</label>
+      </div>
+
+      <div class="inputGroup">
+        <input id="addr-state" type="text" placeholder=" " name="state" required />
+        <label for="addr-state">State</label>
+      </div>
+
+      <div class="inputGroup">
+        <input id="addr-pincode" placeholder=" " type="text" name="pincode" required />
+        <label for="addr-pincode">Pincode</label>
+      </div>
+
+      <button type="submit" class="save-address-btn">Save Address</button>
     </form>
   </div>
 </div>
+
+<style>
+/* Overlay */
+#address-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  z-index: 1000;
+}
+
+/* Modal */
+#address-modal {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 100%);   /* Start below screen */
+  opacity: 0;                         /* Hidden */
+  width: 100%;
+  max-width: 500px;
+  background: #fff;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 -5px 20px rgba(0,0,0,0.15);
+  max-height: 90vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+/* Slide in */
+#address-overlay.show #address-modal {
+  transform: translate(-50%, 0);   /* Slide into view */
+  opacity: 1;
+}
+/* Close button */
+.close-address {
+  position: absolute;
+  top: 3vw;
+  right: 4vw;
+  border: none;
+  background: none;
+  font-size: 6vw;
+  cursor: pointer;
+  color: #333;
+}
+
+/* Title */
+#address-modal h3 {
+  font-size: 5vw;
+  margin-bottom: 4vw;
+  font-weight: 600;
+  font-family: "Alice", serif;
+  letter-spacing: 1px;
+}
+
+/* Floating Label Inputs */
+.inputGroup {
+  position: relative;
+  margin: 1.5em 0;
+  width: 100%;
+}
+
+.inputGroup input {
+  width: 90%;
+  padding: 1em;
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  font-family: "Alice", serif;
+  letter-spacing: 1px;
+  outline: none;
+  font-size: 1em;
+  background: transparent;
+}
+
+.inputGroup label {
+  position: absolute;
+  left: 1em;
+  font-family: "Alice", serif;
+  letter-spacing: 1px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  font-size: 1em;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  background: #fff;
+  padding: 0 0.3em;
+}
+
+
+
+/* Save button */
+.save-address-btn {
+  margin-top: 4vw;
+  padding: 4vw;
+  font-size: 4.2vw;
+  font-weight: 600;
+  border: none;
+  border-radius: 2.5vw;
+  background: linear-gradient(135deg, #192f49, #2c4d75);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  width: 100%;
+  font-family: "Alice", serif;
+  letter-spacing: 1px;
+}
+
+.inputGroup input:focus,
+.inputGroup input:not(:placeholder-shown) {
+  border-color: #192f49;
+}
+
+.inputGroup input:focus ~ label,
+.inputGroup input:not(:placeholder-shown) ~ label {
+  top: -8px;
+  left: 10px;
+  font-size: 14px;
+  color: #192f49;
+}
+
+.save-address-btn:hover {
+  background: linear-gradient(135deg, #15283a, #253d5a);
+}
+</style>
+
+<script>
+  // Open modal from button click (reads data-address JSON)
+  function openAddressModalFromBtn(el) {
+    if (!el) return;
+    const json = el.getAttribute('data-address') || "{}";
+    let address = {};
+    try {
+      address = JSON.parse(json);
+    } catch (err) {
+      console.warn('Could not parse address JSON', err);
+      address = {};
+    }
+    openAddressModal(address);
+  }
+
+  // Open modal with given address object
+  function openAddressModal(address = {}) {
+    document.getElementById("addr-fullName").value = address.fullName || "";
+    document.getElementById("addr-mobile").value   = address.mobile   || "";
+    document.getElementById("addr-flat").value     = address.flat     || "";
+    document.getElementById("addr-area").value     = address.area     || "";
+    document.getElementById("addr-landmark").value = address.landmark || "";
+    document.getElementById("addr-city").value     = address.city     || "";
+    document.getElementById("addr-state").value    = address.state    || "";
+    document.getElementById("addr-pincode").value  = address.pincode  || "";
+
+    const overlay = document.getElementById("address-overlay");
+    overlay.style.display = "block";
+    setTimeout(() => overlay.classList.add("show"), 20);
+  }
+
+  // Hide modal
+  function hideOverlay(id) {
+    const overlay = document.getElementById(id);
+    if (!overlay) return;
+    overlay.classList.remove("show");
+    setTimeout(() => overlay.style.display = "none", 300);
+  }
+
+  // Close when clicking outside modal
+  document.addEventListener('click', function(e) {
+    const overlay = document.getElementById('address-overlay');
+    if (overlay && e.target === overlay) {
+      hideOverlay('address-overlay');
+    }
+  });
+</script>

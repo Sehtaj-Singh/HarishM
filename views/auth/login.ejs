@@ -31,10 +31,15 @@
   
   <form class="input" method="POST" action="/login">
    
-    <input  placeholder="Email/Whatsapp Number" type="text" name="loginId" required><br><br>
+     <div class="inputGroup">
+    <input type="text" name="loginId" placeholder=" " required />
+    <label>Email / Whatsapp Number</label>
+  </div>
 
-    
-    <input placeholder="Password" type="password" name="password" required><br><br>
+  <div class="inputGroup">
+    <input type="password" name="password" placeholder=" " required />
+    <label>Password</label>
+  </div>
 
      <a href="/forgot-password">Forgot Password?</a>
     
