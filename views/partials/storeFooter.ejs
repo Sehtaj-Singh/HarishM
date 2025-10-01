@@ -1,8 +1,7 @@
 <footer class="site-footer">
   <style>
-    .footer-logo{
-      height: 2.5vh;
-      
+    .footer-logo {
+      height: 2.8vh;
     }
     .site-footer {
       background: #ffffff;
@@ -17,22 +16,20 @@
       align-items: center;
       border-bottom: 1px solid #ccc;
       padding-bottom: 1rem;
-      margin-top: 2vh;
+      margin-top: 3vh;
     }
-    .footer-address span{
-      font-size: 1.3rem;
-      font-family: 'Arsenal', sans-serif;
-      font-weight: 600;
-      letter-spacing: 1px;
-      color: #192f49;
-    }
-    .footer-address p{
-      font-size: large;
-      margin-top: 5px;
-      font-weight: 400;
+    .footer-address i {
+      font-size: 2.5vh;
     }
 
-  
+    .footer-address p {
+      font-size: 1rem;
+      margin-top: 5px;
+      font-weight: 400;
+      text-align: center;
+      font-family: "Alice", serif;
+    }
+
     .footer-socials span {
       margin-right: 0.5rem;
       font-family: "Alice", serif;
@@ -50,7 +47,7 @@
 
     /* Accordion */
     .footer-accordion {
-      margin-top: 1rem;
+      margin-top: 0.1rem;
     }
     .accordion-item {
       border-bottom: 1px solid #ddd;
@@ -99,7 +96,7 @@
       margin-bottom: 0.5rem;
       color: #192f49;
       font-size: 1.3rem;
-      font-family: 'Arsenal', sans-serif;
+      font-family: "Arsenal", sans-serif;
       font-weight: 600;
       letter-spacing: 1px;
     }
@@ -121,11 +118,31 @@
       color: #323a40;
     }
 
+    .accordion-content p {
+  margin-bottom: 0.8rem;
+}
+
+.accordion-content ul {
+  margin: 0.5rem 0 0.8rem 1.2rem; /* spacing + indent */
+  padding-left: 0.8rem;
+  list-style-type: disc; /* solid dots */
+}
+
+.accordion-content ul li {
+  margin-bottom: 0.4rem;
+  padding-left: 4px;
+   /* subtle differentiation */
+}
+
+.accordion-content ul li:last-child {
+  margin-bottom: 0;
+}
+
     /* Bottom */
     .footer-bottom {
       margin-top: 1.5rem;
       text-align: center;
-      font-family: 'Arsenal', sans-serif;
+      font-family: "Arsenal", sans-serif;
       font-size: 0.8rem;
       border-top: 1px solid #ccc;
       padding-top: 0.8rem;
@@ -134,10 +151,6 @@
       letter-spacing: 1px;
     }
   </style>
-
-  
-
-   
 
   <div class="footer-accordion">
     <div class="accordion-item">
@@ -172,7 +185,27 @@
         Cookie Policy <i class="fas fa-chevron-down"></i>
       </button>
       <div class="accordion-content">
-        <p>Content for cookie policy...</p>
+        <p>
+          We use cookies only for authentication and authorization purposes.
+          These cookies are essential to keep you securely logged in and to
+          ensure that only authorized users can access protected areas of our
+          website.
+        </p>
+        <ul>
+          <li>No tracking or advertising cookies are used.</li>
+          <li>No third-party cookies are stored.</li>
+          <li>
+            Cookies do not contain personal information — only a secure session
+            ID.
+          </li>
+          <li>
+            They expire automatically when you log out or after inactivity.
+          </li>
+        </ul>
+        <p>
+          Disabling cookies in your browser may prevent you from logging in or
+          using secure features of the site.
+        </p>
       </div>
     </div>
 
@@ -195,8 +228,6 @@
     </div>
   </div>
 
-  
-
   <div class="footer-top">
     <img class="footer-logo" src="/images/cardLogo1.png" />
     <div class="footer-socials">
@@ -207,18 +238,18 @@
   </div>
 
   <div class="footer-address">
-    <span>Registered Shop:<br><p> 128, Sant Nagar, Sirsa, Haryana, 125075</p></span>
+    <p>
+      <i class="fa-solid fa-location-dot"></i> 128, Sant Nagar, Sirsa, Haryana,
+      125075
+    </p>
   </div>
 
   <div class="footer-payment">
-    <span>Payment Methods:</span>
     <img src="/images/payments/visa.png" alt="Visa" />
     <img src="/images/payments/mastercard.png" alt="Mastercard" />
     <img src="/images/payments/upi.png" alt="UPI" />
     <img src="/images/payments/wallet.png" alt="Wallet" />
   </div>
-
- 
 
   <div class="footer-bottom">
     <p>© <span id="year"></span> Harish Mobile. All rights reserved.</p>
@@ -228,15 +259,27 @@
     // Dynamic year
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // Accordion logic
     document.querySelectorAll(".accordion-header").forEach((header) => {
       header.addEventListener("click", () => {
         const item = header.parentElement;
+        const content = header.nextElementSibling;
         const allItems = document.querySelectorAll(".accordion-item");
+
+        // close others
         allItems.forEach((i) => {
-          if (i !== item) i.classList.remove("active");
+          if (i !== item) {
+            i.classList.remove("active");
+            i.querySelector(".accordion-content").style.maxHeight = null;
+          }
         });
+
+        // toggle current
         item.classList.toggle("active");
+        if (item.classList.contains("active")) {
+          content.style.maxHeight = content.scrollHeight + "px"; // 👈 auto height
+        } else {
+          content.style.maxHeight = null;
+        }
       });
     });
   </script>
