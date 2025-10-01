@@ -195,7 +195,7 @@
 .profile-box p,
 .profile-box span {
   margin: 0;                    /* removes default p margin */
-  font-size: 2vh;
+  font-size: 1.8vh;
   font-weight: 600;
   font-family: "Alice", serif;  /* matches rest of profile page */
   color: #323a40;
@@ -251,4 +251,21 @@
 
 .logout-item i {
   color: #d32f2f;
+}
+
+/* Make button look identical to anchor cards */
+button.profile-box {
+  border: 0;
+  margin-top: 0.5vh;
+  background: #fff; /* matches .profile-box */
+  cursor: pointer;
+  
+}
+
+/* Small, neat dropdown chevron */
+.profile-box .dropdown-icon {
+  font-size: 3vh; /* smaller than main icon */
+  line-height: 1;
+  color: #192f49;   /* matches icon color */
+  
 }

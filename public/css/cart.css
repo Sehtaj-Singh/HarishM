@@ -442,8 +442,10 @@ width: 100vw;
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  padding: 16px;
+  padding: 2vw;
   margin: 20px 0;
+  width: 91vw;
+  margin-left: 2.5vw;
 }
 
 .price-summary h3 {

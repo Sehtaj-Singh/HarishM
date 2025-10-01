@@ -123,13 +123,13 @@
 
 .inputGroup input {
   width: 90%;
-  padding: 1em;
+  padding: 0.6em;
   border: 2px solid #ccc;
   border-radius: 12px;
   font-family: "Alice", serif;
   letter-spacing: 1px;
   outline: none;
-  font-size: 1em;
+  font-size: 1.3em;
   background: transparent;
 }
 
@@ -231,4 +231,46 @@
       hideOverlay('address-overlay');
     }
   });
+</script>
+
+<!-- addressmodal.ejs (after the modal HTML) -->
+<script>
+  (function attachAddressHandler() {
+    const form = document.getElementById("address-form");
+    if (!form) return;
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      try {
+        const res = await fetch(form.action, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Requested-With": "fetch"
+          },
+          body: JSON.stringify(data)
+        });
+        const out = await res.json();
+
+        if (res.ok && out?.success) {
+          if (window.showToast) showToast("success", "Address saved");
+          hideOverlay("address-overlay");
+          const wrap = document.querySelector("[data-deliver-to]");
+          if (wrap) {
+            wrap.innerHTML = `
+              <div><strong>${data.fullName}</strong></div>
+              <div>${data.flat}, ${data.area}, ${data.city}</div>
+              <div>${data.state || ""} - ${data.pincode}</div>
+            `;
+          }
+        } else {
+          if (window.showToast) showToast("error", out?.error || "Failed to save address");
+        }
+      } catch {
+        if (window.showToast) showToast("error", "Server error while saving address");
+      }
+    });
+  })();
 </script>

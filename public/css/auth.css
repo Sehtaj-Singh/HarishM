@@ -479,7 +479,7 @@ width: 60%;
 /* Float label only when input has text or focus */
 .inputGroup input:focus ~ label,
 .inputGroup input:not(:placeholder-shown) ~ label {
-  top: -9px;
+  top: -10px;
   left: 8vw;
   font-size: 16px;
   color: #2c5080; /* blue highlight */

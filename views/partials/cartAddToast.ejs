@@ -38,29 +38,27 @@
 </style>
 
 <script>
-  (function () {
+ (function () {
+    const toast = document.getElementById("toast");
+
+    // Reusable helper
+    window.showToast = function(type, text) {
+      if (!toast) return;
+      toast.className = "toast"; // reset
+      if (type === "success") toast.classList.add("success");
+      if (type === "error") toast.classList.add("error");
+      toast.textContent = text || "";
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 2500);
+    };
+
+    // Preserve existing URL param behavior (added/removed/etc.)
     const params = new URLSearchParams(window.location.search);
     const msg = params.get("msg");
     if (!msg) return;
-
-    const toast = document.getElementById("toast");
-    if (!toast) return;
-
-    if (msg === "added") {
-      toast.textContent = "Added to cart successfully";
-      toast.classList.add("success");
-    } else if (msg === "alreadyInCart") {
-      toast.textContent = "Product already in cart";
-      toast.classList.add("error");
-    } else if (msg === "removed") {
-      toast.textContent = "Product removed successfully";
-      toast.classList.add("error"); // or success, up to you
-    }
-
-    toast.classList.add("show");
-
-    setTimeout(() => {
-      toast.classList.remove("show");
-    }, 2500);
+    if (msg === "added")        showToast("success", "Added to cart successfully");
+    else if (msg === "alreadyInCart") showToast("error", "Product already in cart");
+    else if (msg === "removed") showToast("success", "Product removed successfully");
+    else if (msg === "addressSaved")  showToast("success", "Address saved");
   })();
 </script>

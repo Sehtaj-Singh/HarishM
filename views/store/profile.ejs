@@ -73,11 +73,19 @@
     <p>My<br>Orders</p>
   </a>
 
-  <!-- Contact Us -->
+<!-- Contact Us -->
+<% if (user && user.address) { %>
   <a href="/contact" class="profile-box">
     <i class="fa-solid fa-headset"></i>
     <p>Contact<br>Us</p>
   </a>
+<% } else { %>
+  <button type="button" class="profile-box" id="add-address-btn" onclick="openAddressModal()">
+    <i class="fa-solid fa-location-dot"></i>
+    <p>Add<br>Address</p>
+   
+  </button>
+<% } %>
 
     <!-- Cart -->
   <a href="/cart" class="profile-box">

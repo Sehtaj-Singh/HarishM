@@ -1,11 +1,10 @@
-// SHcontroller.js (debug-enabled)
+// SHcontroller.js (updated for productDetail images + video)
 const fs = require("fs");
 const path = require("path");
 const secondHandModel = require(`../../models/secondHandMobileDB`);
 
 /**
  * Build nested specs from dot-notation keys like "specs.general.model"
- * - ignores empty strings
  */
 function nestSpecs(flatObj) {
   const nested = {};
@@ -14,7 +13,7 @@ function nestSpecs(flatObj) {
     if (!key.startsWith("specs.")) continue;
 
     const val = flatObj[key];
-    if (val === "") continue; // skip empty string entries
+    if (val === "") continue;
 
     const parts = key.split(".");
     parts.shift(); // remove "specs"
@@ -33,10 +32,6 @@ function nestSpecs(flatObj) {
   return nested;
 }
 
-/**
- * Flatten nested object into dot-notation keys.
- * Example: flatten({ specs: { general: { model: 'x' }}}) => { 'specs.general.model': 'x' }
- */
 function flatten(obj, prefix = "") {
   const out = {};
   function step(o, pfx) {
@@ -63,17 +58,22 @@ function flatten(obj, prefix = "") {
 /** ========== ADD: POST (create) ========== */
 exports.postSHaddMobile = async (req, res, next) => {
   try {
-    console.log("===== POST ADD: RAW REQ.BODY =====");
-    console.log("Keys:", Object.keys(req.body));
-    // show a trimmed JSON (avoid very long dumps) but useful for debugging
-    console.log(JSON.stringify(req.body, null, 2));
-
     const { SHname, SHprice, condition, SHdiscount, SHmrp } = req.body;
-    const SHimage = req.file ? req.file.filename : null;
+
+    // Multer .fields() gives all uploads in req.files
+    const SHimage = req.files?.SHimage ? req.files.SHimage[0].filename : null;
+
+    const detailImages = [
+      req.files?.detailImage1?.[0]?.filename,
+      req.files?.detailImage2?.[0]?.filename,
+      req.files?.detailImage3?.[0]?.filename,
+      req.files?.detailImage4?.[0]?.filename,
+    ].filter(Boolean);
+
+    const detailVideo = req.files?.detailVideo?.[0]?.filename || null;
 
     // rebuild nested specs
     const nestedSpecs = nestSpecs(req.body || {});
-    console.log("Nested specs to save:", JSON.stringify(nestedSpecs, null, 2));
 
     const SHmobile = new secondHandModel({
       SHname,
@@ -83,43 +83,59 @@ exports.postSHaddMobile = async (req, res, next) => {
       SHdiscount,
       SHmrp,
       specs: nestedSpecs,
+      productDetail: {
+        images: detailImages,
+        video: detailVideo,
+      },
     });
 
-    console.log("Document (mongoose model) preview:", JSON.stringify(SHmobile, null, 2));
     await SHmobile.save();
-    console.log("Saved new second-hand mobile successfully.");
     res.render(`admin/mobileAdded`);
   } catch (err) {
-    console.error("===== POST ADD ERROR =====");
-    console.error(err);
+    console.error("===== POST ADD ERROR =====", err);
     res.status(500).send("Failed to add second-hand mobile.");
   }
 };
 
 /** ========== DELETE ========== */
-exports.postDeleteSHmobile = (req, res, next) => {
+exports.postDeleteSHmobile = async (req, res) => {
   const SHmobileId = req.params.SHmobileId;
 
-  secondHandModel
-    .findByIdAndDelete(SHmobileId)
-    .then((deletedMobile) => {
-      if (!deletedMobile) {
-        throw new Error("Mobile not found");
-      }
+  try {
+    const deletedMobile = await secondHandModel.findByIdAndDelete(SHmobileId);
+    if (!deletedMobile) throw new Error("Mobile not found");
 
+    // delete main SHimage
+    if (deletedMobile.SHimage) {
       const imagePath = path.join(__dirname, "../../public/uploads", deletedMobile.SHimage);
       fs.unlink(imagePath, (err) => {
-        if (err) {
-          console.error("Failed to delete image file:", err);
-        }
+        if (err) console.error("Failed to delete SHimage:", err);
       });
+    }
 
-      res.redirect("/Admin/mobileList");
-    })
-    .catch((err) => {
-      console.error("Error during mobile delete:", err);
-      res.status(500).send("Failed to delete mobile.");
-    });
+    // delete detail images
+    if (deletedMobile.productDetail?.images?.length) {
+      deletedMobile.productDetail.images.forEach((img) => {
+        const imgPath = path.join(__dirname, "../../public/uploads", img);
+        fs.unlink(imgPath, (err) => {
+          if (err) console.error("Failed to delete detail image:", err);
+        });
+      });
+    }
+
+    // delete video
+    if (deletedMobile.productDetail?.video) {
+      const videoPath = path.join(__dirname, "../../public/uploads", deletedMobile.productDetail.video);
+      fs.unlink(videoPath, (err) => {
+        if (err) console.error("Failed to delete video:", err);
+      });
+    }
+
+    res.redirect("/Admin/mobileList");
+  } catch (err) {
+    console.error("Error during mobile delete:", err);
+    res.status(500).send("Failed to delete mobile.");
+  }
 };
 
 /** ========== EDIT: GET (prefilled form) ========== */
@@ -127,36 +143,9 @@ exports.getSHeditMobile = async (req, res) => {
   const { SHmobileId } = req.params;
   try {
     const mobile = await secondHandModel.findById(SHmobileId).lean();
-    if (!mobile) {
-      console.log(`[GET EDIT] mobile ${SHmobileId} not found`);
-      return res.status(404).send("Mobile not found");
-    }
+    if (!mobile) return res.status(404).send("Mobile not found");
 
-    console.log("===== GET EDIT: mobile from DB =====");
-    console.log("mobile._id:", mobile._id);
-    // show basic fields
-    console.log({
-      SHname: mobile.SHname,
-      SHprice: mobile.SHprice,
-      SHimage: mobile.SHimage,
-      condition: mobile.condition,
-      SHdiscount: mobile.SHdiscount,
-      SHmrp: mobile.SHmrp,
-    });
-
-    console.log("mobile.specs (raw):", JSON.stringify(mobile.specs || {}, null, 2));
-    // Flatten with prefix "specs" so keys match form input names like "specs.general.model"
     const specsMap = flatten({ specs: mobile.specs || {} });
-    console.log("specsMap (flattened keys sent to view):", Object.keys(specsMap).slice(0, 50));
-    // show a few sample keys values (if present)
-    const sampleKeys = [
-      "specs.general.model",
-      "specs.general.countryOfOrigin",
-      "specs.display.type",
-      "specs.battery.capacity",
-      "specs.sound.jack",
-    ];
-    sampleKeys.forEach((k) => console.log(k, "=>", specsMap[k]));
 
     return res.render("admin/form/addSecondHandMobile", {
       isEdit: true,
@@ -173,24 +162,12 @@ exports.getSHeditMobile = async (req, res) => {
 exports.postSHeditMobile = async (req, res) => {
   const { SHmobileId } = req.params;
   try {
-    console.log("===== POST EDIT: RAW REQ.BODY =====");
-    console.log("Keys:", Object.keys(req.body));
-    console.log(JSON.stringify(req.body, null, 2));
-
     const mobile = await secondHandModel.findById(SHmobileId);
-    if (!mobile) {
-      console.log(`[POST EDIT] mobile ${SHmobileId} not found`);
-      return res.status(404).send("Mobile not found");
-    }
+    if (!mobile) return res.status(404).send("Mobile not found");
 
-    // simpler fields
     const { SHname, SHprice, condition, SHdiscount, SHmrp } = req.body;
-
-    // Rebuild nested specs object from flat keys like "specs.general.model"
     const nestedSpecs = nestSpecs(req.body || {});
-    console.log("Nested specs rebuilt from POST:", JSON.stringify(nestedSpecs, null, 2));
 
-    // Assign updated fields
     mobile.SHname = SHname;
     mobile.SHprice = SHprice;
     mobile.condition = condition;
@@ -198,30 +175,42 @@ exports.postSHeditMobile = async (req, res) => {
     mobile.SHmrp = SHmrp;
     mobile.specs = nestedSpecs;
 
-    // Handle image replace
-    if (req.file && req.file.filename) {
+    // Replace SHimage if new one uploaded
+    if (req.files?.SHimage) {
       if (mobile.SHimage) {
         const oldPath = path.join(__dirname, "../../public/uploads", mobile.SHimage);
-        fs.unlink(oldPath, (err) => {
-          if (err) console.error("[SH EDIT][POST] unlink old image error", err);
-        });
+        fs.unlink(oldPath, () => {});
       }
-      mobile.SHimage = req.file.filename;
+      mobile.SHimage = req.files.SHimage[0].filename;
     }
 
-    console.log("About to save updated mobile:", {
-      id: mobile._id,
-      SHname: mobile.SHname,
-      // don't dump very large specs here, but show some fields:
-      specs_preview: {
-        general_model: mobile.specs?.general?.model,
-        battery_capacity: mobile.specs?.battery?.capacity,
-        sound_jack: mobile.specs?.sound?.jack,
-      },
-    });
+    // Replace detail images if uploaded
+    const newImages = [
+      req.files?.detailImage1?.[0]?.filename,
+      req.files?.detailImage2?.[0]?.filename,
+      req.files?.detailImage3?.[0]?.filename,
+      req.files?.detailImage4?.[0]?.filename,
+    ].filter(Boolean);
+
+    if (newImages.length > 0) {
+      // delete old ones
+      (mobile.productDetail?.images || []).forEach((img) => {
+        const oldImgPath = path.join(__dirname, "../../public/uploads", img);
+        fs.unlink(oldImgPath, () => {});
+      });
+      mobile.productDetail.images = newImages;
+    }
+
+    // Replace detail video if uploaded
+    if (req.files?.detailVideo) {
+      if (mobile.productDetail?.video) {
+        const oldVidPath = path.join(__dirname, "../../public/uploads", mobile.productDetail.video);
+        fs.unlink(oldVidPath, () => {});
+      }
+      mobile.productDetail.video = req.files.detailVideo[0].filename;
+    }
 
     await mobile.save();
-    console.log("Saved updated mobile:", mobile._id);
     return res.redirect("/Admin/mobileList");
   } catch (err) {
     console.error("[SH EDIT][POST] error", err);

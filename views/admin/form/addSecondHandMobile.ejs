@@ -220,6 +220,20 @@
         <input type="text" name="specs.sensors.other" placeholder="Other Sensors" value="<%= V('specs.sensors.other') %>" />
       </fieldset>
 
+      
+
+        <!-- Product Detail Page -->
+      <h2>Product Detail Page</h2>
+
+      <p>Product detail images slider</p>
+      <input id="aminputF" type="file" name="detailImage1" accept="image/*" required />
+      <input id="aminputF" type="file" name="detailImage2" accept="image/*" required />
+      <input id="aminputF" type="file" name="detailImage3" accept="image/*" />
+      <input id="aminputF" type="file" name="detailImage4" accept="image/*" />
+
+      <p>Product detail video (optional):</p>
+      <input id="aminputF" type="file" name="detailVideo" accept="video/*" />
+
       <input id="aminputS" type="submit" value="<%= isEditMode ? 'Update Second-hand Phone' : 'Add Second-hand Phone' %>" />
     </form>
   </body>

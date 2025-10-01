@@ -30,13 +30,20 @@ adminRouter.get(`/mobileList`, adminController.getMobileList);
 adminRouter.get(`/repair/Add/Queue`, adminController.getAddRepairQueue);
 adminRouter.post('/mobileList/topSelling/:id', adminController.toggleTopSelling);
 
-
+// Define fields for all images + video
+const productUpload = upload.fields([
+  { name: "SHimage", maxCount: 1 },       // front card image
+  { name: "detailImage1", maxCount: 1 },
+  { name: "detailImage2", maxCount: 1 },
+  { name: "detailImage3", maxCount: 1 },
+  { name: "detailImage4", maxCount: 1 },
+  { name: "detailVideo", maxCount: 1 },
+]);
 //SHController
-adminRouter.post("/addMobile/Second-Hand", upload.single('SHimage'), SHcontroller.postSHaddMobile);
-adminRouter.post(`/mobileList/delete/SH/:SHmobileId`, SHcontroller.postDeleteSHmobile);
-adminRouter.get('/edit/Second-Hand/:SHmobileId', SHcontroller.getSHeditMobile);
-adminRouter.post('/edit/Second-Hand/:SHmobileId', upload.single('SHimage'), 
-  SHcontroller.postSHeditMobile);
+adminRouter.post("/addMobile/Second-Hand", productUpload, SHcontroller.postSHaddMobile);
+adminRouter.post("/mobileList/delete/SH/:SHmobileId", SHcontroller.postDeleteSHmobile);
+adminRouter.get("/edit/Second-Hand/:SHmobileId", SHcontroller.getSHeditMobile);
+adminRouter.post("/edit/Second-Hand/:SHmobileId", productUpload, SHcontroller.postSHeditMobile);
 
 
 //NController
