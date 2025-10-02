@@ -18,7 +18,6 @@ const topSellingStore = require("../utils/topSellingStore");
 const secondHandModel = require(`../models/secondHandMobileDB`);
 const newModel = require(`../models/newMobileDB`);
 const accessoryModel = require("../models/accessoryDB");
-const repairModel = require("../models/repairDB");
 const userDB = require("../models/userDB");
 const { isNull } = require("util");
 
@@ -64,29 +63,15 @@ exports.getOrders = (req, res, next) => {
   res.render(`store/main/orders`, { active: "orders" });
 };
 
-exports.getRepair = (req, res, next) => {
-  repairModel
-    .find()
-    .then((repairList) => {
-      res.render("store/main/repair", {
-        repairList,
-        active: "repair",
-      });
-    })
-    .catch((err) => {
-      console.error("Error loading repair list:", err);
-      res.status(500).send("Failed to load repair data");
-    });
-};
 
 exports.getContact = (req, res, next) => {
-  res.render(`store/main/contact`);
+  res.render(`store/main/contact`, { active:"contact"});
 };
 
 exports.getUserProfile = async (req, res) => {
   try {
     if (!req.user) {
-      return res.render("store/profile", { user: null,active:"profile"});
+      return res.render("store/profile", { user: null, active:"profile"});
     }
 
    const user = await userDB.findOne({ uid: req.user.uid });
@@ -100,6 +85,7 @@ exports.getUserProfile = async (req, res) => {
 
 // Detail page
 
+// Detail page - Second Hand
 exports.getSHdetailPage = async (req, res, next) => {
   try {
     const productId = req.params.SHmobileId;
@@ -115,18 +101,23 @@ exports.getSHdetailPage = async (req, res, next) => {
       price: p.SHprice,
       discount: p.SHdiscount,
       condition: p.condition,
-      rating:null,
+      rating: null,
       category: "SH",
       specs: p.specs || {},
+      productDetail: {
+        images: p.productDetail?.images || [],
+        video: p.productDetail?.video || null,
+      },
     };
 
-    res.render("store/SHdetailsPage", { product, active: "null" });
+    res.render("store/detailsPage", { product, active: "null" });
   } catch (err) {
     console.error("❌ Error fetching SH product:", err.message);
     res.status(500).send("Server error");
   }
 };
 
+// Detail page - New Mobile
 exports.getNdetailPage = async (req, res, next) => {
   try {
     const productId = req.params.NmobileId;
@@ -143,17 +134,22 @@ exports.getNdetailPage = async (req, res, next) => {
       discount: p.Ndiscount,
       condition: null,
       category: "N",
-      rating:p.Nrating,
+      rating: p.Nrating,
       specs: p.specs || {},
+      productDetail: {
+        images: p.productDetail?.images || [],
+        video: p.productDetail?.video || null,
+      },
     };
 
-    res.render("store/SHdetailsPage", { product, active: "null" });
+    res.render("store/detailsPage", { product, active: "null" });
   } catch (err) {
     console.error("❌ Error fetching N product:", err.message);
     res.status(500).send("Server error");
   }
 };
 
+// Detail page - Accessory
 exports.getAdetailPage = async (req, res, next) => {
   try {
     const productId = req.params.accessoryId;
@@ -169,17 +165,22 @@ exports.getAdetailPage = async (req, res, next) => {
       price: p.Aprice,
       discount: p.Adiscount,
       condition: null,
-      rating:p.Arating,
+      rating: p.Arating,
       category: "A",
       specs: p.specs || {},
+      productDetail: {
+        images: p.productDetail?.images || [],
+        video: p.productDetail?.video || null,
+      },
     };
 
-    res.render("store/SHdetailsPage", { product, active: "null" });
+    res.render("store/detailsPage", { product, active: "null" });
   } catch (err) {
     console.error("❌ Error fetching A product:", err.message);
     res.status(500).send("Server error");
   }
 };
+
 
 // user register
 exports.getUserRegister = (req, res, next) => {

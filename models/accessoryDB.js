@@ -42,6 +42,13 @@ const accessorySchema = mongoose.Schema({
       other: { type: String },
     },
   },
+
+   // New Section: Product Detail
+  productDetail: {
+    images: [{ type: String }],  // up to 4 image paths
+    video: { type: String },     // single video path
+    merged: { type: String },
+  },
 });
 
 

@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const secondHandModel = require(`../../models/secondHandMobileDB`);
 
-/**
+/** 
  * Build nested specs from dot-notation keys like "specs.general.model"
  */
 function nestSpecs(flatObj) {

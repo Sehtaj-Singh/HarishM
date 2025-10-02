@@ -1,0 +1,72 @@
+body{
+  margin: 0;
+  padding: 0;
+  margin-top: 4vh;
+}
+
+.back-btn{
+  border: none;
+  font-size: 2.8vh;
+  margin-left: 7vw;
+  background-color: #fff;
+  font-family: 'Alfa Slab One', serif;
+  letter-spacing: 2px;
+  color: #1d4375;
+}
+
+/* Slider wrapper */
+#upwrapIS {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+/* Carousel container */
+.carousel {
+  width: 90vw;
+  max-width: 500px;
+  overflow: hidden;
+  border-radius: 12px;
+  background-color: #f6f6f6;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+/* Track */
+.carousel-track {
+  display: flex;
+  transition: transform 0.4s ease-in-out;
+}
+
+/* Slides (images + video) */
+.carousel-track img,
+.carousel-track video {
+  width: 70vw;
+  padding-left: 10vw;
+  max-width: 500px;
+  aspect-ratio: 1 / 1;   /* makes them square */
+  object-fit: cover;     /* crop nicely */
+  flex-shrink: 0;
+  border-radius: 12px;
+}
+
+/* Dots indicator */
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  gap: 8px;
+}
+
+.carousel-dots .dot {
+  width: 10px;
+  height: 10px;
+  background: #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.carousel-dots .dot.active {
+  background: #333;
+}

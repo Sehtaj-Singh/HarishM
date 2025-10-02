@@ -40,13 +40,6 @@ exports.getAaddMobile = (req, res, next) => {
   res.render(`admin/form/addAccessory`);
 };
 
-exports.getrepair = (req, res, next) => {
-  res.render(`admin/adminRepair`);
-};
-
-exports.getAddRepairQueue = (req, res, next) => {
-  res.render(`admin/form/addRepairQueue`);
-};
 
 exports.getorder = (req, res, next) => {
   res.render(`admin/adminOrder`);

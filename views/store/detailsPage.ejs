@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= product.SHname %> - harishMobile</title>
+    <script
+      src="https://kit.fontawesome.com/3a523928fc.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="/css/storeHeader.css" />
+    <link rel="stylesheet" href="/css/detailPage.css" />
+  </head>
+  <body>
+    <%- include(`../partials/storeHeader`) %>
+    <%- include(`../partials/fonts`) %>
+    <%- include(`../partials/cartAddToast`) %>
+    <script src="/javascript/store.js"></script>
+
+    <a class="back-btn" href="/"><i class="fa-solid fa-arrow-left"></i>  Samsung S23 FE</a>
+
+    <!-- Product detail slider -->
+<div id="upwrapIS">
+  <section id="imageSlider">
+    <div class="carousel" id="carousel">
+      <div class="carousel-track">
+        <% if (product.productDetail && product.productDetail.images && product.productDetail.images.length) { %>
+          <!-- First image -->
+          <img id="slide" src="/uploads/<%= product.productDetail.images[0] %>" alt="Detail 1" />
+
+          <!-- Video goes second if exists -->
+          <% if (product.productDetail.video) { %>
+            <video id="slide" src="/uploads/<%= product.productDetail.video %>" controls></video>
+          <% } %>
+
+          <!-- Remaining images -->
+          <% product.productDetail.images.slice(1).forEach(function(img, idx) { %>
+            <img id="slide" src="/uploads/<%= img %>" alt="Detail <%= idx+2 %>" />
+          <% }); %>
+        <% } %>
+      </div>
+      <div class="carousel-dots" id="dots"></div>
+    </div>
+  </section>
+</div>
+
+    <!-- <div class="product-details">
+  <img src="/uploads/<%= product.image %>" alt="<%= product.name %>" width="300" />
+  <h1><%= product.name %></h1>
+
+  <% if (product.condition) { %>
+    <p>Condition: <%= product.condition %></p>
+  <% } %>
+
+  <p>MRP: ₹<%= product.mrp %></p>
+  <p>Discount: <%= product.discount %>%</p>
+  <p>Price: ₹<%= product.price %></p> -->
+
+  <form action="/cart/add" method="POST">
+    <input type="hidden" name="productId" value="<%= product.id %>" />
+    <input type="hidden" name="qty" value="1" />
+    <input type="hidden" name="buyNow" value="true" />  <!-- 👈 Add this -->
+    <button type="submit">Buy Now</button>
+  </form>
+</div>
+  </body>
+</html>

@@ -1,10 +1,10 @@
-const fs = require('fs');
-const path = require('path');
+// Acontroller.js (updated with detail images + video support)
+const fs = require("fs");
+const path = require("path");
 const accessoryModel = require(`../../models/accessoryDB`);
 
 /**
  * Build nested specs from dot-notation keys like "specs.general.model"
- * - ignores empty strings
  */
 function nestSpecs(flatObj) {
   const nested = {};
@@ -13,10 +13,10 @@ function nestSpecs(flatObj) {
     if (!key.startsWith("specs.")) continue;
 
     const val = flatObj[key];
-    if (val === "") continue; // skip empty string entries
+    if (val === "") continue;
 
     const parts = key.split(".");
-    parts.shift(); // remove "specs"
+    parts.shift();
     let current = nested;
     for (let i = 0; i < parts.length; i++) {
       const part = parts[i];
@@ -32,10 +32,6 @@ function nestSpecs(flatObj) {
   return nested;
 }
 
-/**
- * Flatten nested object into dot-notation keys.
- * Example: flatten({ specs: { general: { model: 'x' }}}) => { 'specs.general.model': 'x' }
- */
 function flatten(obj, prefix = "") {
   const out = {};
   function step(o, pfx) {
@@ -59,20 +55,22 @@ function flatten(obj, prefix = "") {
   return out;
 }
 
-
 /** ========== ADD: POST (create) ========== */
-exports.postAaddMobile = async (req, res, next) => {
+exports.postAaddMobile = async (req, res) => {
   try {
-    console.log("===== [N ADD][POST] RAW REQ.BODY =====");
-    console.log("Keys:", Object.keys(req.body));
-    console.log(JSON.stringify(req.body, null, 2));
+    const { Aname, Aprice, Adiscount, Amrp, Arating } = req.body;
+    const Aimage = req.files?.Aimage ? req.files.Aimage[0].filename : null;
 
-    const { Aname, Aprice, Adiscount, Amrp,Arating } = req.body;
-    const Aimage = req.file ? req.file.filename : null;
+    const detailImages = [
+      req.files?.detailImage1?.[0]?.filename,
+      req.files?.detailImage2?.[0]?.filename,
+      req.files?.detailImage3?.[0]?.filename,
+      req.files?.detailImage4?.[0]?.filename,
+    ].filter(Boolean);
 
-    // rebuild nested specs
+    const detailVideo = req.files?.detailVideo?.[0]?.filename || null;
+
     const nestedSpecs = nestSpecs(req.body || {});
-    console.log("[N ADD] Nested specs to save:", JSON.stringify(nestedSpecs, null, 2));
 
     const accessory = new accessoryModel({
       Aname,
@@ -82,47 +80,58 @@ exports.postAaddMobile = async (req, res, next) => {
       Amrp,
       Arating,
       specs: nestedSpecs,
+      productDetail: {
+        images: detailImages,
+        video: detailVideo,
+      },
     });
 
-    console.log("[N ADD] Document preview:", JSON.stringify(accessory, null, 2));
     await accessory.save();
-
-    console.log("[N ADD] Saved accessory successfully.");
     return res.render(`admin/mobileAdded`);
   } catch (err) {
-    console.error("===== [N ADD][POST] ERROR =====");
-    console.error(err);
+    console.error("[A ADD][POST] error", err);
     return res.status(500).send("Failed to add accessory.");
   }
 };
 
+/** ========== DELETE ========== */
+exports.postDeleteAmobile = async (req, res) => {
+  const { accessoryId } = req.params;
+  try {
+    const deletedMobile = await accessoryModel.findByIdAndDelete(accessoryId);
+    if (!deletedMobile) throw new Error("Accessory not found");
 
-
-exports.postDeleteAmobile = (req, res, next) => {
-  const accessoryId = req.params.accessoryId;
-
-  
-  accessoryModel.findByIdAndDelete(accessoryId)
-      .then(deletedMobile => {
-        if (!deletedMobile) {
-          throw new Error('Mobile not found');
-        }
-  
-        // Delete the associated image
-        const imagePath = path.join(__dirname, '../../public/uploads', deletedMobile.Aimage);
-        fs.unlink(imagePath, err => {
-          if (err) {
-            console.error('Failed to delete image file:', err);
-            // Not fatal, we proceed
-          }
-        });
-  
-        res.redirect('/Admin/mobileList');
-      })
-      .catch(err => {
-        console.error('Error during mobile delete:', err);
-        res.status(500).send('Failed to delete mobile.');
+    // delete main Aimage
+    if (deletedMobile.Aimage) {
+      const imagePath = path.join(__dirname, "../../public/uploads", deletedMobile.Aimage);
+      fs.unlink(imagePath, (err) => {
+        if (err) console.error("Failed to delete Aimage:", err);
       });
+    }
+
+    // delete detail images
+    if (deletedMobile.productDetail?.images?.length) {
+      deletedMobile.productDetail.images.forEach((img) => {
+        const imgPath = path.join(__dirname, "../../public/uploads", img);
+        fs.unlink(imgPath, (err) => {
+          if (err) console.error("Failed to delete detail image:", err);
+        });
+      });
+    }
+
+    // delete video
+    if (deletedMobile.productDetail?.video) {
+      const videoPath = path.join(__dirname, "../../public/uploads", deletedMobile.productDetail.video);
+      fs.unlink(videoPath, (err) => {
+        if (err) console.error("Failed to delete video:", err);
+      });
+    }
+
+    res.redirect("/Admin/mobileList");
+  } catch (err) {
+    console.error("[A DELETE] error", err);
+    res.status(500).send("Failed to delete accessory.");
+  }
 };
 
 /** ========== EDIT: GET (prefilled form) ========== */
@@ -130,34 +139,9 @@ exports.getAeditMobile = async (req, res) => {
   const { accessoryId } = req.params;
   try {
     const mobile = await accessoryModel.findById(accessoryId).lean();
-    if (!mobile) {
-      console.log(`[N EDIT][GET] mobile ${accessoryId} not found`);
-      return res.status(404).send("Mobile not found");
-    }
+    if (!mobile) return res.status(404).send("Accessory not found");
 
-    console.log("===== [N EDIT][GET] mobile from DB =====");
-    console.log("mobile._id:", mobile._id);
-    console.log({
-      Aname: mobile.Aname,
-      Aprice: mobile.Aprice,
-      Aimage: mobile.Aimage,
-      Adiscount: mobile.Adiscount,
-      Amrp: mobile.Amrp,
-    });
-    console.log("[N EDIT][GET] mobile.specs (raw):", JSON.stringify(mobile.specs || {}, null, 2));
-
-    // Flatten with prefix "specs" so keys match form input names like "specs.general.model"
     const specsMap = flatten({ specs: mobile.specs || {} });
-    console.log("[N EDIT][GET] specsMap keys (sample):", Object.keys(specsMap).slice(0, 50));
-
-    const sampleKeys = [
-      "specs.general.model",
-      "specs.general.countryOfOrigin",
-      "specs.display.type",
-      "specs.battery.capacity",
-      "specs.sound.jack",
-    ];
-    sampleKeys.forEach((k) => console.log(k, "=>", specsMap[k]));
 
     return res.render("admin/form/addAccessory", {
       isEdit: true,
@@ -165,7 +149,7 @@ exports.getAeditMobile = async (req, res) => {
       specsMap,
     });
   } catch (err) {
-    console.error("[N EDIT][GET] error", err);
+    console.error("[A EDIT][GET] error", err);
     return res.status(500).send("Failed to load edit page.");
   }
 };
@@ -174,61 +158,57 @@ exports.getAeditMobile = async (req, res) => {
 exports.postAeditMobile = async (req, res) => {
   const { accessoryId } = req.params;
   try {
-    console.log("===== [N EDIT][POST] RAW REQ.BODY =====");
-    console.log("Keys:", Object.keys(req.body));
-    console.log(JSON.stringify(req.body, null, 2));
-
     const mobile = await accessoryModel.findById(accessoryId);
-    if (!mobile) {
-      console.log(`[N EDIT][POST] mobile ${accessoryId} not found`);
-      return res.status(404).send("Mobile not found");
-    }
+    if (!mobile) return res.status(404).send("Accessory not found");
 
-    // simpler fields
-    const { Aname, Aprice, Adiscount, Amrp,Arating} = req.body;
-
-    // Rebuild nested specs object from flat keys like "specs.general.model"
+    const { Aname, Aprice, Adiscount, Amrp, Arating } = req.body;
     const nestedSpecs = nestSpecs(req.body || {});
-    console.log("[N EDIT][POST] Nested specs rebuilt:", JSON.stringify(nestedSpecs, null, 2));
 
-    // Assign updated fields
     mobile.Aname = Aname;
     mobile.Aprice = Aprice;
     mobile.Adiscount = Adiscount;
     mobile.Amrp = Amrp;
-    mobile.Arating = Arating
+    mobile.Arating = Arating;
     mobile.specs = nestedSpecs;
 
-    // Handle image replace
-    if (req.file && req.file.filename) {
+    // Replace Aimage if uploaded
+    if (req.files?.Aimage) {
       if (mobile.Aimage) {
         const oldPath = path.join(__dirname, "../../public/uploads", mobile.Aimage);
-        fs.unlink(oldPath, (err) => {
-          if (err) console.error("[N EDIT][POST] unlink old image error", err);
-        });
+        fs.unlink(oldPath, () => {});
       }
-      mobile.Aimage = req.file.filename;
+      mobile.Aimage = req.files.Aimage[0].filename;
     }
 
-    console.log("[N EDIT][POST] About to save updated mobile:", {
-      id: mobile._id,
-      Aname: mobile.Aname,
-      // preview of a few spec fields
-      specs_preview: {
-        general_model: mobile.specs?.general?.model,
-        battery_capacity: mobile.specs?.battery?.capacity,
-        sound_jack: mobile.specs?.sound?.jack,
-      },
-    });
+    // Replace detail images if uploaded
+    const newImages = [
+      req.files?.detailImage1?.[0]?.filename,
+      req.files?.detailImage2?.[0]?.filename,
+      req.files?.detailImage3?.[0]?.filename,
+      req.files?.detailImage4?.[0]?.filename,
+    ].filter(Boolean);
+
+    if (newImages.length > 0) {
+      (mobile.productDetail?.images || []).forEach((img) => {
+        const oldImgPath = path.join(__dirname, "../../public/uploads", img);
+        fs.unlink(oldImgPath, () => {});
+      });
+      mobile.productDetail.images = newImages;
+    }
+
+    // Replace detail video if uploaded
+    if (req.files?.detailVideo) {
+      if (mobile.productDetail?.video) {
+        const oldVidPath = path.join(__dirname, "../../public/uploads", mobile.productDetail.video);
+        fs.unlink(oldVidPath, () => {});
+      }
+      mobile.productDetail.video = req.files.detailVideo[0].filename;
+    }
 
     await mobile.save();
-    console.log("[N EDIT][POST] Saved updated mobile:", mobile._id);
     return res.redirect("/Admin/mobileList");
   } catch (err) {
-    console.error("[N EDIT][POST] error", err);
-    return res.status(500).send("Failed to update mobile.");
+    console.error("[A EDIT][POST] error", err);
+    return res.status(500).send("Failed to update accessory.");
   }
 };
-
-
-

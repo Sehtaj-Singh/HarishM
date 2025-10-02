@@ -225,14 +225,50 @@
         <!-- Product Detail Page -->
       <h2>Product Detail Page</h2>
 
-      <p>Product detail images slider</p>
-      <input id="aminputF" type="file" name="detailImage1" accept="image/*" required />
-      <input id="aminputF" type="file" name="detailImage2" accept="image/*" required />
-      <input id="aminputF" type="file" name="detailImage3" accept="image/*" />
-      <input id="aminputF" type="file" name="detailImage4" accept="image/*" />
+<!-- Product detail images slider -->
+<p>Product detail images slider</p>
 
-      <p>Product detail video (optional):</p>
-      <input id="aminputF" type="file" name="detailVideo" accept="video/*" />
+<!-- Detail image 1 -->
+<% if (isEditMode && mob?.productDetail?.images?.[0]) { %>
+  <div style="margin-bottom:8px">
+    <img src="/uploads/<%= mob.productDetail.images[0] %>" alt="Detail image 1" style="max-height:80px" />
+  </div>
+<% } %>
+<input id="aminputF" type="file" name="detailImage1" accept="image/*" <%= isEditMode ? '' : 'required' %> />
+
+<!-- Detail image 2 -->
+<% if (isEditMode && mob?.productDetail?.images?.[1]) { %>
+  <div style="margin-bottom:8px">
+    <img src="/uploads/<%= mob.productDetail.images[1] %>" alt="Detail image 2" style="max-height:80px" />
+  </div>
+<% } %>
+<input id="aminputF" type="file" name="detailImage2" accept="image/*" <%= isEditMode ? '' : 'required' %> />
+
+<!-- Detail image 3 -->
+<% if (isEditMode && mob?.productDetail?.images?.[2]) { %>
+  <div style="margin-bottom:8px">
+    <img src="/uploads/<%= mob.productDetail.images[2] %>" alt="Detail image 3" style="max-height:80px" />
+  </div>
+<% } %>
+<input id="aminputF" type="file" name="detailImage3" accept="image/*" />
+
+<!-- Detail image 4 -->
+<% if (isEditMode && mob?.productDetail?.images?.[3]) { %>
+  <div style="margin-bottom:8px">
+    <img src="/uploads/<%= mob.productDetail.images[3] %>" alt="Detail image 4" style="max-height:80px" />
+  </div>
+<% } %>
+<input id="aminputF" type="file" name="detailImage4" accept="image/*" />
+
+
+<!-- Product detail video -->
+<p>Product detail video (optional):</p>
+<% if (isEditMode && mob?.productDetail?.video) { %>
+  <div style="margin-bottom:8px">
+    <video src="/uploads/<%= mob.productDetail.video %>" controls style="max-height:120px"></video>
+  </div>
+<% } %>
+<input id="aminputF" type="file" name="detailVideo" accept="video/*" />
 
       <input id="aminputS" type="submit" value="<%= isEditMode ? 'Update Second-hand Phone' : 'Add Second-hand Phone' %>" />
     </form>

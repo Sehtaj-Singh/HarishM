@@ -1,10 +1,10 @@
-const fs = require('fs');
-const path = require('path');
+// Ncontroller.js (updated with productDetail images + video support)
+const fs = require("fs");
+const path = require("path");
 const newModel = require(`../../models/newMobileDB`);
 
 /**
  * Build nested specs from dot-notation keys like "specs.general.model"
- * - ignores empty strings
  */
 function nestSpecs(flatObj) {
   const nested = {};
@@ -13,10 +13,10 @@ function nestSpecs(flatObj) {
     if (!key.startsWith("specs.")) continue;
 
     const val = flatObj[key];
-    if (val === "") continue; // skip empty string entries
+    if (val === "") continue;
 
     const parts = key.split(".");
-    parts.shift(); // remove "specs"
+    parts.shift();
     let current = nested;
     for (let i = 0; i < parts.length; i++) {
       const part = parts[i];
@@ -32,10 +32,6 @@ function nestSpecs(flatObj) {
   return nested;
 }
 
-/**
- * Flatten nested object into dot-notation keys.
- * Example: flatten({ specs: { general: { model: 'x' }}}) => { 'specs.general.model': 'x' }
- */
 function flatten(obj, prefix = "") {
   const out = {};
   function step(o, pfx) {
@@ -59,20 +55,23 @@ function flatten(obj, prefix = "") {
   return out;
 }
 
-
 /** ========== ADD: POST (create) ========== */
-exports.postNaddMobile = async (req, res, next) => {
+exports.postNaddMobile = async (req, res) => {
   try {
-    console.log("===== [N ADD][POST] RAW REQ.BODY =====");
-    console.log("Keys:", Object.keys(req.body));
-    console.log(JSON.stringify(req.body, null, 2));
+    const { Nname, Nprice, Ndiscount, Nmrp, Nrating } = req.body;
 
-    const { Nname, Nprice, Ndiscount, Nmrp,Nrating } = req.body;
-    const Nimage = req.file ? req.file.filename : null;
+    const Nimage = req.files?.Nimage ? req.files.Nimage[0].filename : null;
 
-    // rebuild nested specs
+    const detailImages = [
+      req.files?.detailImage1?.[0]?.filename,
+      req.files?.detailImage2?.[0]?.filename,
+      req.files?.detailImage3?.[0]?.filename,
+      req.files?.detailImage4?.[0]?.filename,
+    ].filter(Boolean);
+
+    const detailVideo = req.files?.detailVideo?.[0]?.filename || null;
+
     const nestedSpecs = nestSpecs(req.body || {});
-    console.log("[N ADD] Nested specs to save:", JSON.stringify(nestedSpecs, null, 2));
 
     const Nmobile = new newModel({
       Nname,
@@ -82,47 +81,58 @@ exports.postNaddMobile = async (req, res, next) => {
       Nmrp,
       Nrating,
       specs: nestedSpecs,
+      productDetail: {
+        images: detailImages,
+        video: detailVideo,
+      },
     });
 
-    console.log("[N ADD] Document preview:", JSON.stringify(Nmobile, null, 2));
     await Nmobile.save();
-
-    console.log("[N ADD] Saved new mobile successfully.");
     return res.render(`admin/mobileAdded`);
   } catch (err) {
-    console.error("===== [N ADD][POST] ERROR =====");
-    console.error(err);
+    console.error("[N ADD][POST] error", err);
     return res.status(500).send("Failed to add new mobile.");
   }
 };
 
+/** ========== DELETE ========== */
+exports.postDeleteNmobile = async (req, res) => {
+  const { NmobileId } = req.params;
+  try {
+    const deletedMobile = await newModel.findByIdAndDelete(NmobileId);
+    if (!deletedMobile) throw new Error("Mobile not found");
 
-
-exports.postDeleteNmobile = (req, res, next) => {
-  const NmobileId = req.params.NmobileId;
-
-  
-  newModel.findByIdAndDelete(NmobileId)
-      .then(deletedMobile => {
-        if (!deletedMobile) {
-          throw new Error('Mobile not found');
-        }
-  
-        // Delete the associated image
-        const imagePath = path.join(__dirname, '../../public/uploads', deletedMobile.Nimage);
-        fs.unlink(imagePath, err => {
-          if (err) {
-            console.error('Failed to delete image file:', err);
-            // Not fatal, we proceed
-          }
-        });
-  
-        res.redirect('/Admin/mobileList');
-      })
-      .catch(err => {
-        console.error('Error during mobile delete:', err);
-        res.status(500).send('Failed to delete mobile.');
+    // delete main Nimage
+    if (deletedMobile.Nimage) {
+      const imagePath = path.join(__dirname, "../../public/uploads", deletedMobile.Nimage);
+      fs.unlink(imagePath, (err) => {
+        if (err) console.error("Failed to delete Nimage:", err);
       });
+    }
+
+    // delete detail images
+    if (deletedMobile.productDetail?.images?.length) {
+      deletedMobile.productDetail.images.forEach((img) => {
+        const imgPath = path.join(__dirname, "../../public/uploads", img);
+        fs.unlink(imgPath, (err) => {
+          if (err) console.error("Failed to delete detail image:", err);
+        });
+      });
+    }
+
+    // delete video
+    if (deletedMobile.productDetail?.video) {
+      const videoPath = path.join(__dirname, "../../public/uploads", deletedMobile.productDetail.video);
+      fs.unlink(videoPath, (err) => {
+        if (err) console.error("Failed to delete video:", err);
+      });
+    }
+
+    res.redirect("/Admin/mobileList");
+  } catch (err) {
+    console.error("[N DELETE] error", err);
+    res.status(500).send("Failed to delete mobile.");
+  }
 };
 
 /** ========== EDIT: GET (prefilled form) ========== */
@@ -130,34 +140,9 @@ exports.getNeditMobile = async (req, res) => {
   const { NmobileId } = req.params;
   try {
     const mobile = await newModel.findById(NmobileId).lean();
-    if (!mobile) {
-      console.log(`[N EDIT][GET] mobile ${NmobileId} not found`);
-      return res.status(404).send("Mobile not found");
-    }
+    if (!mobile) return res.status(404).send("Mobile not found");
 
-    console.log("===== [N EDIT][GET] mobile from DB =====");
-    console.log("mobile._id:", mobile._id);
-    console.log({
-      Nname: mobile.Nname,
-      Nprice: mobile.Nprice,
-      Nimage: mobile.Nimage,
-      Ndiscount: mobile.Ndiscount,
-      Nmrp: mobile.Nmrp,
-    });
-    console.log("[N EDIT][GET] mobile.specs (raw):", JSON.stringify(mobile.specs || {}, null, 2));
-
-    // Flatten with prefix "specs" so keys match form input names like "specs.general.model"
     const specsMap = flatten({ specs: mobile.specs || {} });
-    console.log("[N EDIT][GET] specsMap keys (sample):", Object.keys(specsMap).slice(0, 50));
-
-    const sampleKeys = [
-      "specs.general.model",
-      "specs.general.countryOfOrigin",
-      "specs.display.type",
-      "specs.battery.capacity",
-      "specs.sound.jack",
-    ];
-    sampleKeys.forEach((k) => console.log(k, "=>", specsMap[k]));
 
     return res.render("admin/form/addNewMobile", {
       isEdit: true,
@@ -174,59 +159,57 @@ exports.getNeditMobile = async (req, res) => {
 exports.postNeditMobile = async (req, res) => {
   const { NmobileId } = req.params;
   try {
-    console.log("===== [N EDIT][POST] RAW REQ.BODY =====");
-    console.log("Keys:", Object.keys(req.body));
-    console.log(JSON.stringify(req.body, null, 2));
-
     const mobile = await newModel.findById(NmobileId);
-    if (!mobile) {
-      console.log(`[N EDIT][POST] mobile ${NmobileId} not found`);
-      return res.status(404).send("Mobile not found");
-    }
+    if (!mobile) return res.status(404).send("Mobile not found");
 
-    // simpler fields
-    const { Nname, Nprice, Ndiscount, Nmrp,Nrating} = req.body;
-
-    // Rebuild nested specs object from flat keys like "specs.general.model"
+    const { Nname, Nprice, Ndiscount, Nmrp, Nrating } = req.body;
     const nestedSpecs = nestSpecs(req.body || {});
-    console.log("[N EDIT][POST] Nested specs rebuilt:", JSON.stringify(nestedSpecs, null, 2));
 
-    // Assign updated fields
     mobile.Nname = Nname;
     mobile.Nprice = Nprice;
     mobile.Ndiscount = Ndiscount;
     mobile.Nmrp = Nmrp;
-    mobile.Nrating = Nrating
+    mobile.Nrating = Nrating;
     mobile.specs = nestedSpecs;
 
-    // Handle image replace
-    if (req.file && req.file.filename) {
+    // Replace Nimage if uploaded
+    if (req.files?.Nimage) {
       if (mobile.Nimage) {
         const oldPath = path.join(__dirname, "../../public/uploads", mobile.Nimage);
-        fs.unlink(oldPath, (err) => {
-          if (err) console.error("[N EDIT][POST] unlink old image error", err);
-        });
+        fs.unlink(oldPath, () => {});
       }
-      mobile.Nimage = req.file.filename;
+      mobile.Nimage = req.files.Nimage[0].filename;
     }
 
-    console.log("[N EDIT][POST] About to save updated mobile:", {
-      id: mobile._id,
-      Nname: mobile.Nname,
-      // preview of a few spec fields
-      specs_preview: {
-        general_model: mobile.specs?.general?.model,
-        battery_capacity: mobile.specs?.battery?.capacity,
-        sound_jack: mobile.specs?.sound?.jack,
-      },
-    });
+    // Replace detail images if uploaded
+    const newImages = [
+      req.files?.detailImage1?.[0]?.filename,
+      req.files?.detailImage2?.[0]?.filename,
+      req.files?.detailImage3?.[0]?.filename,
+      req.files?.detailImage4?.[0]?.filename,
+    ].filter(Boolean);
+
+    if (newImages.length > 0) {
+      (mobile.productDetail?.images || []).forEach((img) => {
+        const oldImgPath = path.join(__dirname, "../../public/uploads", img);
+        fs.unlink(oldImgPath, () => {});
+      });
+      mobile.productDetail.images = newImages;
+    }
+
+    // Replace detail video if uploaded
+    if (req.files?.detailVideo) {
+      if (mobile.productDetail?.video) {
+        const oldVidPath = path.join(__dirname, "../../public/uploads", mobile.productDetail.video);
+        fs.unlink(oldVidPath, () => {});
+      }
+      mobile.productDetail.video = req.files.detailVideo[0].filename;
+    }
 
     await mobile.save();
-    console.log("[N EDIT][POST] Saved updated mobile:", mobile._id);
     return res.redirect("/Admin/mobileList");
   } catch (err) {
     console.error("[N EDIT][POST] error", err);
     return res.status(500).send("Failed to update mobile.");
   }
 };
-

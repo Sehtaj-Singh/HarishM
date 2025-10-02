@@ -19,7 +19,6 @@ userRouter.post(`/user/register/verify-otp` , userController.postUserRegisterVer
 userRouter.get(`/` ,  userController.getHomePage);
 userRouter.get(`/store` ,  userController.getStore);
 userRouter.get(`/orders` , userController.getOrders);
-userRouter.get(`/repair` , userController.getRepair);
 userRouter.get(`/contact` , userController.getContact);
 
 
