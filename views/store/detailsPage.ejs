@@ -52,6 +52,49 @@
   </h1>
 </div>
 
+
+
+<!-- Condition + Specs -->
+<% 
+  const _s = v => (v == null ? '' : String(v).trim());
+  const ramV = _s(product.specs?.memory?.ram);
+  const stoV = _s(product.specs?.memory?.storage);
+  const colV = _s(product.specs?.design?.color);
+  const addGB = v => v ? (/\d/.test(v) && !/gb/i.test(v) ? `${v}GB` : v) : '';
+  const ram = addGB(ramV);
+  const storage = addGB(stoV);
+  const parts = [];
+  if (ram) parts.push(ram);
+  if (storage) parts.push(storage);
+  let specLine = parts.join('/');
+  if (colV) specLine = specLine ? `${specLine}, ${colV}` : colV;
+%>
+
+<div class="pd-specs">
+  <p>
+    <% if (product.condition) { %>
+      Condition: <span><%= product.condition %></span>
+    <% } %>
+    <% if (specLine) { %>
+      , <span><%= specLine %></span>
+    <% } %>
+  </p>
+</div>
+
+<!-- Price Section -->
+<div class="pd-price">
+  <div class="price-current">₹<%= product.price %></div>
+  <div id="pd-dis">
+    <% if (product.mrp) { %>
+    <div class="price-mrp">MRP: <s>₹<%= product.mrp %></s></div>
+      <% } %>
+      <% if (product.discount) { %>
+    <div class="price-discount"><%= product.discount %>% Off</div>
+  <% } %>
+  </div>
+  
+</div>
+
     <!-- <div class="product-details">
   <img src="/uploads/<%= product.image %>" alt="<%= product.name %>" width="300" />
   <h1><%= product.name %></h1>

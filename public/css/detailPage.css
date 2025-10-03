@@ -73,3 +73,49 @@ body{
 .carousel-dots .dot.active {
   background: #333;
 }
+
+.pd-title{
+  font-size: 2.4vh;
+  font-family: 'Arsenal', sans-serif;
+  letter-spacing: 1px;
+}
+
+.pd-specs{
+  font-size: 1.5vh;
+  color: #454545;
+     font-family: 'Anybody', sans-serif;
+}
+
+.pd-price{
+  margin-top: 0.5vh;
+  width: 84vw;
+ 
+  background-color: #f5f7f8;
+  padding: 2vw 3%;
+  
+  border-top-right-radius: 18px;
+  border-bottom-right-radius: 18px;
+
+}
+.price-mrp{
+  color: #00000081;
+  text-decoration: line-through;
+  font-size: 2.2vh;
+  font-family: "Alice", serif;
+}
+#pd-dis{
+  display: flex;
+  gap: 4vw;
+}
+.price-discount{
+  color:#ffffff;
+  background-color: #d32f2f;
+  border-radius: 14px;
+  padding: 0.3vh 2vw;
+font-family: "Alice", serif;
+}
+.price-current{
+  color: #323a40;
+  font-size: 2.8vh;
+  font-family: "Alice", serif;
+}
