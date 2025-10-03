@@ -16,6 +16,26 @@
     <%- include(`../partials/fonts`) %>
     <%- include(`../partials/cartAddToast`) %>
     <script src="/javascript/store.js"></script>
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.spec-tile .spec-head').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tile = btn.closest('.spec-tile');
+      const body = tile.querySelector('.spec-body');
+      const nowOpen = tile.classList.toggle('open');
+      btn.setAttribute('aria-expanded', nowOpen ? 'true' : 'false');
+      body.hidden = !nowOpen;
+
+      if (nowOpen) {
+        body.style.maxHeight = body.scrollHeight + 'px';
+      } else {
+        body.style.maxHeight = 0;
+      }
+    });
+  });
+});
+</script>
+
 
     <a class="back-btn" href="/"><i class="fa-solid fa-arrow-left"></i>  Back</a>
 
@@ -67,30 +87,30 @@
 
 <div class="pd-specs">
   <% if (product.condition) { %>
-    <div class="spec-row">
-      <span class="spec-label">Condition :</span>
-      <span class="spec-value"><%= product.condition %></span>
+    <div class="detail-row">
+      <span class="detail-label">Condition :</span>
+      <span class="detail-value"><%= product.condition %></span>
     </div>
   <% } %>
 
   <% if (ram) { %>
-    <div class="spec-row">
-      <span class="spec-label">RAM :</span>
-      <span class="spec-value"><%= ram %></span>
+    <div class="detail-row">
+      <span class="detail-label">RAM :</span>
+      <span class="detail-value"><%= ram %></span>
     </div>
   <% } %>
 
   <% if (storage) { %>
-    <div class="spec-row">
-      <span class="spec-label">Storage :</span>
-      <span class="spec-value"><%= storage %></span>
+    <div class="detail-row">
+      <span class="detail-label">Storage :</span>
+      <span class="detail-value"><%= storage %></span>
     </div>
   <% } %>
 
   <% if (colV) { %>
-    <div class="spec-row">
-      <span class="spec-label">Color :</span>
-      <span class="spec-value"><%= colV %></span>
+    <div class="detail-row">
+      <span class="detail-label">Color :</span>
+      <span class="detail-value"><%= colV %></span>
     </div>
   <% } %>
 </div>
@@ -108,6 +128,97 @@
   
   
 </div>
+
+<!-- Assurance badges -->
+<div class="assurance-wrap" aria-label="Assurance details">
+  <div class="assurance-item" role="group" aria-label="7-day exchange">
+    <i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i>
+    <span>7-day exchange</span>
+  </div>
+
+  <div class="assurance-item" role="group" aria-label="Secure delivered">
+    <i class="fa-solid fa-truck-fast" aria-hidden="true"></i>
+    <span>Secure delivered</span>
+  </div>
+
+  <div class="assurance-item" role="group" aria-label="No return allowed">
+    <i class="fa-solid fa-ban" aria-hidden="true"></i>
+    <span>No return allowed</span>
+  </div>
+</div>
+
+<!-- Product Details / Specifications -->
+<section class="specs-section" id="specs">
+  <h2 class="specs-title">Specification</h2>
+
+  <% 
+    const sectionMap = [
+      ['general','General'],
+      ['backCamera','Rear Camera'],
+      ['memory','Memory & Storage'],
+      ['selfieCamera','Front Camera'],
+      ['design','Design'],
+      
+      ['display','Display'],
+      ['connectivity','Network & Connectivity'],
+      
+      
+      ['performance','Performance'],
+      
+      ['battery','Battery'],
+      ['sound','Sound'],
+      
+      ['sensors','Sensors'],
+    ];
+  %>
+
+  <div class="specs-tiles">
+    <% sectionMap.forEach(([key, label]) => {
+         const sec = product.specs?.[key] || {};
+         const entries = Object.entries(sec)
+           .filter(([k,v]) => k !== 'merged' && v && String(v).trim() !== '');
+         if (entries.length) { %>
+
+      <div class="spec-tile">
+        <button class="spec-head" type="button" aria-expanded="false">
+          <span><%= label %></span>
+          <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+        </button>
+
+        <div class="spec-body" hidden>
+          <ul class="spec-list">
+            <% entries.forEach(([k, v]) => {
+                 const prettyKeyMap = {
+                   cpu:'Processor', ram:'RAM', storage:'Storage', wifi:'Wi‑Fi',
+                   bluetooth:'Bluetooth', jack:'3.5mm Jack', stereoSpeaker:'Stereo Speaker',
+                   screenToBodyRatio:'Screen-to-body ratio', refreshRate:'Refresh rate',
+                   peakBrightness:'Peak brightness', osSystem:'OS', osUpdates:'OS updates',
+                   securityUpdates:'Security updates', chargingPort:'Charging port',
+                   simSize:'SIM size', countryOfOrigin:'Country of origin',
+                   video:'Video', type:'Type', capacity:'Capacity', charging:'Charging',
+                   wirelessCharging:'Wireless charging', fingerprint:'Fingerprint',
+                   other:'Other', dimensions:'Dimensions', buildMaterial:'Build material',
+                   model:'Model', dualSim:'Dual SIM', protection:'Protection',
+                   notch:'Notch', network:'Network', color:'Color', size:'Size',
+                   resolution:'Resolution', weight:'Weight'
+                 };
+                 const pretty = prettyKeyMap[k] || k.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase());
+                 const val = (v instanceof Date || (typeof v === 'string' && !isNaN(Date.parse(v))))
+                   ? new Date(v).toLocaleDateString('en-IN')
+                   : v;
+            %>
+              <li>
+                <span class="spec-name"><%= pretty %></span>
+                <span class="spec-value"><%= val %></span>
+              </li>
+            <% }) %>
+          </ul>
+        </div>
+      </div>
+
+    <% } }); %>
+  </div>
+</section>
 
     <!-- <div class="product-details">
   <img src="/uploads/<%= product.image %>" alt="<%= product.name %>" width="300" />

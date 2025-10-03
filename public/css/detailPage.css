@@ -1,10 +1,11 @@
-body{
+body {
   margin: 0;
   padding: 0;
   margin-top: 4vh;
+  margin-bottom: 7vh;
 }
 
-.back-btn{
+.back-btn {
   border: none;
   font-size: 2.8vh;
   margin-left: 7vw;
@@ -19,7 +20,6 @@ body{
 #upwrapIS {
   display: flex;
   justify-content: center;
-  
 }
 
 /* Carousel container */
@@ -28,11 +28,10 @@ body{
   padding-top: 2vh;
   max-width: 500px;
   overflow: hidden;
-  
+
   background-color: #fafafa;
   position: relative;
   padding-bottom: 10px;
- 
 }
 
 /* Track */
@@ -47,8 +46,8 @@ body{
   width: 60vw;
   padding-left: 20vw;
   max-width: 500px;
-  aspect-ratio: 1 / 1;   /* makes them square */
-  object-fit: cover;     /* crop nicely */
+  aspect-ratio: 1 / 1; /* makes them square */
+  object-fit: cover; /* crop nicely */
   flex-shrink: 0;
   border-radius: 12px;
 }
@@ -74,12 +73,13 @@ body{
   background: #333;
 }
 
-.pd-title{
+.pd-title {
   font-size: 2.7vh;
-  font-family: 'Arsenal', sans-serif;
+  font-family: "Arsenal", sans-serif;
   letter-spacing: 1px;
   margin-left: 3vw;
   color: #323a40;
+  margin-top: 1vh;
 }
 
 .pd-specs {
@@ -97,7 +97,7 @@ body{
   gap: 8px;
 }
 
-.spec-row {
+.detail-row {
   display: flex;
   justify-content: space-between;
   font-size: 2vh;
@@ -105,41 +105,165 @@ body{
   letter-spacing: 1px;
 }
 
-.spec-label {
+.detailc-label {
   font-weight: 600;
   color: #555;
 }
 
-.spec-value {
+.detail-value {
   font-weight: 600;
   color: #2c5080;
 }
 
-.pd-price{
+.pd-price {
   display: flex;
   gap: 5vw;
   align-items: end;
   margin-left: 3vw;
   margin-top: 1vh;
 }
-.price-current{
-  font-size: 3.3vh;
+.price-current {
+  font-size: 4vh;
   font-family: "Alice", serif;
   font-weight: 600;
-  color: #09101f;
+  color: #323a40;
   letter-spacing: 1px;
 }
-.price-mrp{
+.price-mrp {
   font-size: 2.5vh;
   color: #454545;
-  text-decoration: 
-  line-through;
-   font-family: "Alice", serif;
-   letter-spacing: 1px;
+  text-decoration: line-through;
+  font-family: "Alice", serif;
+  letter-spacing: 1px;
 }
-.price-discount{
+.price-discount {
   color: #d32f2f;
   font-size: 2.5vh;
-   font-family: "Alice", serif;
+  font-family: "Alice", serif;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+/* Assurance badges */
+.assurance-wrap {
+  margin: 10px 16px 14px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 1vh;
+}
+
+.assurance-item {
+  border: 1px solid #323a40;
+  margin-top: 1vh;
+  padding: 12px 8px;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.assurance-item i {
+  font-size: 1.25rem;
+  color: #597fd1;
+}
+
+.assurance-item span {
+  font-size: 1rem;
+  color: #323a40;
+  font-family: "Alice", serif;
+}
+
+/* spec */
+
+/* Specs section */
+.specs-section {
+  margin: 14px 16px 18px;
+   margin-top: 3vh;
+}
+.specs-title {
+  font-size: 2,5vh;
+  margin-bottom: 8px;
+  color: #192f49;
+   font-family: "Arsenal", sans-serif;
    letter-spacing: 1px;
+  
+}
+
+.specs-tiles {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.spec-tile {
+  background: #f5f7f8;
+  border: 1px solid #555;
+  border-radius: 12px;
+  overflow: hidden;
+  
+}
+
+.spec-head {
+  width: 100%;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #323a40;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: "Alice", serif;
+  border: none;
+}
+
+.spec-head i {
+  transition: transform 0.28s ease;
+  transform-origin: 50% 50%;
+}
+
+.spec-tile.open .spec-head i {
+  transform: rotate(180deg); /* arrow up */
+}
+
+.spec-body {
+  padding: 0 14px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.2s ease;
+  background-color: #fff;
+}
+
+.spec-tile.open .spec-body {
+  padding: 10px 14px 12px;
+  max-height: 480px; /* large enough for content */
+}
+
+.spec-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.spec-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid #1c20277e;
+}
+.spec-list li:last-child {
+  border-bottom: none;
+}
+
+.spec-name {
+  color: #555;
+  font-family: "Alice", serif;
+}
+.spec-value {
+  color: #2c5080;
+  font-family: "Alice", serif;
 }
