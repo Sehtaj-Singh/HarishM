@@ -44,6 +44,14 @@
   </section>
 </div>
 
+<!-- Product title + category -->
+<div class="pd-head">
+  <% const categoryLabel = { SH: 'Refurbished', N: 'New' }[product.category]; %>
+  <h1 class="pd-title">
+    <%= product.name %><%= categoryLabel ? ' - ' + categoryLabel : '' %>
+  </h1>
+</div>
+
     <!-- <div class="product-details">
   <img src="/uploads/<%= product.image %>" alt="<%= product.name %>" width="300" />
   <h1><%= product.name %></h1>

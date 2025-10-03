@@ -19,20 +19,20 @@ body{
 #upwrapIS {
   display: flex;
   justify-content: center;
-  margin-top: 8px;
+  
 }
 
 /* Carousel container */
 .carousel {
-  width: 90vw;
+  width: 100vw;
   padding-top: 2vh;
   max-width: 500px;
   overflow: hidden;
-  border-radius: 12px;
-  background-color: #f6f6f6;
+  
+  background-color: #fafafa;
   position: relative;
   padding-bottom: 10px;
-  border: 1px solid #00000024;
+ 
 }
 
 /* Track */
@@ -45,7 +45,7 @@ body{
 .carousel-track img,
 .carousel-track video {
   width: 60vw;
-  padding-left: 15vw;
+  padding-left: 20vw;
   max-width: 500px;
   aspect-ratio: 1 / 1;   /* makes them square */
   object-fit: cover;     /* crop nicely */
