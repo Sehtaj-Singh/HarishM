@@ -78,44 +78,67 @@ body{
   font-size: 2.4vh;
   font-family: 'Arsenal', sans-serif;
   letter-spacing: 1px;
+  margin-left: 3vw;
 }
 
-.pd-specs{
-  font-size: 1.5vh;
-  color: #454545;
-     font-family: 'Anybody', sans-serif;
+.pd-specs {
+  width: 65vw;
+  background-color: #f5f7f8;
+  padding: 3vw;
+  margin-top: 1vh;
+  padding-right: 15vw;
+  border-top-right-radius: 32px;
+  border-bottom-right-radius: 32px;
+
+  /* layout fix */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.spec-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 2vh;
+  font-family: "Alice", serif;
+  letter-spacing: 1px;
+}
+
+.spec-label {
+  font-weight: 600;
+  color: #555;
+}
+
+.spec-value {
+  font-weight: 600;
+  color: #2c5080;
 }
 
 .pd-price{
-  margin-top: 0.5vh;
-  width: 84vw;
- 
-  background-color: #f5f7f8;
-  padding: 2vw 3%;
-  
-  border-top-right-radius: 18px;
-  border-bottom-right-radius: 18px;
-
-}
-.price-mrp{
-  color: #00000081;
-  text-decoration: line-through;
-  font-size: 2.2vh;
-  font-family: "Alice", serif;
-}
-#pd-dis{
   display: flex;
-  gap: 4vw;
-}
-.price-discount{
-  color:#ffffff;
-  background-color: #d32f2f;
-  border-radius: 14px;
-  padding: 0.3vh 2vw;
-font-family: "Alice", serif;
+  gap: 5vw;
+  align-items: end;
+  margin-left: 3vw;
+  margin-top: 1vh;
 }
 .price-current{
-  color: #323a40;
-  font-size: 2.8vh;
+  font-size: 3vh;
   font-family: "Alice", serif;
+  font-weight: 600;
+  color: #09101f;
+  letter-spacing: 1px;
+}
+.price-mrp{
+  font-size: 2.5vh;
+  color: #454545;
+  text-decoration: 
+  line-through;
+   font-family: "Alice", serif;
+   letter-spacing: 1px;
+}
+.price-discount{
+  color: #d32f2f;
+  font-size: 2.5vh;
+   font-family: "Alice", serif;
+   letter-spacing: 1px;
 }
