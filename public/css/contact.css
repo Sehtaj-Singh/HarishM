@@ -6,13 +6,26 @@ body{
 }
 
 .main{
-  width: 80vw;
-  margin-left: 20vw;
-  margin-top: 1vh;
+  width: 90vw;
+  margin-left: 7vw;
+  margin-top: 1.5vh;
+  display: inline-block;
+  
+   
 }
 #pic{
+  object-fit: contain;
+  width:90vw;
   
-  width: 80vw;
-  margin-top: 1vh;
-  
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+}
+
+#location{
+  background-color: #353738;
+  height: 10vh;
+  margin-top: -0.5vh;
+  width:90vw;
+  border-bottom-left-radius: 24px;
+  border-bottom-right-radius: 24px;
 }
