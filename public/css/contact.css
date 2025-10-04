@@ -24,8 +24,44 @@ body{
 #location{
   background-color: #353738;
   height: 10vh;
-  margin-top: -0.5vh;
+  margin-top: -1vh;
   width:90vw;
   border-bottom-left-radius: 24px;
   border-bottom-right-radius: 24px;
+}
+#contact-box{
+  position: absolute;
+  z-index: 3;
+  background-color: #607D8B;
+  height: 7vh;
+  width: 44vw;
+  margin-left: -4vw;
+  margin-top: 4vh;
+  border-top-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+  box-shadow: 2px 6px 8px #00000095;
+}
+#contact-box2{
+  position: absolute;
+  z-index: 3;
+  background-color: #607D8B;
+  height: 7vh;
+  width: 44vw;
+  margin-top: 15vh;
+   margin-left: -4vw;
+   border-top-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+  box-shadow: 2px 6px 8px #00000095;
+}
+#contact-box3{
+  position: absolute;
+  z-index: 3;
+  background-color: #607D8B;
+  height: 7vh;
+  width: 44vw;
+  margin-top: 26vh;
+   margin-left: -4vw;
+   border-top-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+  box-shadow: 2px 6px 8px #00000095;
 }
