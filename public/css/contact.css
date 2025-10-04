@@ -1,0 +1,18 @@
+body{
+  margin: 0;
+  padding: 0;
+  margin-top: 4vh;
+  margin-bottom: 7vh;
+}
+
+.main{
+  width: 80vw;
+  margin-left: 20vw;
+  margin-top: 1vh;
+}
+#pic{
+  
+  width: 80vw;
+  margin-top: 1vh;
+  
+}
