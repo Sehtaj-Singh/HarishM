@@ -32,7 +32,7 @@ body{
 #contact-box{
   position: absolute;
   z-index: 3;
-  background-color: #607D8B;
+  background-color: #566f7c;
   height: 8vh;
   width: 44vw;
   margin-left: -4vw;
@@ -40,6 +40,7 @@ body{
   border-top-left-radius: 18px;
   border-bottom-right-radius: 18px;
   box-shadow: 2px 6px 8px #00000095;
+  background: linear-gradient(135deg, #607D8B, #455A64);
 }
 #contact-box2{
   position: absolute;
@@ -52,6 +53,8 @@ body{
    border-top-left-radius: 18px;
   border-bottom-right-radius: 18px;
   box-shadow: 2px 6px 8px #00000095;
+  background: linear-gradient(135deg, #90A4AE, #607D8B);
+
 }
 #contact-box3{
   position: absolute;
@@ -64,4 +67,7 @@ body{
    border-top-left-radius: 18px;
   border-bottom-right-radius: 18px;
   box-shadow: 2px 6px 8px #00000095;
+  background: linear-gradient(135deg, #607D8B ,#263238 );
+
+
 }
