@@ -21,13 +21,29 @@ body{
   border-top-right-radius: 24px;
 }
 
-#location{
+.location{
   background-color: #353738;
-  height: 10vh;
+  
   margin-top: -1vh;
-  width:90vw;
+  width:82vw;
   border-bottom-left-radius: 24px;
   border-bottom-right-radius: 24px;
+  padding: 2vh 4vw;
+}
+.location h3{
+  color: #E2E3E2;
+  font-family: "Inika", serif;
+  letter-spacing: 1px;
+  font-weight: 300;
+}
+
+.location p{
+  color: #E2E3E2;
+  font-family: "Inika", serif;
+  letter-spacing: 1px;
+  font-weight: 300;
+  margin-top: -10px;
+  font-size: 16px;
 }
 #contact-box{
   position: absolute;
@@ -40,7 +56,8 @@ body{
   border-top-left-radius: 18px;
   border-bottom-right-radius: 18px;
   box-shadow: 2px 6px 8px #00000095;
-  background: linear-gradient(135deg, #607D8B, #455A64);
+  background: linear-gradient(135deg, #607D8B ,#263238 );
+  
 }
 #contact-box2{
   position: absolute;
@@ -53,7 +70,7 @@ body{
    border-top-left-radius: 18px;
   border-bottom-right-radius: 18px;
   box-shadow: 2px 6px 8px #00000095;
-  background: linear-gradient(135deg, #90A4AE, #607D8B);
+  background: linear-gradient(135deg, #607D8B ,#263238 );
 
 }
 #contact-box3{
