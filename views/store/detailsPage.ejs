@@ -16,25 +16,146 @@
     <%- include(`../partials/fonts`) %>
     <%- include(`../partials/cartAddToast`) %>
     <script src="/javascript/store.js"></script>
-    <script>
+   <script>
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.spec-tile .spec-head').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const tile = btn.closest('.spec-tile');
-      const body = tile.querySelector('.spec-body');
-      const nowOpen = tile.classList.toggle('open');
-      btn.setAttribute('aria-expanded', nowOpen ? 'true' : 'false');
-      body.hidden = !nowOpen;
+  // Elements
+  const specsSection = document.getElementById('specs') || document.querySelector('.specs-section');
+  const specsTiles = document.getElementById('specsTiles') || (specsSection && specsSection.querySelector('.specs-tiles'));
+  let seeMoreBtn = document.getElementById('seeMoreBtn') || (specsSection && specsSection.querySelector('#seeMoreBtn'));
 
-      if (nowOpen) {
+  if (!specsTiles) return; // nothing to do
+
+  const allTiles = Array.from(specsTiles.querySelectorAll('.spec-tile'));
+  const visibleCount = 3;
+  let expanded = false;
+
+  /* ---------------- Prepare each spec-body for a reliable transition ---------------- */
+  allTiles.forEach((tile, i) => {
+    const head = tile.querySelector('.spec-head');
+    const body = tile.querySelector('.spec-body');
+
+    // Make sure body can animate using max-height
+    if (body) {
+      body.style.boxSizing = 'border-box';
+      body.style.overflow = 'hidden';
+      // Set a safe transition (will not override if already set inline)
+      body.style.transition = body.style.transition || 'max-height 260ms ease';
+      // Remove hidden attribute (if present) and control via maxHeight
+      if (body.hasAttribute('hidden')) body.removeAttribute('hidden');
+
+      // If tile was pre-marked open, keep it open
+      if (tile.classList.contains('open')) {
         body.style.maxHeight = body.scrollHeight + 'px';
+        head && head.setAttribute('aria-expanded', 'true');
       } else {
-        body.style.maxHeight = 0;
+        body.style.maxHeight = '0px';
+        head && head.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    // Initial tile visibility for "see more" behaviour
+    if (allTiles.length > visibleCount) {
+      tile.style.display = i < visibleCount ? 'block' : 'none';
+    } else {
+      tile.style.display = 'block';
+    }
+
+    // Header click toggles this tile
+    if (head) {
+      head.addEventListener('click', () => {
+        const isOpen = tile.classList.toggle('open');
+        head.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+
+        if (!body) return;
+
+        if (isOpen) {
+          // Expand: set to scrollHeight then after transition allow 'none' so content can flow
+          body.style.maxHeight = body.scrollHeight + 'px';
+          const onEnd = () => {
+            // keep it open but remove fixed height to accommodate dynamic content
+            if (tile.classList.contains('open')) body.style.maxHeight = 'none';
+            body.removeEventListener('transitionend', onEnd);
+          };
+          body.addEventListener('transitionend', onEnd);
+        } else {
+          // Collapse: if maxHeight is 'none', first set it to current scrollHeight to start transition
+          if (body.style.maxHeight === 'none') {
+            body.style.maxHeight = body.scrollHeight + 'px';
+            requestAnimationFrame(() => {
+              body.style.maxHeight = '0px';
+            });
+          } else {
+            body.style.maxHeight = '0px';
+          }
+        }
+      });
+    }
+  });
+
+  /* ---------------- Ensure See More button exists (create if missing) ---------------- */
+  if (!seeMoreBtn) {
+    const wrap = document.createElement('div');
+    wrap.className = 'see-more-wrap';
+    const btn = document.createElement('button');
+    btn.id = 'seeMoreBtn';
+    btn.className = 'see-more-btn';
+    btn.type = 'button';
+    btn.textContent = 'See more';
+    wrap.appendChild(btn);
+    // Append after the tiles container (keeps markup neat)
+    specsTiles.parentElement.appendChild(wrap);
+    seeMoreBtn = btn;
+  }
+
+  /* ---------------- Initial SeeMore visibility & collapsed overlay ---------------- */
+  if (allTiles.length > visibleCount) {
+    seeMoreBtn.style.display = 'block';
+    specsTiles.style.opacity = '0.6';
+    specsSection && specsSection.classList.add('collapsed');
+  } else {
+    seeMoreBtn.style.display = 'none';
+  }
+
+  /* ---------------- See More / See Less toggle ---------------- */
+  seeMoreBtn.addEventListener('click', () => {
+    expanded = !expanded;
+
+    if (expanded) {
+      // Reveal all tiles (but do NOT auto-open individual spec bodies)
+      allTiles.forEach(tile => (tile.style.display = 'block'));
+      seeMoreBtn.textContent = 'See less';
+      specsTiles.style.opacity = '1';
+      specsSection && specsSection.classList.remove('collapsed');
+    } else {
+      // Hide extras and restore collapsed state
+      allTiles.forEach((tile, i) => {
+        tile.style.display = i < visibleCount ? 'block' : 'none';
+      });
+      seeMoreBtn.textContent = 'See more';
+      specsTiles.style.opacity = '0.6';
+      specsSection && specsSection.classList.add('collapsed');
+      // bring the section into view so user sees top of specs
+      specsTiles.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+
+  /* ---------------- Recompute expanded tile heights on resize ---------------- */
+  window.addEventListener('resize', () => {
+    allTiles.forEach(tile => {
+      const body = tile.querySelector('.spec-body');
+      if (!body) return;
+      if (tile.classList.contains('open')) {
+        // recompute and keep open
+        body.style.maxHeight = body.scrollHeight + 'px';
+        setTimeout(() => {
+          if (tile.classList.contains('open')) body.style.maxHeight = 'none';
+        }, 300);
       }
     });
   });
 });
 </script>
+
 
 
     <a class="back-btn" href="/"><i class="fa-solid fa-arrow-left"></i>  Back</a>
@@ -220,69 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
 </section>
 
-<!-- Inline script -->
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  /* ---------- Individual Spec Tile Expand/Collapse ---------- */
-  document.querySelectorAll('.spec-tile .spec-head').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const tile = btn.closest('.spec-tile');
-      const body = tile.querySelector('.spec-body');
-      const nowOpen = tile.classList.toggle('open');
-      btn.setAttribute('aria-expanded', nowOpen ? 'true' : 'false');
-      body.hidden = !nowOpen;
 
-      if (nowOpen) {
-        body.style.maxHeight = body.scrollHeight + 'px';
-      } else {
-        body.style.maxHeight = 0;
-      }
-    });
-  });
-
-  /* ---------- See More / See Less Feature ---------- */
-  const specsSection = document.getElementById("specs");
-  const specsTiles = document.getElementById("specsTiles");
-  const seeMoreBtn = document.getElementById("seeMoreBtn");
-  const allTiles = specsTiles.querySelectorAll(".spec-tile");
-  const visibleCount = 3;
-  let expanded = false;
-
-  // Default collapsed state
-  if (allTiles.length > visibleCount) {
-    allTiles.forEach((tile, i) => {
-      if (i >= visibleCount) tile.style.display = "none";
-    });
-    seeMoreBtn.style.display = "block";
-    specsTiles.style.opacity = "0.6";
-    specsSection.classList.add("collapsed"); // show black gradient
-  } else {
-    seeMoreBtn.style.display = "none";
-  }
-
-  // Toggle See More / See Less
-  seeMoreBtn.addEventListener("click", () => {
-    expanded = !expanded;
-
-    if (expanded) {
-      // Expand all specs
-      allTiles.forEach(tile => (tile.style.display = "block"));
-      seeMoreBtn.textContent = "See less";
-      specsTiles.style.opacity = "1";
-      specsSection.classList.remove("collapsed"); // remove gradient
-    } else {
-      // Collapse back to first few specs
-      allTiles.forEach((tile, i) => {
-        tile.style.display = i < visibleCount ? "block" : "none";
-      });
-      seeMoreBtn.textContent = "See more";
-      specsTiles.style.opacity = "0.6";
-      specsSection.classList.add("collapsed"); // add gradient
-      specsTiles.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  });
-});
-</script>
 
     <!-- <div class="product-details">
   <img src="/uploads/<%= product.image %>" alt="<%= product.name %>" width="300" />
