@@ -185,3 +185,23 @@ font-family: "Inika", serif;
   font-size: 4.8vw;
   margin-left: 3vw;
 }
+
+.contact-form{
+  margin-top: 3vh;
+}
+
+.message{
+  display: flex;
+  gap: 4vw;
+  
+}
+
+.message img{
+  width: 40vw;
+  margin-left: 3vw
+}
+
+.form input{
+  width: 40vw;
+  height: 2vh;
+}

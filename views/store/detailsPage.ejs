@@ -206,7 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
 <!-- Assurance badges -->
 <div class="assurance-wrap" aria-label="Assurance details">
   <div class="assurance-item" role="group" aria-label="7-day exchange">
-    <img src="/images/exchange.png">
+    <img src="/images/exchange1.png">
     <span>7-day exchange</span>
   </div>
 
@@ -228,7 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
   </div>
   <div class="delivery-text">
-    <i class="fa-solid fa-truck-fast"></i>
+     <img src="/images/truck1.png">
    
     <p id="delivery-date">Loading...</p>
   </div>
@@ -307,6 +307,96 @@ document.addEventListener("DOMContentLoaded", () => {
   </div>
 </section>
 
+<!-- Related Products Section -->
+<section class="related-products">
+  <div class="sectionHeading">
+    <h2 id="cardHeading">More Products</h2>
+  </div>
+
+  <div class="CardSection">
+    <% 
+      const currentId = String(product._id);
+      let filteredProducts = [];
+
+      if (product.category === 'SH') {
+        filteredProducts = (registeredSHmobile || []).filter(m => String(m._id) !== currentId);
+        filteredProducts.slice(0, 8).forEach(m => {
+          const _s = v => (v == null ? '' : String(v).trim());
+          const base = _s(m.SHname);
+          const net = _s(m.specs?.connectivity?.network).toUpperCase();
+          const ramV = _s(m.specs?.memory?.ram);
+          const stoV = _s(m.specs?.memory?.storage);
+          const colV = _s(m.specs?.design?.color).toLowerCase();
+          const addGB = v => v ? (/\d/.test(v) && !/gb/i.test(v) ? `${v}GB` : v) : '';
+          const ram = addGB(ramV);
+          const storage = addGB(stoV);
+          const parts = []; if (ram) parts.push(ram); if (storage) parts.push(storage);
+          let parenText = parts.join('/'); if (colV) parenText = parenText ? `${parenText}, ${colV}` : colV;
+          const displayName = [base, net].filter(Boolean).join(' ') + (parenText ? ` (${parenText})` : '');
+    %>
+
+    <a class="MobileCard" href="/Second-Hand/Details/<%= m._id %>">
+      <img class="cardLogo" src="/images/cardLogo1.png" />
+      <div id="card-image">
+        <img class="mobileImage" src="/uploads/<%= m.SHimage %>" alt="<%= displayName %>" />
+      </div>
+      <div id="card-details">
+        <h3 id="card-name"><%= displayName %></h3>
+        <p class="mobilecCondition">Condition: <%= m.condition %></p>
+        <div id="card-discout">
+          <div class="mobileDiscount">-<%= m.SHdiscount %>%</div>
+          <div class="mobileMRP">₹<%= m.SHmrp %></div>
+        </div>
+        <div class="finalPriceWrap">
+          <div id="ribbon-wrap">
+            <div class="finalPrice">₹<%= m.SHprice %></div>
+          </div>
+          <div class="cornerRibbonLeft"></div>
+        </div>
+      </div>
+    </a>
+
+    <% }); } else if (product.category === 'N') { 
+      filteredProducts = (registeredNmobile || []).filter(m => String(m._id) !== currentId);
+      filteredProducts.slice(0, 8).forEach(m => {
+        const _s = v => (v == null ? '' : String(v).trim());
+        const base = _s(m.Nname);
+        const net = _s(m.specs?.connectivity?.network).toUpperCase();
+        const ramV = _s(m.specs?.memory?.ram);
+        const stoV = _s(m.specs?.memory?.storage);
+        const colV = _s(m.specs?.design?.color).toLowerCase();
+        const addGB = v => v ? (/\d/.test(v) && !/gb/i.test(v) ? `${v}GB` : v) : '';
+        const ram = addGB(ramV);
+        const storage = addGB(stoV);
+        const parts = []; if (ram) parts.push(ram); if (storage) parts.push(storage);
+        let parenText = parts.join('/'); if (colV) parenText = parenText ? `${parenText}, ${colV}` : colV;
+        const displayName = [base, net].filter(Boolean).join(' ') + (parenText ? ` (${parenText})` : '');
+    %>
+
+    <a class="MobileCard" href="/New/Details/<%= m._id %>">
+      <img class="cardLogo" src="/images/cardLogo1.png" />
+      <div id="card-image">
+        <img class="mobileImage" src="/uploads/<%= m.Nimage %>" alt="<%= displayName %>" />
+      </div>
+      <div id="card-details">
+        <h3 id="card-name"><%= displayName %></h3>
+        <div id="card-discout">
+          <div class="mobileDiscount">-<%= m.Ndiscount %>%</div>
+          <div class="mobileMRP">₹<%= m.Nmrp %></div>
+        </div>
+        <div class="finalPriceWrap">
+          <div id="ribbon-wrap">
+            <div class="finalPrice">₹<%= m.Nprice %></div>
+          </div>
+          <div class="cornerRibbonLeft"></div>
+        </div>
+      </div>
+    </a>
+
+    <% }); } %>
+  </div>
+</section>
+
 
 <div class="payment">
   <h2>Payment Methods :</h2>
@@ -325,5 +415,7 @@ document.addEventListener("DOMContentLoaded", () => {
     <button type="submit">Buy Now</button>
   </form>
 </div>
+
+<%- include('../partials/StoreFooter') %>
   </body>
 </html>

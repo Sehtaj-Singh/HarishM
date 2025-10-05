@@ -93,6 +93,11 @@ exports.getSHdetailPage = async (req, res, next) => {
 
     if (!p) return res.status(404).send("Product not found");
 
+    // Fetch all SH mobiles except the current one
+    const registeredSHmobile = await secondHandModel.find({
+      _id: { $ne: productId },
+    });
+
     const product = {
       id: p._id,
       name: p.SHname,
@@ -110,7 +115,12 @@ exports.getSHdetailPage = async (req, res, next) => {
       },
     };
 
-    res.render("store/detailsPage", { product, active: "null" });
+    res.render("store/detailsPage", {
+      product,
+      active: "null",
+      registeredSHmobile,
+      registeredNmobile: [],
+    });
   } catch (err) {
     console.error("❌ Error fetching SH product:", err.message);
     res.status(500).send("Server error");
@@ -124,6 +134,11 @@ exports.getNdetailPage = async (req, res, next) => {
     const p = await newModel.findById(productId);
 
     if (!p) return res.status(404).send("Product not found");
+
+    // Fetch all N mobiles except the current one
+    const registeredNmobile = await newModel.find({
+      _id: { $ne: productId },
+    });
 
     const product = {
       id: p._id,
@@ -142,12 +157,18 @@ exports.getNdetailPage = async (req, res, next) => {
       },
     };
 
-    res.render("store/detailsPage", { product, active: "null" });
+    res.render("store/detailsPage", {
+      product,
+      active: "null",
+      registeredNmobile,
+      registeredSHmobile: [],
+    });
   } catch (err) {
     console.error("❌ Error fetching N product:", err.message);
     res.status(500).send("Server error");
   }
 };
+
 
 // Detail page - Accessory
 exports.getAdetailPage = async (req, res, next) => {
@@ -174,12 +195,19 @@ exports.getAdetailPage = async (req, res, next) => {
       },
     };
 
-    res.render("store/detailsPage", { product, active: "null" });
+    res.render("store/detailsPage", {
+      product,
+      active: "null",
+      registeredSHmobile: [],
+      registeredNmobile: [],
+    });
   } catch (err) {
     console.error("❌ Error fetching A product:", err.message);
     res.status(500).send("Server error");
   }
 };
+
+
 
 
 // user register
