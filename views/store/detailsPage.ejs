@@ -158,21 +158,16 @@ document.addEventListener('DOMContentLoaded', () => {
       ['memory','Memory & Storage'],
       ['selfieCamera','Front Camera'],
       ['design','Design'],
-      
       ['display','Display'],
       ['connectivity','Network & Connectivity'],
-      
-      
       ['performance','Performance'],
-      
       ['battery','Battery'],
       ['sound','Sound'],
-      
       ['sensors','Sensors'],
     ];
   %>
 
-  <div class="specs-tiles">
+  <div class="specs-tiles" id="specsTiles">
     <% sectionMap.forEach(([key, label]) => {
          const sec = product.specs?.[key] || {};
          const entries = Object.entries(sec)
@@ -189,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <ul class="spec-list">
             <% entries.forEach(([k, v]) => {
                  const prettyKeyMap = {
-                   cpu:'Processor', ram:'RAM', storage:'Storage', wifi:'Wi‑Fi',
+                   cpu:'Processor', ram:'RAM', storage:'Storage', wifi:'Wi-Fi',
                    bluetooth:'Bluetooth', jack:'3.5mm Jack', stereoSpeaker:'Stereo Speaker',
                    screenToBodyRatio:'Screen-to-body ratio', refreshRate:'Refresh rate',
                    peakBrightness:'Peak brightness', osSystem:'OS', osUpdates:'OS updates',
@@ -218,7 +213,76 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <% } }); %>
   </div>
+
+  <!-- See more / See less button -->
+  <div class="see-more-wrap">
+    <button id="seeMoreBtn" class="see-more-btn" type="button">See more</button>
+  </div>
 </section>
+
+<!-- Inline script -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  /* ---------- Individual Spec Tile Expand/Collapse ---------- */
+  document.querySelectorAll('.spec-tile .spec-head').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tile = btn.closest('.spec-tile');
+      const body = tile.querySelector('.spec-body');
+      const nowOpen = tile.classList.toggle('open');
+      btn.setAttribute('aria-expanded', nowOpen ? 'true' : 'false');
+      body.hidden = !nowOpen;
+
+      if (nowOpen) {
+        body.style.maxHeight = body.scrollHeight + 'px';
+      } else {
+        body.style.maxHeight = 0;
+      }
+    });
+  });
+
+  /* ---------- See More / See Less Feature ---------- */
+  const specsSection = document.getElementById("specs");
+  const specsTiles = document.getElementById("specsTiles");
+  const seeMoreBtn = document.getElementById("seeMoreBtn");
+  const allTiles = specsTiles.querySelectorAll(".spec-tile");
+  const visibleCount = 3;
+  let expanded = false;
+
+  // Default collapsed state
+  if (allTiles.length > visibleCount) {
+    allTiles.forEach((tile, i) => {
+      if (i >= visibleCount) tile.style.display = "none";
+    });
+    seeMoreBtn.style.display = "block";
+    specsTiles.style.opacity = "0.6";
+    specsSection.classList.add("collapsed"); // show black gradient
+  } else {
+    seeMoreBtn.style.display = "none";
+  }
+
+  // Toggle See More / See Less
+  seeMoreBtn.addEventListener("click", () => {
+    expanded = !expanded;
+
+    if (expanded) {
+      // Expand all specs
+      allTiles.forEach(tile => (tile.style.display = "block"));
+      seeMoreBtn.textContent = "See less";
+      specsTiles.style.opacity = "1";
+      specsSection.classList.remove("collapsed"); // remove gradient
+    } else {
+      // Collapse back to first few specs
+      allTiles.forEach((tile, i) => {
+        tile.style.display = i < visibleCount ? "block" : "none";
+      });
+      seeMoreBtn.textContent = "See more";
+      specsTiles.style.opacity = "0.6";
+      specsSection.classList.add("collapsed"); // add gradient
+      specsTiles.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  });
+});
+</script>
 
     <!-- <div class="product-details">
   <img src="/uploads/<%= product.image %>" alt="<%= product.name %>" width="300" />
