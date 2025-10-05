@@ -17,159 +17,97 @@
     <%- include(`../partials/cartAddToast`) %>
     <script src="/javascript/store.js"></script>
    <script>
-document.addEventListener('DOMContentLoaded', () => {
-  // Elements
-  const specsSection = document.getElementById('specs') || document.querySelector('.specs-section');
-  const specsTiles = document.getElementById('specsTiles') || (specsSection && specsSection.querySelector('.specs-tiles'));
-  let seeMoreBtn = document.getElementById('seeMoreBtn') || (specsSection && specsSection.querySelector('#seeMoreBtn'));
+document.addEventListener("DOMContentLoaded", () => {
+  /* ========== SPECIFICATIONS SECTION ========== */
+  const specsSection = document.getElementById("specs");
+  const specsTiles = document.getElementById("specsTiles");
+  const seeMoreBtn = document.getElementById("seeMoreBtn");
+  if (!specsSection || !specsTiles) return;
 
-  if (!specsTiles) return; // nothing to do
-
-  const allTiles = Array.from(specsTiles.querySelectorAll('.spec-tile'));
+  const tiles = specsTiles.querySelectorAll(".spec-tile");
   const visibleCount = 3;
   let expanded = false;
 
-  /* ---------------- Prepare each spec-body for a reliable transition ---------------- */
-  allTiles.forEach((tile, i) => {
-    const head = tile.querySelector('.spec-head');
-    const body = tile.querySelector('.spec-body');
+  // --- Setup tile open/close ---
+  tiles.forEach((tile) => {
+    const head = tile.querySelector(".spec-head");
+    const body = tile.querySelector(".spec-body");
+    if (!head || !body) return;
 
-    // Make sure body can animate using max-height
-    if (body) {
-      body.style.boxSizing = 'border-box';
-      body.style.overflow = 'hidden';
-      // Set a safe transition (will not override if already set inline)
-      body.style.transition = body.style.transition || 'max-height 260ms ease';
-      // Remove hidden attribute (if present) and control via maxHeight
-      if (body.hasAttribute('hidden')) body.removeAttribute('hidden');
+    body.style.overflow = "hidden";
+    body.style.maxHeight = "0";
+    body.style.transition = "max-height 0.3s ease";
 
-      // If tile was pre-marked open, keep it open
-      if (tile.classList.contains('open')) {
-        body.style.maxHeight = body.scrollHeight + 'px';
-        head && head.setAttribute('aria-expanded', 'true');
+    head.addEventListener("click", () => {
+      const isOpen = tile.classList.toggle("open");
+      head.setAttribute("aria-expanded", isOpen);
+      if (isOpen) {
+        body.style.maxHeight = body.scrollHeight + "px";
+        setTimeout(() => (body.style.maxHeight = "none"), 300);
       } else {
-        body.style.maxHeight = '0px';
-        head && head.setAttribute('aria-expanded', 'false');
+        if (body.style.maxHeight === "none")
+          body.style.maxHeight = body.scrollHeight + "px";
+        requestAnimationFrame(() => (body.style.maxHeight = "0"));
       }
-    }
-
-    // Initial tile visibility for "see more" behaviour
-    if (allTiles.length > visibleCount) {
-      tile.style.display = i < visibleCount ? 'block' : 'none';
-    } else {
-      tile.style.display = 'block';
-    }
-
-    // Header click toggles this tile
-    if (head) {
-      head.addEventListener('click', () => {
-        const isOpen = tile.classList.toggle('open');
-        head.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-
-        if (!body) return;
-
-        if (isOpen) {
-          // Expand: set to scrollHeight then after transition allow 'none' so content can flow
-          body.style.maxHeight = body.scrollHeight + 'px';
-          const onEnd = () => {
-            // keep it open but remove fixed height to accommodate dynamic content
-            if (tile.classList.contains('open')) body.style.maxHeight = 'none';
-            body.removeEventListener('transitionend', onEnd);
-          };
-          body.addEventListener('transitionend', onEnd);
-        } else {
-          // Collapse: if maxHeight is 'none', first set it to current scrollHeight to start transition
-          if (body.style.maxHeight === 'none') {
-            body.style.maxHeight = body.scrollHeight + 'px';
-            requestAnimationFrame(() => {
-              body.style.maxHeight = '0px';
-            });
-          } else {
-            body.style.maxHeight = '0px';
-          }
-        }
-      });
-    }
+    });
   });
 
-  /* ---------------- Ensure See More button exists (create if missing) ---------------- */
-  if (!seeMoreBtn) {
-    const wrap = document.createElement('div');
-    wrap.className = 'see-more-wrap';
-    const btn = document.createElement('button');
-    btn.id = 'seeMoreBtn';
-    btn.className = 'see-more-btn';
-    btn.type = 'button';
-    btn.textContent = 'See more';
-    wrap.appendChild(btn);
-    // Append after the tiles container (keeps markup neat)
-    specsTiles.parentElement.appendChild(wrap);
-    seeMoreBtn = btn;
+  // --- See more / see less ---
+  function collapseView() {
+    tiles.forEach((tile, i) => {
+      tile.style.display = i < visibleCount ? "block" : "none";
+    });
+    seeMoreBtn.textContent = "See more";
+    specsSection.classList.add("collapsed");
   }
 
-  /* ---------------- Initial SeeMore visibility & collapsed overlay ---------------- */
-  if (allTiles.length > visibleCount) {
-    seeMoreBtn.style.display = 'block';
-    specsTiles.style.opacity = '0.6';
-    specsSection && specsSection.classList.add('collapsed');
+  function expandView() {
+    tiles.forEach((tile) => (tile.style.display = "block"));
+    seeMoreBtn.textContent = "See less";
+    specsSection.classList.remove("collapsed");
+  }
+
+  if (tiles.length > visibleCount) {
+    collapseView();
+    seeMoreBtn.style.display = "block";
   } else {
-    seeMoreBtn.style.display = 'none';
+    seeMoreBtn.style.display = "none";
   }
 
-  /* ---------------- See More / See Less toggle ---------------- */
-  seeMoreBtn.addEventListener('click', () => {
+  seeMoreBtn.addEventListener("click", () => {
     expanded = !expanded;
-
-    if (expanded) {
-      // Reveal all tiles (but do NOT auto-open individual spec bodies)
-      allTiles.forEach(tile => (tile.style.display = 'block'));
-      seeMoreBtn.textContent = 'See less';
-      
-      specsSection && specsSection.classList.remove('collapsed');
-    } else {
-      // Hide extras and restore collapsed state
-      allTiles.forEach((tile, i) => {
-        tile.style.display = i < visibleCount ? 'block' : 'none';
-      });
-      seeMoreBtn.textContent = 'See more';
-      
-      specsSection && specsSection.classList.add('collapsed');
-      // bring the section into view so user sees top of specs
-      specsTiles.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    expanded ? expandView() : collapseView();
+    if (!expanded)
+      specsTiles.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 
-  // Delivery date display
-  const deliveryDateElem = document.getElementById("delivery-date");
-  if (!deliveryDateElem) return;
+  /* ========== DELIVERY SECTION ========== */
+  const deliveryElem = document.getElementById("delivery-date");
+  if (deliveryElem) {
+    const today = new Date();
+    const deliveryDate = new Date(today);
+    deliveryDate.setDate(today.getDate() + 7);
+    const opts = { weekday: "long", day: "numeric", month: "short", year: "numeric" };
+    const parts = deliveryDate.toLocaleDateString("en-GB", opts).split(" ");
+    const formatted = `${parts[0].replace(",", "")}, ${parts[1]} ${parts[2]}, ${parts[3]}`;
+    deliveryElem.textContent = `Delivery by ${formatted}`;
+  }
 
-  const today = new Date();
-  const deliveryDate = new Date(today);
-  deliveryDate.setDate(today.getDate() + 7);
-
-  const options = { weekday: "long", day: "numeric", month: "short", year: "numeric" };
-  const parts = deliveryDate.toLocaleDateString("en-GB", options).split(" ");
-  // Format example output to: Sunday, 12 Oct, 2025
-  const formatted = `${parts[0].replace(",", "")}, ${parts[1]} ${parts[2]}, ${parts[3]}`;
-
-  deliveryDateElem.textContent = `Delivery by ${formatted}`;
-
-  /* ---------------- Recompute expanded tile heights on resize ---------------- */
-  window.addEventListener('resize', () => {
-    allTiles.forEach(tile => {
-      const body = tile.querySelector('.spec-body');
-      if (!body) return;
-      if (tile.classList.contains('open')) {
-        // recompute and keep open
-        body.style.maxHeight = body.scrollHeight + 'px';
+  /* ========== Resize Handler ========== */
+  window.addEventListener("resize", () => {
+    tiles.forEach((tile) => {
+      const body = tile.querySelector(".spec-body");
+      if (tile.classList.contains("open") && body) {
+        body.style.maxHeight = body.scrollHeight + "px";
         setTimeout(() => {
-          if (tile.classList.contains('open')) body.style.maxHeight = 'none';
+          if (tile.classList.contains("open")) body.style.maxHeight = "none";
         }, 300);
       }
     });
   });
 });
 </script>
+
 
 
 

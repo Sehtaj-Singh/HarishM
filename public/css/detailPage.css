@@ -175,6 +175,7 @@ body {
   font-size: 0.8rem;
   color: #323a40;
   font-family: "Alice", serif;
+  color: rgb(27, 123, 27);
 }
 
 /* spec */
@@ -200,6 +201,7 @@ body {
   gap: 10px;
   margin-left: 4vw;
   width: 92vw;
+  
 }
 
 .spec-tile {
@@ -207,6 +209,7 @@ body {
   border: 1px solid #555;
   border-radius: 12px;
   overflow: hidden;
+  box-shadow: 1px 1px 10px #454545;
 }
 
 .spec-head {
@@ -221,6 +224,7 @@ body {
   font-size: 1rem;
   font-family: "Alice", serif;
   border: none;
+  
 }
 
 .spec-head i {
@@ -363,6 +367,7 @@ margin: 1vh 4vw;
   margin: 1vh 4vw;
   border-bottom: 1px solid #454545;
   padding-bottom: 0.5vh;
+  
 }
 .payment img{
   width: 92vw;
