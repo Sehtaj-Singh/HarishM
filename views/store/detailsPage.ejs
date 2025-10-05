@@ -139,6 +139,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Delivery date display
+  const deliveryDateElem = document.getElementById("delivery-date");
+  if (!deliveryDateElem) return;
+
+  const today = new Date();
+  const deliveryDate = new Date(today);
+  deliveryDate.setDate(today.getDate() + 7);
+
+  const options = { weekday: "long", day: "numeric", month: "short", year: "numeric" };
+  const parts = deliveryDate.toLocaleDateString("en-GB", options).split(" ");
+  // Format example output to: Sunday, 12 Oct, 2025
+  const formatted = `${parts[0].replace(",", "")}, ${parts[1]} ${parts[2]}, ${parts[3]}`;
+
+  deliveryDateElem.textContent = `Delivery by ${formatted}`;
+
   /* ---------------- Recompute expanded tile heights on resize ---------------- */
   window.addEventListener('resize', () => {
     allTiles.forEach(tile => {
@@ -268,9 +283,22 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
 </div>
 
+<!-- Delivery Section -->
+<section class="delivery-section" id="delivery">
+  <div class="delivery-icon">
+     <h2>Estimated Delivery :</h2>
+    
+  </div>
+  <div class="delivery-text">
+    <i class="fa-solid fa-truck-fast"></i>
+   
+    <p id="delivery-date">Loading...</p>
+  </div>
+</section>
+
 <!-- Product Details / Specifications -->
 <section class="specs-section" id="specs">
-  <h2 class="specs-title">Specification</h2>
+  <h2 class="specs-title">Specification :</h2>
 
   <% 
     const sectionMap = [
@@ -342,19 +370,16 @@ document.addEventListener('DOMContentLoaded', () => {
 </section>
 
 
+<div class="payment">
+  <h2>Payment Methods :</h2>
+  <img src="/images/payment.jpeg">
 
-    <!-- <div class="product-details">
-  <img src="/uploads/<%= product.image %>" alt="<%= product.name %>" width="300" />
-  <h1><%= product.name %></h1>
+  </div>
 
-  <% if (product.condition) { %>
-    <p>Condition: <%= product.condition %></p>
-  <% } %>
 
-  <p>MRP: ₹<%= product.mrp %></p>
-  <p>Discount: <%= product.discount %>%</p>
-  <p>Price: ₹<%= product.price %></p> -->
 
+
+    
   <form action="/cart/add" method="POST">
     <input type="hidden" name="productId" value="<%= product.id %>" />
     <input type="hidden" name="qty" value="1" />

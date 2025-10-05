@@ -146,15 +146,15 @@ body {
 
 /* Assurance badges */
 .assurance-wrap {
-  margin: 10px 16px 14px;
+  margin: 1vh 4vw;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
   margin-top: 1vh;
+  border-bottom: 1px solid #454545bc;
 }
 
 .assurance-item {
-  border: 1px solid #323a40;
   margin-top: 1vh;
   padding: 12px 8px;
   border-radius: 24px;
@@ -167,12 +167,12 @@ body {
 }
 
 .assurance-item i {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   color: #597fd1;
 }
 
 .assurance-item span {
-  font-size: 1rem;
+  font-size: 0.8rem;
   color: #323a40;
   font-family: "Alice", serif;
 }
@@ -181,17 +181,15 @@ body {
 
 /* Specs section */
 .specs-section {
- 
-   margin-top: 3vh;
+  margin-top: 3vh;
 }
 .specs-title {
-  font-size: 2,5vh;
+  font-size: 2.8vh;
   margin-bottom: 8px;
   color: #192f49;
-   font-family: "Arsenal", sans-serif;
-   letter-spacing: 1px;
-   margin-left: 4vw;
-   
+  font-family: "Arsenal", sans-serif;
+  letter-spacing: 1px;
+  margin-left: 4vw;
 }
 
 .specs-tiles {
@@ -207,7 +205,6 @@ body {
   border: 1px solid #555;
   border-radius: 12px;
   overflow: hidden;
-  
 }
 
 .spec-head {
@@ -271,15 +268,14 @@ body {
   font-family: "Alice", serif;
 }
 
-
 /* test */
 /* ---------- See More Button ---------- */
 .see-more-btn {
   display: none;
   margin: 12px auto 0;
   padding: 1vh 6vw;
-  background-color: #1d4375;        /* dark button background */
-  color: #E2E3E2;                   /* light text color */
+  background-color: #1d4375; /* dark button background */
+  color: #e2e3e2; /* light text color */
   font-family: "Alice", serif;
   font-weight: 300;
   letter-spacing: 1px;
@@ -292,14 +288,14 @@ body {
 }
 
 .see-more-btn:hover {
-  background-color: #1d4375;        /* slightly lighter on hover */
+  background-color: #1d4375; /* slightly lighter on hover */
   transform: scale(1.05);
 }
 /* ---------- Section-wide Gradient Overlay ---------- */
 .specs-section {
   position: relative;
   overflow: hidden;
-  
+
   transition: opacity 0.3s ease;
 }
 
@@ -311,7 +307,12 @@ body {
   left: 0;
   width: 100%;
   height: 40%;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.05), transparent);
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.3),
+    rgba(0, 0, 0, 0.05),
+    transparent
+  );
   opacity: 0;
   transition: opacity 0.4s ease;
   pointer-events: none; /* allows clicks to pass through */
@@ -321,4 +322,54 @@ body {
 /* when collapsed — show overlay */
 .specs-section.collapsed::after {
   opacity: 1;
+}
+
+.delivery-text {
+  display: flex;
+  gap: 5vw;
+  
+  margin-top: 1.7vh;
+  font-size: 2.1vh;
+  color: #323a40;
+  font-family: "Alice", serif;
+}
+.delivery-text i {
+ 
+
+  font-size: 2.5vh;
+  color: #323a40;
+  
+}
+
+.delivery-icon h2 {
+  color: #192f49;
+  font-family: "Arsenal", sans-serif;
+  font-size: 2.6vh;
+  letter-spacing: 1px;
+  
+}
+
+.delivery-section{
+margin: 1vh 4vw;
+ 
+  
+  padding-bottom: 2vh;
+  
+  border-bottom: 1px solid #454545bc;
+}
+.payment{
+  margin: 1vh 4vw;
+  border-bottom: 1px solid #454545;
+  padding-bottom: 0.5vh;
+}
+.payment img{
+  width: 92vw;
+}
+ 
+.payment h2{
+  color: #192f49;
+  font-family: "Arsenal", 
+  sans-serif;
+  font-size: 2.6vh;
+  letter-spacing: 1px;
 }
