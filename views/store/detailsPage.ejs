@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Reveal all tiles (but do NOT auto-open individual spec bodies)
       allTiles.forEach(tile => (tile.style.display = 'block'));
       seeMoreBtn.textContent = 'See less';
-      specsTiles.style.opacity = '1';
+      
       specsSection && specsSection.classList.remove('collapsed');
     } else {
       // Hide extras and restore collapsed state
@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tile.style.display = i < visibleCount ? 'block' : 'none';
       });
       seeMoreBtn.textContent = 'See more';
-      specsTiles.style.opacity = '0.6';
+      
       specsSection && specsSection.classList.add('collapsed');
       // bring the section into view so user sees top of specs
       specsTiles.scrollIntoView({ behavior: 'smooth', block: 'start' });
