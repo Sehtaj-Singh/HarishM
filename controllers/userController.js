@@ -21,6 +21,7 @@ const accessoryModel = require("../models/accessoryDB");
 const userDB = require("../models/userDB");
 const { isNull } = require("util");
 const Contact = require("../models/contactDB");
+const Order = require('../models/orderDB');
 
 exports.getHomePage = (req, res, next) => {
   Promise.all([secondHandModel.find(), newModel.find(), accessoryModel.find()])
@@ -60,8 +61,17 @@ exports.getStore = (req, res, next) => {
     });
 };
 
-exports.getOrders = (req, res, next) => {
-  res.render(`store/main/orders`, { active: "orders" });
+exports.getOrders = async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.render('store/orders', { user: null, orders: [],active: "order" });
+    }
+    const orders = await Order.find({ firebaseUid: req.user.uid }).sort({ createdAt: -1 }).lean();
+    res.render('store/main/orders', { user: res.locals.user || null, orders ,active: "order" });
+  } catch (err) {
+    console.error("Error loading orders:", err);
+    res.status(500).send("Server error");
+  }
 };
 
 
@@ -567,38 +577,34 @@ exports.updateCart = async (req, res) => {
 
 exports.createOrder = async (req, res) => {
   try {
-    // Ensure cart data is fresh (middleware loads Redis + Mongo)
     await req.cart.refreshView();
 
-    const { items, total } = {
-      items: res.locals.cartItems,
-      total: res.locals.cartTotal,
-    };
+    const items = res.locals.cartItems || [];
+    const total = res.locals.cartTotal || 0;
 
-    if (total <= 0) {
-      return res.status(400).json({ error: "Cart is empty" });
-    }
+    if (total <= 0) return res.status(400).json({ error: "Cart is empty" });
 
-    const amount = total * 100; // Razorpay uses paise
+    const amount = Math.round(total * 100); // paise
 
-    const order = await razorpay.orders.create({
+    const razorOrder = await razorpay.orders.create({
       amount,
       currency: "INR",
       receipt: `rcpt_${Date.now()}`,
-      notes: { userId: req.user.uid },
+      notes: { userId: req.user?.uid || "" },
     });
 
-    console.log("✅ Razorpay order created:", order.id);
-
+    // ✅ Only return to frontend — do not save anything yet
     res.json({
       key: process.env.RAZORPAY_KEY_ID,
-      id: order.id,
-      amount: order.amount,
-      currency: order.currency,
-      items,
+      id: razorOrder.id,
+      amount: razorOrder.amount,
+      currency: razorOrder.currency,
+      items: items.map((it) => ({
+        productId: it.productId || it._id || String(it.id || ""),
+      })),
     });
   } catch (err) {
-    console.error("❌ Error creating order:", err.message);
+    console.error("❌ Error creating order:", err);
     res.status(500).json({ error: "Unable to create order" });
   }
 };
@@ -607,45 +613,58 @@ exports.verifyPayment = async (req, res) => {
   try {
     const { orderId, paymentId, signature } = req.body;
 
-    // Verify signature with Razorpay secret
+    // 1️⃣ Verify Razorpay signature
     const expected = crypto
       .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
       .update(`${orderId}|${paymentId}`)
       .digest("hex");
 
     if (expected !== signature) {
-      return res.status(400).json({ error: "Invalid signature" });
+      console.warn("❌ Signature mismatch — payment invalid");
+      return res.status(400).json({ success: false, error: "Invalid signature" });
     }
 
-    console.log("✅ Payment verified for order:", orderId);
+    console.log("✅ Razorpay payment verified:", orderId);
 
-    // Refresh cart to confirm totals
+    // 2️⃣ Refresh cart and get products
     await req.cart.refreshView();
-    const { items, total } = {
-      items: res.locals.cartItems,
-      total: res.locals.cartTotal,
-    };
+    const cartItems = res.locals.cartItems || [];
+    const total = res.locals.cartTotal || 0;
 
-    // TODO: Save order to DB here (userId, items, total, Razorpay IDs, status = paid)
+    if (!cartItems.length || total <= 0) {
+      console.warn("⚠️ Cart empty at verify step");
+      return res.status(400).json({ success: false, error: "Cart empty" });
+    }
 
-    // Clear the cart (Redis) after successful payment
-    await req.cart.clear(); // if you add a helper
-    // OR directly clear by setting empty cartMap:
-    // const redis = require("../utils/redisClient");
-    // await redis.del(`cart:${req.user.uid}`);
+    // 3️⃣ Save new order in DB
+    const orderDoc = await Order.create({
+      firebaseUid: req.user?.uid || null,
+      userId: res.locals.user?._id || null,
+      items: cartItems.map((it) => ({
+        productId: it.productId || it._id || String(it.id || ""),
+      })),
+      total,
+      razorpay_order_id: orderId,
+      razorpay_payment_id: paymentId,
+    });
+
+    console.log("✅ Order saved:", orderDoc._id);
+
+    // 4️⃣ Clear cart after saving
+    if (req.cart.clear) await req.cart.clear();
 
     res.json({
       success: true,
-      message: "Payment verified and cart cleared",
+      message: "Payment verified and order saved",
       orderId,
       paymentId,
-      amount: total,
     });
   } catch (err) {
-    console.error("❌ Error verifying payment:", err.message);
-    res.status(500).json({ error: "Unable to verify payment" });
+    console.error("❌ Error verifying payment:", err);
+    res.status(500).json({ success: false, error: "Unable to verify payment" });
   }
 };
+
 
 // address
 

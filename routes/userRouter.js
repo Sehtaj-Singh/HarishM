@@ -18,7 +18,7 @@ userRouter.post(`/user/register/verify-otp` , userController.postUserRegisterVer
 
 userRouter.get(`/` ,  userController.getHomePage);
 userRouter.get(`/store` ,  userController.getStore);
-userRouter.get(`/orders` , userController.getOrders);
+
 userRouter.get(`/contact` , userController.getContact);
 
 userRouter.post("/contact", userController.postMessage);
@@ -42,5 +42,7 @@ userRouter.post("/cart/update/:id", userController.updateCart);
 userRouter.post("/checkout/create-order" ,  userController.createOrder);
 userRouter.post("/checkout/verify" ,  userController.verifyPayment);
 userRouter.post("/user/address",  userController.saveAddress);
+
+userRouter.get(`/orders` , userController.getOrders);
 
 module.exports = userRouter;

@@ -3,19 +3,111 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>HRorders</title>
-
     <link rel="stylesheet" href="css/storeHeader.css" />
+    <link rel="stylesheet" href="css/order.css" />
     <script
       src="https://kit.fontawesome.com/3a523928fc.js"
       crossorigin="anonymous"
     ></script>
+    
   </head>
   <body>
     <script src="javascript/store.js"></script>
     <%- include(`../../partials/storeHeader`) %>
-    <h1>order</h1>
+    <%- include(`../../partials/fonts`) %>
+    
+
+    <main class="orders-page">
+    <% if (!user) { %>
+      <section class="empty-state">
+        <h2>You are not logged in</h2>
+        <p>Please <a href="/login">log in</a> to see your orders.</p>
+      </section>
+
+    <% } else if (!orders || orders.length === 0) { %>
+      <section class="empty-state">
+        <h2>No order placed yet</h2>
+        <img src="/images/no-order.jpg">
+        
+      </section>
+
+    <% } else { %>
+      <section class="orders-list">
+        <h2>Your Orders</h2>
+        <% orders.forEach(function(o) { %>
+          <article class="order-card">
+            <header>
+              <div>Order DB ID: <strong><%= o._id %></strong></div>
+              <div>Razorpay ID: <strong><%= o.razorpay_order_id %></strong></div>
+              <div>Status: <strong><%= o.status %></strong></div>
+              <div>Placed: <%= new Date(o.createdAt).toLocaleString() %></div>
+            </header>
+
+            <ul class="order-items">
+              <% o.items.forEach(function(it) { %>
+                <li>
+                  <div class="oi-name"><%= it.name %></div>
+                  <div class="oi-meta">Qty: <%= it.qty %> • ₹<%= it.price %></div>
+                </li>
+              <% }) %>
+            </ul>
+
+            <footer class="order-footer">
+              <div>Total: ₹<%= o.total %></div>
+              <% if (o.status === 'created') { %>
+                <div class="pay-pending">Payment pending</div>
+                <button class="pay-again" data-order-id="<%= o.razorpay_order_id %>" data-order-db-id="<%= o._id %>">Pay Now</button>
+              <% } else if (o.status === 'paid') { %>
+                <div class="paid">Paid on <%= o.paidAt ? new Date(o.paidAt).toLocaleString() : '—' %></div>
+              <% } %>
+            </footer>
+          </article>
+        <% }) %>
+      </section>
+
+      <script>
+        // Optional: quick handler to retry payment on orders with 'created' status:
+        document.addEventListener('click', function (e) {
+          if (e.target.matches('.pay-again')) {
+            const rpOrderId = e.target.dataset.orderId;
+            const orderDbId = e.target.dataset.orderDbId;
+
+            // Start Razorpay with existing razorpay order id. Need server to return key.
+            (async () => {
+              try {
+                const res = await fetch('/checkout/get-key'); // simple endpoint to return key (implement below) OR reuse create-order route pattern
+                const { key } = await res.json();
+                const options = {
+                  key,
+                  order_id: rpOrderId,
+                  name: 'My Store',
+                  handler: async function (response) {
+                    await fetch('/checkout/verify', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        orderId: rpOrderId,
+                        paymentId: response.razorpay_payment_id,
+                        signature: response.razorpay_signature,
+                        orderDbId
+                      })
+                    }).then(r => r.json()).then(j => {
+                      if (j.success) location.reload();
+                      else alert('Verify failed');
+                    });
+                  }
+                };
+                new Razorpay(options).open();
+              } catch (err) { console.error(err); alert('Could not start payment'); }
+            })();
+          }
+        });
+      </script>
+    <% } %>
+  </main>
+
+    
 
     <%- include('../../partials/storeFooter') %>
   </body>

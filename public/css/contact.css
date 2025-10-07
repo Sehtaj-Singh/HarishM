@@ -189,6 +189,10 @@ font-family: "Inika", serif;
 .contact-form{
   margin-top: 3vh;
   margin-bottom: 4vh;
+  border: 1px solid #192f49;
+  margin-left: 2vw;
+  width: 96vw;
+  border-radius: 24px;
 }
 
 .contact-form h2{
@@ -201,12 +205,12 @@ font-family: "Inika", serif;
 
 .message{
   display: flex;
-  gap: 4vw;
+  gap: 2vw;
 }
 
 .message img{
   width: 50vw;
-  
+  border-radius: 24px;
 }
 
 
@@ -250,7 +254,7 @@ textarea::placeholder {
   color: #a0a6ac;              /* soft gray text */
   font-family: "Alice", serif;
   letter-spacing: 1px;
-  font-size: 16px;
+  font-size: 13px;
   opacity: 1;                  /* ensure visible */
   transition: color 0.3s ease;
 }
