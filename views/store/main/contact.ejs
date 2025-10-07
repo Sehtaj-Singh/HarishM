@@ -13,8 +13,8 @@
   </head>
   <body>
     <script src="javascript/store.js"></script>
-    <%- include(`../../partials/storeHeader`) %> <%-
-    include(`../../partials/fonts`) %>
+    <%- include(`../../partials/storeHeader`) %> 
+    <%- include(`../../partials/fonts`) %>
 
     <a class="main">
       <a class="contact-box">
@@ -48,24 +48,69 @@
       </div>
     </a>
 
-    <div class="contact-form">
-      <h2>Message us</h2>
-      <div class="message">
-      <img src="/images/contact.jpg">
-      <div class="form">
-        <form>
-      <input placeholder="Name">
-      <input placeholder="Email">
-      <input placeholder="Phone Number">
-      <input placeholder="Message">
-      <input type="submit">
+   <div class="contact-form">
+  <h2>Message us</h2>
+  <div class="message">
+    <img src="/images/contact.jpg">
+    <div class="form">
+      <form id="contactForm" action="/contact" method="POST">
+        <input name="name" placeholder="Name" required>
+        <input name="email" type="email" placeholder="Email" required>
+        <input name="phone" placeholder="Phone Number">
+        <textarea name="message" placeholder="Message" required></textarea>
+        <input type="submit" value="Send Message">
       </form>
-      </div>
-
-      </div>
-
+      <!-- Toast -->
+      <div id="toast" class="toast"></div>
 
     </div>
+  </div>
+</div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById('contactForm');
+  const toast = document.getElementById('toast');
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    console.log("Form submit fired"); // check console
+
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const res = await fetch('/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      const result = await res.json();
+      if (result.success) {
+        showToast('Submitted successfully!', 'success');
+        form.reset();
+      } else {
+        showToast('Something went wrong. Try again.', 'error');
+      }
+    } catch (err) {
+      console.error(err);
+      showToast('Error submitting form.', 'error');
+    }
+  });
+
+  function showToast(message, type) {
+    toast.textContent = message;
+    toast.className = `toast show ${type}`;
+    setTimeout(() => {
+      toast.className = 'toast';
+    }, 3000);
+  }
+});
+</script>
+
 
     <%- include('../../partials/storeFooter') %>
   </body>

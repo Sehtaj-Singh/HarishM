@@ -188,7 +188,16 @@ font-family: "Inika", serif;
 
 .contact-form{
   margin-top: 3vh;
+  margin-bottom: 4vh;
 }
+
+.contact-form h2{
+  margin-left: 7vw;
+  color: #192f49;
+  font-size: 3.2vh;
+  font-family: "Arsenal", serif;
+}
+
 
 .message{
   display: flex;
@@ -196,11 +205,88 @@ font-family: "Inika", serif;
 }
 
 .message img{
-  width: 40vw;
-  margin-left: 3vw
+  width: 50vw;
+  
 }
 
+
 .form input{
-  width: 40vw;
-  height: 2vh;
+  width: 37vw;
+  height: 2.5vh;
+  border: none;
+  border-radius: 24px;
+  background-color: #DDECFF;
+  margin-top: 10px;
+  padding-left: 3vw;
+  font-family: "Alice", serif;
+  color: #192f49;
+}
+
+.form textarea{
+  width: 37vw;
+  padding-left: 3vw;
+  border: none;
+  border-radius: 24px;
+  background-color: #DDECFF;
+  margin-top: 10px;
+   font-family: "Alice", serif;
+  color: #192f49;
+}
+ 
+
+
+input[type="submit"] {
+  width: 30vw;
+  margin-left: 5vw;
+  background-color: #192f49;
+  color: #f5f7f8;
+  padding: 0.5vh ;
+  font-family: "Alice", serif;
+  height: 3vh;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #a0a6ac;              /* soft gray text */
+  font-family: "Alice", serif;
+  letter-spacing: 1px;
+  font-size: 16px;
+  opacity: 1;                  /* ensure visible */
+  transition: color 0.3s ease;
+}
+
+/* When input is focused */
+input:focus::placeholder,
+textarea:focus::placeholder {
+  color: #cfd4d9;              /* slightly lighter on focus */
+}
+
+.toast {
+  position: fixed;
+  bottom: 10vw; /* just above footer/header */
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #f5f7f8;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-size: 16px;
+  opacity: 0;
+  width: 80vw;
+  font-family: "Alice", serif;
+  pointer-events: none;
+  transition: opacity 0.3s ease-in-out, bottom 0.3s ease-in-out;
+  z-index: 9999;
+  text-align: center;
+  letter-spacing: 1px;
+}
+.toast.show {
+  opacity: 1;
+  bottom: 90px; /* slide up a little */
+}
+.toast.success {
+  background: #192f49;
+}
+.toast.error {
+  background: #192f49;
 }

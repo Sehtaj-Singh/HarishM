@@ -20,6 +20,7 @@ const newModel = require(`../models/newMobileDB`);
 const accessoryModel = require("../models/accessoryDB");
 const userDB = require("../models/userDB");
 const { isNull } = require("util");
+const Contact = require("../models/contactDB");
 
 exports.getHomePage = (req, res, next) => {
   Promise.all([secondHandModel.find(), newModel.find(), accessoryModel.find()])
@@ -66,6 +67,20 @@ exports.getOrders = (req, res, next) => {
 
 exports.getContact = (req, res, next) => {
   res.render(`store/main/contact`, { active:"contact"});
+};
+
+exports.postMessage = async (req, res) => {
+  try {
+    const { name, email, phone, message } = req.body;
+
+    await Contact.create({ name, email, phone, message });
+
+    // ✅ Return JSON (not redirect)
+    res.status(200).json({ success: true });
+  } catch (err) {
+    console.error("Error saving contact:", err);
+    res.status(500).json({ success: false });
+  }
 };
 
 exports.getUserProfile = async (req, res) => {

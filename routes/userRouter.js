@@ -21,6 +21,8 @@ userRouter.get(`/store` ,  userController.getStore);
 userRouter.get(`/orders` , userController.getOrders);
 userRouter.get(`/contact` , userController.getContact);
 
+userRouter.post("/contact", userController.postMessage);
+
 
 userRouter.get(`/Second-Hand/Details/:SHmobileId` , userController.getSHdetailPage);
 userRouter.get(`/New/Details/:NmobileId` , userController.getNdetailPage); 
