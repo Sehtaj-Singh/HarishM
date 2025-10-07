@@ -8,11 +8,28 @@ body{
  text-align: center;
  color: #192f49;
  font-size: 3vh;
- font-family: "arsenal", serif;
+  font-family: "ADLaM Display", system-ui, sans-serif;
  letter-spacing: 1px;
+ font-weight: 400;
 }
 
 .empty-state img{
   width: 70vw;
   margin-left: 15vw;
+}
+
+.empty-state a{
+  padding: 1vh 3vw;
+  background-color: #192f49;
+  color: #fff;
+  font-family: "alice", sans-serif;
+  border-radius: 18px;
+  box-shadow: 2px 2px 5px #4545459a ;
+}
+
+.empty-state div{
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  gap: 7vw;
 }

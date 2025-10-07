@@ -64,10 +64,10 @@ exports.getStore = (req, res, next) => {
 exports.getOrders = async (req, res) => {
   try {
     if (!req.user) {
-      return res.render('store/orders', { user: null, orders: [],active: "order" });
+      return res.render('store/main/orders', { user: null, orders: [],active: "orders" });
     }
     const orders = await Order.find({ firebaseUid: req.user.uid }).sort({ createdAt: -1 }).lean();
-    res.render('store/main/orders', { user: res.locals.user || null, orders ,active: "order" });
+    res.render('store/main/orders', { user: res.locals.user || null, orders ,active: "orders" });
   } catch (err) {
     console.error("Error loading orders:", err);
     res.status(500).send("Server error");

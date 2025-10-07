@@ -22,14 +22,20 @@
     <% if (!user) { %>
       <section class="empty-state">
         <h2>You are not logged in</h2>
-        <p>Please <a href="/login">log in</a> to see your orders.</p>
+        <img src="/images/login.jpg">
+        <div id="btn-container">
+        <a id="cart-a" href="/login">Login</a>
+        <a id="cart-a2" href="/register">Register</a>
+      </div>
       </section>
 
     <% } else if (!orders || orders.length === 0) { %>
       <section class="empty-state">
         <h2>No order placed yet</h2>
         <img src="/images/no-order.jpg">
-        
+        <div>
+          <a href="/store">Shop Now</a>
+        </div>
       </section>
 
     <% } else { %>
