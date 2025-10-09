@@ -318,12 +318,7 @@ body {
   left: 0;
   width: 100%;
   height: 40%;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.3),
-    rgba(0, 0, 0, 0.05),
-    transparent
-  );
+ 
   opacity: 0;
  
   pointer-events: none; /* allows clicks to pass through */
@@ -611,5 +606,44 @@ filter: drop-shadow(2px 2px 0.7px #192f4965);
   width: 100%;
   height: auto;
   border-radius: 6px;
+}
+
+.buy-form{
+  background-color: #f5f7f8;
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  height: 7vh;
+  display: flex;
+  z-index: 41;
+  align-items: center;
+  
+}
+.buy-form i{
+  margin-right: 4vw;
+}
+#sub{
+ background-color: #1d4375 ;
+ color: #fff;
+ padding: 1.5vh 0;
+ font-size: 2vh;
+ border-radius: 12px;
+ border: none;
+  font-family: "Alice", serif;
+  width: 45vw;
+  margin-left: 2vw;
+}
+
+#add{
+ background-color: transparent;
+ border: 1px solid #1d4375;
+ color: #1d4375;
+ padding: 1.5vh 0;
+ font-size: 2vh;
+ border-radius: 12px;
+ width: 45vw;
+  font-family: "Alice", serif;
+  margin-left: 3vw;
+  margin-right: 2vw;
 }
 

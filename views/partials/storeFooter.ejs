@@ -105,6 +105,7 @@
       margin-top: 1rem;
       font-size: 0.9rem;
       color: #323a40;
+      margin-bottom: 10px;
     }
 
     .accordion-content p {
@@ -281,9 +282,11 @@
     </p>
   </div>
 
+  <% if (!isDetailPage) { %>
   <div class="footer-payment">
-   <img src="images/payment.jpeg">
+    <img src="/images/payment.jpeg" alt="Payment Methods">
   </div>
+<% } %>
 
   <div class="footer-bottom">
     <p>© <span id="year"></span> Harish Mobile. All rights reserved.</p>

@@ -16,7 +16,7 @@
     <%- include(`../partials/fonts`) %>
     <%- include(`../partials/cartAddToast`) %>
     <script src="/javascript/store.js"></script>
-   <script>
+  <script>
 document.addEventListener("DOMContentLoaded", () => {
   /* ========== SPECIFICATIONS SECTION ========== */
   const specsSection = document.getElementById("specs");
@@ -34,20 +34,34 @@ document.addEventListener("DOMContentLoaded", () => {
     const body = tile.querySelector(".spec-body");
     if (!head || !body) return;
 
+    // Remove the `hidden` attribute so we can measure and animate height
+    if (body.hasAttribute("hidden")) body.removeAttribute("hidden");
+
     body.style.overflow = "hidden";
-    body.style.maxHeight = "0";
+    body.style.maxHeight = "0px";
     body.style.transition = "max-height 0.3s ease";
+
+    // ensure aria state is explicit
+    head.setAttribute("aria-expanded", "false");
 
     head.addEventListener("click", () => {
       const isOpen = tile.classList.toggle("open");
-      head.setAttribute("aria-expanded", isOpen);
+      head.setAttribute("aria-expanded", String(isOpen));
+
       if (isOpen) {
+        // expand
         body.style.maxHeight = body.scrollHeight + "px";
-        setTimeout(() => (body.style.maxHeight = "none"), 300);
+        // after transition, allow natural height (so content can reflow)
+        setTimeout(() => {
+          if (tile.classList.contains("open")) body.style.maxHeight = "none";
+        }, 300);
       } else {
-        if (body.style.maxHeight === "none")
+        // collapse
+        if (body.style.maxHeight === "none") {
+          // set it back to measured px so transition works
           body.style.maxHeight = body.scrollHeight + "px";
-        requestAnimationFrame(() => (body.style.maxHeight = "0"));
+        }
+        requestAnimationFrame(() => (body.style.maxHeight = "0px"));
       }
     });
   });
@@ -398,23 +412,25 @@ document.addEventListener("DOMContentLoaded", () => {
 </section>
 
 
-<div class="payment">
-  <h2>Payment Methods :</h2>
-  <img src="/images/payment.jpeg">
+  <div class="payment">
+    <h2>Payment Methods :</h2>
+    <img src="/images/payment.jpeg">
 
   </div>
 
 
 
 
-    
+    <div class="buy-form">
   <form action="/cart/add" method="POST">
     <input type="hidden" name="productId" value="<%= product.id %>" />
     <input type="hidden" name="qty" value="1" />
     <input type="hidden" name="buyNow" value="true" />  <!-- 👈 Add this -->
-    <button type="submit">Buy Now</button>
+    <button id="add" type="submit"> <i class="fa-solid fa-cart-shopping"></i> Add to cart</button>
+    <button id="sub" type="submit"> <i class="fa-solid fa-bag-shopping"></i>Buy Now</button>
   </form>
 </div>
+
 
 <%- include('../partials/storeFooter') %>
   </body>

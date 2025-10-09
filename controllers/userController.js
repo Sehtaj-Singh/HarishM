@@ -32,6 +32,7 @@ exports.getHomePage = (req, res, next) => {
         registeredNmobile,
         registeredAmobile,
         active: "home",
+        isDetailPage: null,
         topSellingIds,
         cartItems: res.locals.cartItems || [],
         cartTotal: res.locals.cartTotal || 0,
@@ -51,6 +52,7 @@ exports.getStore = (req, res, next) => {
       res.render(`store/main/store`, {
         registeredSHmobile,
         registeredNmobile,
+        isDetailPage: null,
         registeredAmobile,
         active: "store",
       });
@@ -64,10 +66,10 @@ exports.getStore = (req, res, next) => {
 exports.getOrders = async (req, res) => {
   try {
     if (!req.user) {
-      return res.render('store/main/orders', { user: null, orders: [],active: "orders" });
+      return res.render('store/main/orders', { user: null,isDetailPage: null, orders: [],active: "orders" });
     }
     const orders = await Order.find({ firebaseUid: req.user.uid }).sort({ createdAt: -1 }).lean();
-    res.render('store/main/orders', { user: res.locals.user || null, orders ,active: "orders" });
+    res.render('store/main/orders', { user: res.locals.user || null, orders ,isDetailPage: null,active: "orders" });
   } catch (err) {
     console.error("Error loading orders:", err);
     res.status(500).send("Server error");
@@ -76,7 +78,7 @@ exports.getOrders = async (req, res) => {
 
 
 exports.getContact = (req, res, next) => {
-  res.render(`store/main/contact`, { active:"contact"});
+  res.render(`store/main/contact`, { isDetailPage: null,active:"contact"});
 };
 
 exports.postMessage = async (req, res) => {
@@ -144,6 +146,7 @@ exports.getSHdetailPage = async (req, res, next) => {
       product,
       active: "null",
       registeredSHmobile,
+      isDetailPage: true,
       registeredNmobile: [],
     });
   } catch (err) {
@@ -185,6 +188,7 @@ exports.getNdetailPage = async (req, res, next) => {
     res.render("store/detailsPage", {
       product,
       active: "null",
+      isDetailPage: true,
       registeredNmobile,
       registeredSHmobile: [],
     });
@@ -223,6 +227,7 @@ exports.getAdetailPage = async (req, res, next) => {
     res.render("store/detailsPage", {
       product,
       active: "null",
+      isDetailPage: true,
       registeredSHmobile: [],
       registeredNmobile: [],
     });
