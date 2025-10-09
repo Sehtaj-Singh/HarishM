@@ -9,6 +9,10 @@
 html,
 body {
   -webkit-touch-callout: none;
+  
+}
+ 
+body{
   margin-bottom: 7vh;
 }
 

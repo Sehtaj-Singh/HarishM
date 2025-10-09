@@ -524,55 +524,74 @@ exports.removeFromCart = async (req, res) => {
   }
 };
 
+
 // POST /cart/update/:id
 exports.updateCart = async (req, res) => {
   try {
     const productId = req.params.id;
-    const qty = parseInt(req.body.qty, 10);
+    let qty = parseInt(req.body.qty, 10);
 
-    if (isNaN(qty) || qty < 1) {
-      return res.status(400).json({ error: "Invalid quantity" });
+    if (isNaN(qty) || qty < 0) {
+      return res.status(400).json({ success: false, error: "Invalid quantity" });
     }
 
-    const current = (await req.cart.refreshView(), res.locals.cartItems) || [];
-    const item = current.find((i) => i.productId === productId);
-    if (!item) {
-      return res.status(404).json({ error: "Item not found in cart" });
+    // ensure we have the latest view
+    await req.cart.refreshView();
+    const current = res.locals.cartItems || [];
+
+    // compare ids as strings so ObjectId vs string doesn't break
+    const found = current.find(
+      (i) => String(i.productId) === String(productId) || String(i._id) === String(productId)
+    );
+
+    // allow qty === 0 (meaning remove) — but if item not in cart and qty > 0, fail
+    if (!found && qty > 0) {
+      return res.status(404).json({ success: false, error: "Item not found in cart" });
     }
 
     // update redis map directly
-    const uid = req.user?.uid;
+    const uid = req.user?.uid || req.sessionID || `guest:${req.ip}`;
     const redis = require("../utils/redisClient");
     const mapKey = `cart:${uid}`;
     const mapRaw = await redis.get(mapKey);
     const map = mapRaw ? JSON.parse(mapRaw) : {};
-    map[productId] = qty;
+
+    if (qty === 0) {
+      // remove the key
+      delete map[productId];
+    } else {
+      map[productId] = qty;
+    }
     await redis.set(mapKey, JSON.stringify(map));
 
-    // refresh cart
+    // refresh cart data so res.locals.cartItems reflects the change
     await req.cart.refreshView();
+    const items = res.locals.cartItems || [];
 
-    // calculate totals
-    const totalPrice = res.locals.cartItems.reduce(
-      (sum, it) => sum + it.price * it.qty,
-      0
-    );
-    const totalMrp = res.locals.cartItems.reduce(
-      (sum, it) => sum + (it.mrp || it.price) * it.qty,
-      0
-    );
+    // totals
+    const totalPrice = items.reduce((sum, it) => sum + (it.price || 0) * (it.qty || 0), 0);
+    const totalMrp = items.reduce((sum, it) => sum + (it.mrp || it.price || 0) * (it.qty || 0), 0);
     const saved = totalMrp - totalPrice;
+
+    // compute per-line subtotal (if still present)
+    const updatedItem = items.find(
+      (i) => String(i.productId) === String(productId) || String(i._id) === String(productId)
+    );
+    const lineTotal = updatedItem ? (updatedItem.price || 0) * (updatedItem.qty || 0) : 0;
+    const removed = !updatedItem; // true when item no longer in cart
 
     return res.json({
       success: true,
-      qty,
+      qty: qty,
+      lineTotal,
       totalPrice,
       totalMrp,
       saved,
+      removed,
     });
   } catch (err) {
-    console.error("❌ updateCart error:", err.message);
-    return res.status(500).json({ error: "Server error" });
+    console.error("❌ updateCart error:", err);
+    return res.status(500).json({ success: false, error: "Server error" });
   }
 };
 
@@ -614,6 +633,7 @@ exports.createOrder = async (req, res) => {
   }
 };
 
+
 exports.verifyPayment = async (req, res) => {
   try {
     const { orderId, paymentId, signature } = req.body;
@@ -631,7 +651,7 @@ exports.verifyPayment = async (req, res) => {
 
     console.log("✅ Razorpay payment verified:", orderId);
 
-    // 2️⃣ Refresh cart and get products
+    // 2️⃣ Refresh cart and calculate totals
     await req.cart.refreshView();
     const cartItems = res.locals.cartItems || [];
     const total = res.locals.cartTotal || 0;
@@ -641,26 +661,32 @@ exports.verifyPayment = async (req, res) => {
       return res.status(400).json({ success: false, error: "Cart empty" });
     }
 
-    // 3️⃣ Save new order in DB
+    // 3️⃣ Create order items (nested)
+    const orderItems = cartItems.map((it) => ({
+      productId: it.productId || it._id || String(it.id || ""),
+      razorpay_payment_id: paymentId,
+      orderId: orderId,
+      total: total,
+      createdAt: new Date(),
+    }));
+
+    // 4️⃣ Save new order in DB
     const orderDoc = await Order.create({
       firebaseUid: req.user?.uid || null,
       userId: res.locals.user?._id || null,
-      items: cartItems.map((it) => ({
-        productId: it.productId || it._id || String(it.id || ""),
-      })),
-      total,
-      razorpay_order_id: orderId,
-      razorpay_payment_id: paymentId,
+      items: orderItems,
+      createdAt: new Date(),
     });
 
     console.log("✅ Order saved:", orderDoc._id);
 
-    // 4️⃣ Clear cart after saving
+    // 5️⃣ Clear cart after successful save
     if (req.cart.clear) await req.cart.clear();
 
+    // 6️⃣ Respond success
     res.json({
       success: true,
-      message: "Payment verified and order saved",
+      message: "Payment verified and order saved successfully",
       orderId,
       paymentId,
     });

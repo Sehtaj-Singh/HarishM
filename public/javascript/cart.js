@@ -21,45 +21,128 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  // -------------------- Quantity Buttons --------------------
+  // -------------------- Quantity Buttons (improved, no-refresh) --------------------
   document.querySelectorAll(".cart-qty").forEach((control) => {
     const minusBtn = control.querySelector(".qty-minus");
     const plusBtn = control.querySelector(".qty-plus");
     const countSpan = control.querySelector(".qty-count");
     const productId = control.getAttribute("data-id");
 
-    const updateQuantity = (newQty) => {
-      fetch(`/cart/update/${productId}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ qty: newQty }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.success) {
-            countSpan.textContent = data.qty;
+    // try to find the line container and its subtotal element
+    const lineContainer =
+      control.closest(".cart-item") ||
+      control.closest("[data-cart-item]") ||
+      control;
+    const lineSubtotalEl = lineContainer
+      ? lineContainer.querySelector(
+          ".line-subtotal, .item-subtotal, .cart-item-subtotal"
+        )
+      : null;
 
-            const subtotalEl = $("#cart-summary-subtotal");
-            const mrpEl = $("#cart-summary-mrp");
-            const savedEl = $("#cart-summary-saved");
+    // cart summary elements (try ID fallback and data-attr fallback)
+    const subtotalEl =
+      document.getElementById("cart-summary-subtotal") ||
+      document.querySelector("[data-cart-summary='subtotal']");
+    const mrpEl =
+      document.getElementById("cart-summary-mrp") ||
+      document.querySelector("[data-cart-summary='mrp']");
+    const savedEl =
+      document.getElementById("cart-summary-saved") ||
+      document.querySelector("[data-cart-summary='saved']");
 
-            if (subtotalEl) subtotalEl.textContent = `₹${data.totalPrice}`;
-            if (mrpEl) mrpEl.textContent = `₹${data.totalMrp}`;
-            if (savedEl) savedEl.textContent = `You saved ₹${data.saved}`;
-          } else {
-            alert(data.error || "Failed to update cart");
-          }
-        })
-        .catch((err) => console.error("Update cart failed:", err));
+    const fmt = (v) => {
+      if (v == null) return "";
+      if (typeof v === "string" && v.trim().startsWith("₹")) return v;
+      const n = Number(v);
+      if (isNaN(n)) return v;
+      return "₹" + n.toLocaleString("en-IN", { maximumFractionDigits: 0 });
     };
 
-    minusBtn.addEventListener("click", () => {
-      let currentQty = parseInt(countSpan.textContent, 10);
+    const updateQuantity = async (newQty) => {
+      try {
+        // optimistic: disable buttons while request in-flight
+        if (minusBtn) minusBtn.disabled = true;
+        if (plusBtn) plusBtn.disabled = true;
+
+        const res = await fetch(`/cart/update/${productId}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({ qty: newQty }),
+        });
+
+        // debug — always log the raw response for troubleshooting
+        let data;
+        try {
+          data = await res.json();
+        } catch (e) {
+          console.error("Invalid JSON response", e);
+          throw e;
+        }
+        console.log("cart update response:", data);
+
+        if (!data || !data.success) {
+          alert(data && data.error ? data.error : "Failed to update cart");
+          return;
+        }
+
+        // update displayed quantity
+        const qty = typeof data.qty !== "undefined" ? data.qty : newQty;
+        countSpan.textContent = qty;
+
+        // update this line's subtotal if server provided it
+        const lineTotal =
+          data.lineTotal ??
+          data.itemTotal ??
+          data.subtotal ??
+          data.totalForItem ??
+          null;
+        if (lineSubtotalEl && lineTotal != null)
+          lineSubtotalEl.textContent = fmt(lineTotal);
+
+        // if server indicates removal (or qty 0), remove element from DOM
+        if (data.removed === true || qty === 0) {
+          if (lineContainer && lineContainer.parentNode)
+            lineContainer.parentNode.removeChild(lineContainer);
+        }
+
+        // update cart totals — try a few possible field names the backend might send
+        const totalPrice =
+          data.totalPrice ??
+          data.total ??
+          data.cartTotal ??
+          data.totalAmount ??
+          null;
+        const totalMrp = data.totalMrp ?? data.mrp ?? data.cartMrp ?? null;
+        const saved = data.saved ?? data.youSaved ?? data.savings ?? null;
+
+        if (subtotalEl && totalPrice != null)
+          subtotalEl.textContent = fmt(totalPrice);
+        if (mrpEl && totalMrp != null) mrpEl.textContent = fmt(totalMrp);
+        if (savedEl && saved != null)
+          savedEl.textContent = `You saved ${fmt(saved)}`;
+      } catch (err) {
+        console.error("Update cart failed:", err);
+        alert("Unable to update cart — check console for details.");
+      } finally {
+        if (minusBtn) minusBtn.disabled = false;
+        if (plusBtn) plusBtn.disabled = false;
+      }
+    };
+
+    minusBtn?.addEventListener("click", () => {
+      const currentQty = parseInt(countSpan.textContent.trim(), 10) || 0;
       if (currentQty > 1) updateQuantity(currentQty - 1);
+      else if (currentQty === 1) {
+        // optional: ask before removing
+        if (confirm("Remove item from cart?")) updateQuantity(0);
+      }
     });
 
-    plusBtn.addEventListener("click", () => {
-      let currentQty = parseInt(countSpan.textContent, 10);
+    plusBtn?.addEventListener("click", () => {
+      const currentQty = parseInt(countSpan.textContent.trim(), 10) || 0;
       updateQuantity(currentQty + 1);
     });
   });

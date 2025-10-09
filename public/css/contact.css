@@ -57,7 +57,7 @@ body{
   border-top-left-radius: 18px;
   border-bottom-right-radius: 18px;
   box-shadow: 2px 6px 8px #00000095;
-  background: linear-gradient(135deg, #607D8B ,#263238 );
+  background: linear-gradient(135deg, #DDECFF 0%, #a8c8fc 50%, #617394 100%);
   padding: 1vh 5vw;
 }
 .contact-box2{
@@ -72,7 +72,7 @@ body{
    border-top-left-radius: 18px;
   border-bottom-right-radius: 18px;
   box-shadow: 2px 6px 8px #00000095;
-  background: linear-gradient(135deg, #607D8B ,#263238 );
+    background: linear-gradient(135deg, #DDECFF 0%, #AFCDFE 50%, #6E82A6 100%);
   padding: 1vh 5vw;
 }
 .contact-box3{
