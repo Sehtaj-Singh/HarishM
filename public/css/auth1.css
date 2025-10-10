@@ -5,10 +5,13 @@
 
 body {
   height: 100dvh;
-  overflow: hidden; 
+  overflow-y: auto;
+  overscroll-behavior: none;
 }
 
-
+body {
+  touch-action: pan-y; 
+}
 
 #box-up{
   height: 15dvh;
@@ -67,8 +70,8 @@ body {
 #down-t {
   position: absolute;
   bottom: 0;
-  width: 40vw;
-  height: 12vh;
+  width: 20vw;
+  height: 6vh;
   clip-path: polygon(0 40%, 0% 100%, 100% 100%);
   background: black;
 
@@ -81,8 +84,8 @@ body {
 #down-t2 {
   position: absolute;
   bottom: 0;
-  width: 50vw;
-  height: 16vh;
+  width: 25vw;
+  height: 8vh;
   clip-path: polygon(0 40%, 0% 100%, 100% 100%);
   background: black;
   opacity: 0.4;
@@ -95,8 +98,8 @@ body {
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 46vw;
-  height: 16vh;
+  width: 23vw;
+  height: 7vh;
   clip-path: polygon(100% 35%, 0% 100%, 100% 100%);
   background: black;
   opacity: 0.8;
@@ -109,8 +112,8 @@ body {
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 60vw;
-  height: 21vh;
+  width: 30vw;
+  height: 10vh;
   clip-path: polygon(100% 35%, 0% 100%, 100% 100%);
   background: black;
   opacity: 0.4;
