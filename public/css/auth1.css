@@ -55,6 +55,19 @@ body {
   padding-top: 4vh;
 }
 
+#login-wrapR{
+  position: absolute;
+  height: 65dvh;
+  z-index: 3;
+  top: 15dvh;
+  width: 100vw;
+  border-radius: 6vh;
+  background-color: #f5f7f8;
+  box-shadow: 10px 2px 20px rgba(0,0,0,0.3);
+  padding-top: 4vh;
+}
+
+
 #up-t {
   clip-path: polygon(100% 0, 0 0, 0 33%);
   position: absolute;
