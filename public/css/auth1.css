@@ -70,27 +70,27 @@ body {
 #down-t {
   position: absolute;
   bottom: 0;
-  width: 20vw;
-  height: 6vh;
+  width: 30vw;
+  height: 10vh;
   clip-path: polygon(0 40%, 0% 100%, 100% 100%);
   background: black;
 
   opacity: 0.8;
   z-index: 3;
-  filter: blur(100px);
+  filter: blur(80px);
   backdrop-filter: blur(50px);
 }
 
 #down-t2 {
   position: absolute;
   bottom: 0;
-  width: 25vw;
-  height: 8vh;
+  width: 35vw;
+  height: 14vh;
   clip-path: polygon(0 40%, 0% 100%, 100% 100%);
   background: black;
   opacity: 0.4;
   z-index: 2;
-  filter: blur(100px);
+  filter: blur(80px);
   backdrop-filter: blur(50px);
 }
 
@@ -98,13 +98,13 @@ body {
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 23vw;
-  height: 7vh;
+  width: 35vw;
+  height: 10vh;
   clip-path: polygon(100% 35%, 0% 100%, 100% 100%);
   background: black;
   opacity: 0.8;
   z-index: 2;
-  filter: blur(100px);
+  filter: blur(80px);
   backdrop-filter: blur(50px);
 }
 
@@ -112,12 +112,12 @@ body {
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 30vw;
-  height: 10vh;
+  width: 45vw;
+  height: 17vh;
   clip-path: polygon(100% 35%, 0% 100%, 100% 100%);
   background: black;
   opacity: 0.4;
   z-index: 2;
-  filter: blur(100px);
+  filter: blur(80px);
   backdrop-filter: blur(50px);
 }
