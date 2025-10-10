@@ -440,10 +440,10 @@ width: 60%;
 
 
 /* placeholder */
-/* Floating Label Inputs (login page) */
+
 .inputGroup {
   position: relative;
-  margin: 20px 0;
+  
   width: 100%;
 }
 
@@ -471,7 +471,7 @@ width: 60%;
   font-family: "Inika", serif;
   pointer-events: none;
   transition: all 0.3s ease;
-  background: transparent; /* match form background */
+  background: transparent; 
   padding: 0 6px;
   
 }
