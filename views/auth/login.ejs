@@ -13,44 +13,39 @@
     </div>
 
     <main id="login-wrap">
-       <h1 id="titleR">Welcome Back</h1>
+      <h1 id="titleR">Welcome Back</h1>
 
-    <form class="input" method="POST" action="/login">
-      <div class="inputGroup">
-        <input type="text" name="loginId" placeholder=" " required />
-        <label>Email / Whatsapp Number</label>
-      </div>
+      <form class="input" method="POST" action="/login">
+        <div class="inputGroup">
+          <input type="text" name="loginId" placeholder=" " required />
+          <label>Email / Whatsapp Number</label>
+        </div>
 
-      <div class="inputGroup">
-        <input type="password" name="password" placeholder=" " required />
-        <label>Password</label>
-      </div>
+        <div class="inputGroup">
+          <input type="password" name="password" placeholder=" " required />
+          <label>Password</label>
+        </div>
 
-      <a href="/forgot-password">Forgot Password?</a>
+        <a href="/forgot-password">Forgot Password?</a>
 
-      <% if (error) { %>
-      <p id="error" style="color: red"><%= error %></p>
-      <% } %>
+        <% if (error) { %>
+        <p id="error" style="color: red"><%= error %></p>
+        <% } %>
 
-      <input id="submit" type="submit" value="Login" />
-    </form>
+        <input id="submit" type="submit" value="Login" />
+      </form>
     </main>
 
     <div id="box-down">
-
-       <p class="go-register">
-      Did not have account?<br />
-      <a href="user/register">Create account</a>
-    </p>
+      <p class="go-register">
+        Did not have account?<br />
+        <a href="user/register">Create account</a>
+      </p>
 
       <div id="down-t"></div>
       <div id="down-t2"></div>
       <div id="down-t3"></div>
       <div id="down-t4"></div>
     </div>
-
-   
-
-    
   </body>
 </html>
