@@ -200,14 +200,15 @@ body {
 #error{
   text-align: center;
   font-family: "Inika", serif;
-  font-size: 5vw;
+  font-size: 2.2vh;
   margin-top: 5vh;
 }
 
 #errorR{
+  margin-top: -1.5vh;
   text-align: center;
   font-family: "Inika", serif;
-  font-size: 5vw;
+  font-size: 2.2vh;
  
 }
 
@@ -402,7 +403,7 @@ body {
 #verify-title{
   text-align: center;
   color: #071221;
-  font-size: 6vw;
+  font-size: 2.2vh;
   font-family: "alice", serif;
 }
 #verify-btn{
@@ -426,7 +427,7 @@ body {
   text-align: end;
   margin-right: 3vw;
   color: #203b5d;
-  font-size: 5vw;
+  font-size: 2.2vh;
 }
 
 #resendMsg{
@@ -441,6 +442,6 @@ body {
   background-color: transparent;
   font-family: "Inika", serif;
   color: #323a40;
-  font-size: 2.5vh;
+  font-size: 2.2vh;
   text-decoration: underline;
 }
