@@ -3,13 +3,10 @@
   margin: 0;
 }
 
-body {
-  overflow: hidden;
-}
 
 
 #box-up{
-  height: 20vh;
+  height: 15vh;
   width: 100%;
   background: linear-gradient(
     180deg,
@@ -20,7 +17,7 @@ body {
 }
 
 #box-down{
-  height: 20vh;
+  height: 15vh;
    width: 100%;
    background: linear-gradient(
     180deg,
@@ -31,5 +28,5 @@ body {
 }
 
 #login-wrap{
-  height: 60vh;
+  height: 70vh;
 }
