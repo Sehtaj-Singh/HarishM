@@ -1,0 +1,30 @@
+body{
+  padding: 0;
+  margin: 0;
+}
+
+#box-up{
+  height: 20vh;
+  width: 100%;
+  background: linear-gradient(
+    180deg,
+    #5c87b5 0%,   
+    #3a6391 50%,  
+    #244776 100%  
+  );
+}
+
+#box-down{
+  height: 20vh;
+   width: 100%;
+   background: linear-gradient(
+    180deg,
+    #244776 0%,   
+    #3a6391 50%,  
+    #5c87b5 100%  
+  );
+}
+
+#login-wrap{
+  height: 60vh;
+}
