@@ -15,7 +15,7 @@ body {
 
 #box-up{
   position: absolute;
-  z-index: -2;
+  z-index: 2;
   top: 0;
   height: 25dvh;
   width: 100%;
@@ -29,9 +29,9 @@ body {
 
 #box-down{
   position: absolute;
-  height: 25dvh;
+  height: 30dvh;
   bottom: 0;
-  z-index: -2;
+  z-index: 2;
    width: 100%;
    background: linear-gradient(
     180deg,
@@ -39,11 +39,14 @@ body {
     #3a6391 50%,  
     #5c87b5 100%  
   );
+  display: flex;
+  align-items: center;
 }
 
 #login-wrap{
   position: absolute;
-  height: 65dvh;
+  height: 60dvh;
+  z-index: 3;
   top: 15dvh;
   width: 100vw;
   border-radius: 6vh;
@@ -142,7 +145,17 @@ body {
   font-size: 4vh;
   font-weight: 400;
   letter-spacing: 3px;
-  margin-bottom: 6vh;
+  margin-bottom: 10vh;
+}
+
+#titleR{
+  text-align: center;
+  font-family: "Abril Fatface", serif;
+  color: #244776;
+  font-size: 4vh;
+  font-weight: 400;
+  letter-spacing: 3px;
+  margin-bottom: 5vh;
 }
 
 .input #submit{
@@ -158,7 +171,25 @@ body {
   letter-spacing: 2px;
   padding: 1vh 0;
   border-radius: 18px;
-  
+  position: absolute;
+  bottom: 7vh;
+}
+
+.input #submitR{
+   width: 64vw;
+  margin-left: 18vw;
+  font-size: 3vh;
+  color: white;
+  background-color: #2c5080;
+  margin-top: 2.5vh;
+  border: none;
+  font-family: "Aboreto", serif;
+  font-weight: 600;
+  letter-spacing: 2px;
+  padding: 1vh 0;
+  border-radius: 18px;
+  position: absolute;
+  bottom: 3vh;
 }
 
 #forget{
@@ -168,12 +199,53 @@ body {
   color: #3a6391;
 }
 
+#error{
+  text-align: center;
+  font-family: "Inika", serif;
+  font-size: 5vw;
+  margin-top: 5vh;
+}
+
+#errorR{
+  text-align: center;
+  font-family: "Inika", serif;
+  font-size: 5vw;
+ 
+}
+
+
+.go-register{
+  position: absolute;
+  bottom: 5vh;
+  z-index: 3;
+  text-align: center;
+  width: 50vw;
+  margin-left: 25vw;
+  font-family: "Inika", serif;
+  color: #f5f7f8;
+  font-size: 5vw;
+}
+
+#anchore {
+  font-family: "Inika", serif;
+  color: #f5f7f8;
+  font-size: 5vw;
+  
+}
+
 /* placeholder */
 .inputGroup {
   position: relative;
   margin: 4vh 0;
   width: 100%;
 }
+
+.inputGroupR {
+  position: relative;
+  margin: 3vh 0;
+  width: 100%;
+}
+
 
 .inputGroup input {
   height: 5vh;
@@ -191,7 +263,7 @@ body {
 
 .inputGroup label {
   position: absolute;
-  left: 15vw;
+  left: 13vw;
   top: 50%;
   transform: translateY(-50%);
   font-size: 15px;
@@ -216,6 +288,51 @@ body {
 }
 
 .inputGroup input:focus {
+  border: 2px solid #2c5080; 
+  outline: none;
+}
+
+.inputGroupR input {
+  height: 5vh;
+  width: 80vw;
+  border-radius: 20px;
+  margin-left: 7vw;
+  color: #071221;
+  font-size: 20px;
+  font-family: "Inika", serif;
+  padding-left: 3vh;
+  border: none;
+  background: #fff;
+}
+
+
+.inputGroupR label {
+  position: absolute;
+  left: 13vw;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 15px;
+  color: #888;
+  font-family: "Inika", serif;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  background: transparent; 
+  padding: 0 6px;
+  
+}
+
+
+.inputGroupR input:focus ~ label,
+.inputGroupR input:not(:placeholder-shown) ~ label {
+  top: -10px;
+  left: 8vw;
+  font-size: 15px;
+  color: #2c5080; 
+  font-family: "Inika", serif;
+  
+}
+
+.inputGroupR input:focus {
   border: 2px solid #2c5080; 
   outline: none;
 }

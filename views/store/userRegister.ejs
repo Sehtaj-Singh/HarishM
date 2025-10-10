@@ -4,65 +4,66 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/auth1.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inika:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Aboreto&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap"
-      rel="stylesheet"
-    />
     <title>Register</title>
   </head>
   <body>
-    <div id="up-t"></div>
-    <div id="up-t2"></div>
-
-    <div id="box-up"></div>
-
-    <div id="login-wrap">
-      <div id="login-box"></div>
+    <div id="box-up">
+      <div id="up-t"></div>
+      <div id="up-t2"></div>
     </div>
 
-    <div id="box-down"></div>
-    <div id="down-t"></div>
-    <div id="down-t2"></div>
-    <div id="down-t3"></div>
-    <div id="down-t4"></div>
+    <div id="login-wrap">
+      <h1 id="titleR">Create Account</h1>
 
-    <h2 id="titleR">Create Account</h2>
+      <form class="input" action="/user/register" method="POST">
+        <div class="inputGroupR" >
+          <input type="text" name="name" placeholder=" " required />
+          <label>Full Name</label>
+        </div>
 
-    <form class="inputR" action="/user/register" method="POST">
-      <input type="text" name="name" placeholder="Full Name" required />
+        <div class="inputGroupR">
+          <input type="email" name="email" placeholder=" " required />
+          <label>Email Address</label>
+        </div>
 
-      <input type="email" name="email" placeholder="Email Address" required />
-      <input type="password" name="password" placeholder="Password" required />
-      <div class="phone-field">
-        <span>+91</span>
-        <input
-          type="tel"
-          name="phone"
-          maxlength="10"
-          pattern="[0-9]{10}"
-          placeholder="Whatsapp number"
-          required
-        />
-      </div>
+        <div class="inputGroupR">
+          <input type="password" name="password" placeholder=" " required />
+          <label>Password</label>
+        </div>
 
-      <% if (errors.email) { %>
-      <div id="errorR" style="color: red"><%= errors.email %></div>
-      <% } else if (errors.phone) { %>
-      <div id="errorR" style="color: red"><%= errors.phone %></div>
-      <% } %>
-      <input id="submitR" type="submit" value="Register" />
-    </form>
+        <div class="inputGroupR phoneInputGroup">
+          <span class="countryCode">+91</span>
+          <input
+            type="tel"
+            name="phone"
+            maxlength="10"
+            pattern="[0-9]{10}"
+            placeholder=" "
+            required
+          />
+          <label>Whatsapp Number</label>
+        </div>
 
-    <p class="go-registerR">
-      I have account <br /><a href="/login">Login account</a>
-    </p>
+        <% if (errors.email) { %>
+        <div id="errorR" style="color: red"><%= errors.email %></div>
+        <% } else if (errors.phone) { %>
+        <div id="errorR" style="color: red"><%= errors.phone %></div>
+        <% } %>
+
+        <input id="submitR" type="submit" value="Register" />
+      </form>
+    </div>
+
+    <div id="box-down">
+      <p class="go-register">
+        I already have account. <br /><a id="anchore" href="/login"
+          >Login account</a
+        >
+      </p>
+      <div id="down-t"></div>
+      <div id="down-t2"></div>
+      <div id="down-t3"></div>
+      <div id="down-t4"></div>
+    </div>
   </body>
 </html>
