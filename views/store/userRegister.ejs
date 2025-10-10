@@ -31,9 +31,10 @@
           <label>Password</label>
         </div>
 
-        <div class="inputGroupR phoneInputGroup">
+        <div class="inputGroup phoneInputGroup">
           <span class="countryCode">+91</span>
           <input
+            id="no"
             type="tel"
             name="phone"
             maxlength="10"
@@ -50,7 +51,7 @@
         <div id="errorR" style="color: red"><%= errors.phone %></div>
         <% } %>
 
-        <input id="submitR" type="submit" value="Register" />
+        <input id="submit" type="submit" value="Register" />
       </form>
     </div>
 
