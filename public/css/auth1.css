@@ -35,3 +35,86 @@ body {
 #login-wrap{
   height: 70dvh;
 }
+
+#up-t {
+  clip-path: polygon(100% 0, 0 0, 0 33%);
+  position: absolute;
+  top: 0;
+  width: 50vw;
+  height: 16vh;
+  left: 0;
+  background: black;
+  opacity: 0.8;
+  z-index: 2;
+  filter: blur(100px);
+  backdrop-filter: blur(50px);
+}
+
+#up-t2 {
+  clip-path: polygon(100% 0, 0 0, 0 33%);
+  position: absolute;
+  top: 0;
+  width: 60vw;
+  height: 29vh;
+  left: 0;
+  background: black;
+  opacity: 0.4;
+  z-index: 2;
+  filter: blur(100px);
+  backdrop-filter: blur(50px);
+}
+
+#down-t {
+  position: absolute;
+  bottom: 0;
+  width: 40vw;
+  height: 12vh;
+  clip-path: polygon(0 40%, 0% 100%, 100% 100%);
+  background: black;
+
+  opacity: 0.8;
+  z-index: 3;
+  filter: blur(100px);
+  backdrop-filter: blur(50px);
+}
+
+#down-t2 {
+  position: absolute;
+  bottom: 0;
+  width: 50vw;
+  height: 16vh;
+  clip-path: polygon(0 40%, 0% 100%, 100% 100%);
+  background: black;
+  opacity: 0.4;
+  z-index: 2;
+  filter: blur(100px);
+  backdrop-filter: blur(50px);
+}
+
+#down-t3 {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 46vw;
+  height: 16vh;
+  clip-path: polygon(100% 35%, 0% 100%, 100% 100%);
+  background: black;
+  opacity: 0.8;
+  z-index: 2;
+  filter: blur(100px);
+  backdrop-filter: blur(50px);
+}
+
+#down-t4 {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 60vw;
+  height: 21vh;
+  clip-path: polygon(100% 35%, 0% 100%, 100% 100%);
+  background: black;
+  opacity: 0.4;
+  z-index: 2;
+  filter: blur(100px);
+  backdrop-filter: blur(50px);
+}
