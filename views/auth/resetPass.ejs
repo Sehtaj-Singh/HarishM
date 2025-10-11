@@ -1,27 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-<title>Reset Password</title>
-</head>
-<body>
-  <h2>Reset Password</h2>
-  <% if (error) { %>
-    <p style="color:red;"><%= error %></p>
-  <% } %>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/auth1.css" />
 
-  <form method="POST" action="/forgot-password/reset">
-    <input type="hidden" name="verifyID" value="<%= verifyID %>">
+    <title>Reset Password</title>
+  </head>
+  <body>
+    <div id="box-up">
+      <div id="up-t"></div>
+      <div id="up-t2"></div>
+    </div>
 
-    <label>New Password:</label><br>
-    <input type="password" name="password" required minlength="6"><br><br>
+    <main id="login-wrap">
+      <h1 id="title">Reset Password</h1>
+      <form class="input" method="POST" action="/forgot-password/reset">
+        <input type="hidden" name="verifyID" value="<%= verifyID %>" />
 
-    <label>Confirm Password:</label><br>
-    <input type="password" name="confirmPassword" required minlength="6"><br><br>
+        <div id="go-back">
+          <a id="back" href="/login">Login</a>
+          <a id="back" href="/user/register">Register</a>
+        </div>
 
-    <input type="submit" value="Reset Password">
-  </form>
-</body>
+        <div class="inputGroup">
+          <input
+            type="password"
+            name="password"
+            placeholder=" "
+            required
+            minlength="6"
+          />
+          <label>New Password</label>
+        </div>
+
+        <div class="inputGroup">
+          <input
+            type="password"
+            name="confirmPassword"
+            placeholder=" "
+            required
+            minlength="6"
+          />
+          <label>Confirm Password</label>
+        </div>
+
+        <% if (error) { %>
+        <p id="error" style="color: red"><%= error %></p>
+        <% } %>
+
+        <input id="submit" type="submit" value="Reset Password" />
+      </form>
+    </main>
+
+    <div id="box-down">
+      <div id="down-t"></div>
+      <div id="down-t2"></div>
+      <div id="down-t3"></div>
+      <div id="down-t4"></div>
+    </div>
+  </body>
 </html>

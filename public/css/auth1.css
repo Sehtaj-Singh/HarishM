@@ -14,7 +14,7 @@ body {
 }
 
 #box-up{
-  position: absolute;
+  position: fixed;
   z-index: 2;
   top: 0;
   height: 25dvh;
@@ -28,7 +28,7 @@ body {
 }
 
 #box-down{
-  position: absolute;
+  position: fixed;
   height: 30dvh;
   bottom: 0;
   z-index: 2;
@@ -44,7 +44,7 @@ body {
 }
 
 #login-wrap{
-  position: absolute;
+  position: fixed;
   height: 60dvh;
   z-index: 3;
   top: 15dvh;
@@ -403,7 +403,7 @@ body {
 #verify-title{
   text-align: center;
   color: #071221;
-  font-size: 2.2vh;
+  font-size: 2.3vh;
   font-family: "alice", serif;
 }
 #verify-btn{
@@ -444,4 +444,22 @@ body {
   color: #323a40;
   font-size: 2.2vh;
   text-decoration: underline;
+}
+
+
+#back{
+  display: block;
+  text-decoration: none;
+  margin-bottom: 3vh;
+  color: #244776;
+  font-size: 2.2vh;
+  padding: 1vh 4vw;
+  border: 1px solid #203b5d;
+  border-radius: 12px;
+}
+
+#go-back{
+  display: flex;
+  justify-content: center;
+  gap: 10vw;
 }
